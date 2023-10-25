@@ -12,17 +12,17 @@ export const router = createBrowserRouter([
         element: <Error404Page />,
     },
     {
-        path: "/preregistratoin",
+        path: "/preregistration",
         element: <Outlet />,
         errorElement: <Error404Page />,
         children: [
             {
-                path: "/preregistratoin",
+                path: "/preregistration",
                 element: <h1>Pre Registration</h1>,
                 errorElement: <Error404Page />,
             },
             {
-                path: "/preregistratoin/payment",
+                path: "/preregistration/payment",
                 element: <RazorPayGateway />,
                 loader: RazorPayGatewayLoader,
             },
