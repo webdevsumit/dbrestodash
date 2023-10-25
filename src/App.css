@@ -1,0 +1,232 @@
+:root {
+  /* --user-primary: #0C8CE9; */
+  /* --user-primary: #07A9CC; */
+  --user-primary: #068dac;
+  /* --store-primary: #FFB88F; */
+  --store-primary: #fb9f6a;
+}
+
+*{
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+.App {
+  text-align: center;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #121212;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.text-success{
+  color: green!important;
+}
+
+.text-danger{
+  color: red!important;
+}
+
+.btn-success{
+  background-color: green!important;
+  border-color: green!important;
+}
+
+.btn-danger{
+  background-color: red!important;
+  border-color: red!important;
+}
+
+.user-submit-button1{
+  background-color: var(--user-primary);
+  color: white;
+  outline: none;
+  padding: 20px 30px;
+  font-weight: bold;
+  font-size: 18px;
+  border: 2px solid var(--user-primary);
+  cursor: pointer;
+  text-align: center;
+  border-radius: 2px;
+}
+
+.store-submit-button1{
+  background-color: var(--store-primary);
+  color: white;
+  outline: none;
+  padding: 20px 30px;
+  font-weight: bold;
+  font-size: 18px;
+  border: 2px solid var(--store-primary);
+  cursor: pointer;
+  text-align: center;
+  border-radius: 2px;
+}
+
+.w-100{
+  width: 100%;
+}
+
+.global-popup-close-btn {
+  position: absolute;
+  right: 10px;
+  top: -10px;
+  font-weight: bold;
+  color: red;
+  cursor: pointer;
+}
+
+
+/* Animated popup css */
+
+
+.global-popup {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.424);
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.global-popup-inner {
+  width: 80%;
+  max-width: 600px;
+  min-height: 250px;
+  background-color: white;
+  border-radius: 8px;
+  position: relative;
+  padding: 10px;
+  max-height: 500px;
+  overflow-y: scroll;
+}
+
+/* width */
+.global-popup-inner::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.global-popup-inner::-webkit-scrollbar-track {
+  background: white;
+}
+
+/* Handle */
+.global-popup-inner::-webkit-scrollbar-thumb {
+  background: var(--user-primary);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+.global-popup-inner::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.global-opening-opacitor-animation {
+  animation-name: global-opacitor;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+.global-closing-opacitor-animation {
+  animation-name: global-opacitor-reverse;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+.global-opening-animation {
+  transform: scale(0);
+  animation-name: global-scaler;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+.global-closing-animation {
+  transform: scale(0);
+  animation-name: global-scaler-reverse;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+.global-sentence-loader {
+  animation-name: global-sentence-loader;
+  animation-duration: 0.8s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  /* From https://css.glass */
+  background: rgba(89, 132, 156, 0.12);
+  border-radius: 5px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(3.8px);
+  -webkit-backdrop-filter: blur(3.8px);
+}
+
+@keyframes global-scaler {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes global-sentence-loader {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes global-scaler-reverse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes global-opacitor {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes global-opacitor-reverse {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
