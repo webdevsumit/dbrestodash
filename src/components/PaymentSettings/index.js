@@ -22,7 +22,7 @@ function PaymentSettings() {
                 <form className='mx-4 mt-4' onSubmit={e => { e.preventDefault(); onSubmitForm(); }}>
                     <div class="input-group form-group w-50 mb-3 no-drop">
                         <div class="input-group-prepend">
-                            <label class="input-group-text" for="paymentGateway">Payment Gateway</label>
+                            <label class="input-group-text" htmlFor="paymentGateway">Payment Gateway</label>
                         </div>
                         <select class="form-control" value={data.payment_gateway} disabled={true} onChange={val => {setData(prev => ({ ...prev, "payment_gateway": val.target.value })); setTypingDisabled(true)}} id="paymentGateway">
                             <option value="">Select</option>
@@ -34,7 +34,7 @@ function PaymentSettings() {
                         data.payment_gateway === "1" &&
                         <>
                             <div className="form-group my-2">
-                                <label for="razorpay_id">Razorpay Id</label>
+                                <label htmlFor="razorpay_id">Razorpay Id</label>
                                 <input
                                     className="form-control w-50"
                                     id="razorpay_id"
@@ -45,7 +45,7 @@ function PaymentSettings() {
                                 />
                             </div>
                             <div className="form-group my-2">
-                                <label for="razorpay_secret_key">Razorpay Secret Key</label>
+                                <label htmlFor="razorpay_secret_key">Razorpay Secret Key</label>
                                 <input
                                     className="form-control w-50"
                                     id="razorpay_secret_key"

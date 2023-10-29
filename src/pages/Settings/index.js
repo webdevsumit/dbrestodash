@@ -32,7 +32,7 @@ function Settings() {
       {/* <div className='p-3'></div> */}
       {/* <PaymentSettings /> */}
       <div className='p-3'></div>
-      <SubAccountSettings accountData={data} />
+      <SubAccountSettings subAccountsData={data.sub_accounts} />
     </div>
   )
 }

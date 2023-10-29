@@ -52,7 +52,7 @@ function Signup() {
                         <h3 className='signup-head mx-2 mt-4'>Register/Signup</h3>
                         <form className='mx-4 mt-4' onSubmit={e => { e.preventDefault(); onSubmitForm(); }}>
                             <div className='form-group my-2'>
-                                <label for="business_name">Restaurant Name</label>
+                                <label htmlFor="business_name">Restaurant Name</label>
                                 <input
                                     className='form-control'
                                     placeholder='Restaurant Name'
@@ -62,7 +62,7 @@ function Signup() {
                                 />
                             </div>
                             <div className="form-group my-2">
-                                <label for="email">Email address</label>
+                                <label htmlFor="email">Email address</label>
                                 <input
                                     type="email"
                                     className="form-control"
@@ -74,7 +74,7 @@ function Signup() {
                                 <small id="emailHelp" className="form-text text-muted">We use email to login and to reset the password.</small>
                             </div>
                             <div className="form-group my-2">
-                                <label for="password">Create Password</label>
+                                <label htmlFor="password">Create Password</label>
                                 <input
                                     type="password"
                                     className="form-control"
@@ -85,12 +85,12 @@ function Signup() {
                                 />
                             </div>
                             <div className="form-group my-2">
-                                <label for="password2">Confirm Password</label>
+                                <label htmlFor="password2">Confirm Password</label>
                                 <input type="password" className="form-control" value={confirmPass} onChange={e => setConfirmPass(e.target.value)} id="password2" placeholder="Re-enter Password" />
                             </div>
                             <div className="form-check my-2 mt-4">
                                 <input type="checkbox" checked={check} onChange={e => setCheck(e.target.checked)} className="form-check-input cursor-pointer" id="privacycheck" />
-                                <label className="form-check-label cursor-pointer" for="privacycheck"><small>I've read and agree with <a href='https://dbresto.com/termsandconditions/'>terms & conditons</a> and <a href='https://dbresto.com/privacypolicy/'>privcy policy</a>.</small></label>
+                                <label className="form-check-label cursor-pointer" htmlFor="privacycheck"><small>I've read and agree with <a href='https://dbresto.com/termsandconditions/'>terms & conditons</a> and <a href='https://dbresto.com/privacypolicy/'>privcy policy</a>.</small></label>
                             </div>
                             <button type="submit" className="btn btn-primary mt-1">Register</button>
                         </form>

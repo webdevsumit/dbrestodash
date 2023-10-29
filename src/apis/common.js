@@ -107,6 +107,24 @@ export async function saveAccountDataApi(payloads) {
     });
 }
 
+export async function saveSubAccountDataApi(payloads) {
+    return await new Promise(async (onResolve, onReject) => {
+        await axios.post(
+            `${baseUrl}account/saveSubAccountData/`,
+            payloads,
+            {
+                headers: {
+                    'Content-Type': "application/json",
+                    'Accept': "application/json",
+                    'Authorization': `Token ${localStorage.getItem("token")}`
+                }
+            }
+        )
+            .then(res => onResolve(res))
+            .catch(err => onReject(err));
+    });
+}
+
 // ===========================================================================
 
 export async function sendOtpOnMailApi(payloads, storeId) {

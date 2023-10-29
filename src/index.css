@@ -67,6 +67,10 @@ body, html{
   width: 100px;
 }
 
+.btn-min-width{
+  min-width: 80px!important;
+}
+
 @media only screen and (max-width: 950px) {
   .thoseMiniFields{
     width: 100%!important;

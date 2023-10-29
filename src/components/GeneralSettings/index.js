@@ -36,7 +36,7 @@ function GeneralSettings({ accountData }) {
             <div>
                 <form className='mx-4 mt-4' onSubmit={e => { e.preventDefault(); onSubmitForm(); }}>
                     <div className="form-group my-2">
-                        <label for="business_name">Restaurant Name</label>
+                        <label htmlFor="business_name">Restaurant Name</label>
                         <input
                             className="form-control thoseMiniFields"
                             id="business_name"
@@ -46,7 +46,7 @@ function GeneralSettings({ accountData }) {
                         />
                     </div>
                     <div className="form-group my-2">
-                        <label for="email">Email Address</label>
+                        <label htmlFor="email">Email Address</label>
                         <input
                             type="email"
                             className="form-control thoseMiniFields"
@@ -57,7 +57,7 @@ function GeneralSettings({ accountData }) {
                         />
                     </div>
                     <div className="form-group my-2">
-                        <label for="name">Owner Name</label>
+                        <label htmlFor="name">Owner Name</label>
                         <input
                             className="form-control thoseMiniFields"
                             id="name"
@@ -67,7 +67,7 @@ function GeneralSettings({ accountData }) {
                         />
                     </div>
                     <div className="form-group my-2">
-                        <label for="phone">Contact Number</label>
+                        <label htmlFor="phone">Contact Number</label>
                         <input
                             type='number'
                             className="form-control thoseMiniFields"
@@ -77,9 +77,9 @@ function GeneralSettings({ accountData }) {
                             onChange={e => setData(prev => ({ ...prev, "contact_number": e.target.value }))}
                         />
                     </div>
-                    <button type="submit" className="btn btn-success m-1">Save</button>
-                    <button type="button" onClick={onClickCancle} className="btn btn-secondary m-1">Cancel</button>
-                    <button type="button" className="btn btn-primary m-1">Change Logo</button>
+                    <button type="submit" className="btn btn-success btn-min-width m-1">Save</button>
+                    <button type="button" onClick={onClickCancle} className="btn btn-secondary btn-min-width m-1">Discard</button>
+                    <button type="button" className="btn btn-primary btn-min-width m-1">Change Logo</button>
                 </form>
             </div>
         </Card>

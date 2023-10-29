@@ -38,7 +38,7 @@ function Login() {
                         <h3 className='signup-head mx-2 mt-4'>Login</h3>
                         <form className='mx-4 mt-4' onSubmit={e => { e.preventDefault(); onSubmitForm(); }}>
                             <div className="form-group my-2">
-                                <label for="email">Email address</label>
+                                <label htmlFor="email">Email address</label>
                                 <input
                                     type="email"
                                     className="form-control"
@@ -49,7 +49,7 @@ function Login() {
                                 />
                             </div>
                             <div className="form-group my-2">
-                                <label for="password">Password</label>
+                                <label htmlFor="password">Password</label>
                                 <input
                                     type="password"
                                     className="form-control"
@@ -59,7 +59,7 @@ function Login() {
                                     onChange={e => setData(prev => ({ ...prev, "password": e.target.value }))}
                                 />
                             </div>
-                            <label className="form-check-label cursor-pointer" for="privacycheck"><small>Do not have an account? <Link to="/signup" >Register here</Link>.</small></label><br/>
+                            <label className="form-check-label cursor-pointer" htmlFor="privacycheck"><small>Do not have an account? <Link to="/signup" >Register here</Link>.</small></label><br/>
                             <button type="submit" className="btn btn-primary mt-1">Login</button>
                         </form>
                     </div>

@@ -4,5 +4,6 @@
 }
 
 .subaccount-card{
-    width: 400px;
+    width: 31.5%;
+    min-width: 350px!important;
 }
