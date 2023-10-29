@@ -54,3 +54,21 @@ body, html{
 .cursor-pointer{
   cursor: pointer;
 }
+
+.thoseMiniFields{
+  width: 50%!important;
+}
+
+.loader-h-100{
+  min-height: 87vh!important;
+}
+
+.image-loader{
+  width: 100px;
+}
+
+@media only screen and (max-width: 950px) {
+  .thoseMiniFields{
+    width: 100%!important;
+  }
+}

@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const baseUrl = 'http://127.0.0.1:8000/v1/';
-const baseUrl = 'https://be.dbresto.com/v1/';
+const baseUrl = 'http://127.0.0.1:8000/v1/';
+// const baseUrl = 'https://be.dbresto.com/v1/';
 
 
 export async function signupApi(payloads) {
@@ -72,8 +72,42 @@ export async function signOutdApi() {
     });
 }
 
-// ===========================================================================
+export async function getAccountDataApi() {
+    return await new Promise(async (onResolve, onReject) => {
+        await axios.get(
+            `${baseUrl}account/getAccountData/`,
+            {
+                headers: {
+                    'Content-Type': "application/json",
+                    'Accept': "application/json",
+                    'Authorization': `Token ${localStorage.getItem("token")}`
+                }
+            }
+        )
+            .then(res => onResolve(res))
+            .catch(err => onReject(err));
+    });
+}
 
+export async function saveAccountDataApi(payloads) {
+    return await new Promise(async (onResolve, onReject) => {
+        await axios.post(
+            `${baseUrl}account/saveAccountData/`,
+            payloads,
+            {
+                headers: {
+                    'Content-Type': "application/json",
+                    'Accept': "application/json",
+                    'Authorization': `Token ${localStorage.getItem("token")}`
+                }
+            }
+        )
+            .then(res => onResolve(res))
+            .catch(err => onReject(err));
+    });
+}
+
+// ===========================================================================
 
 export async function sendOtpOnMailApi(payloads, storeId) {
     return await new Promise(async (onResolve, onReject) => {
@@ -92,6 +126,7 @@ export async function sendOtpOnMailApi(payloads, storeId) {
             .catch(err => onReject(err));
     });
 }
+
 
 export async function resetPasswordApi(payloads, storeId) {
     return await new Promise(async (onResolve, onReject) => {
