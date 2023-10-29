@@ -5,44 +5,64 @@ import {
 import { loader as RazorPayGatewayLoader } from "../components/paymentPages/IndiaPayment/RazorPayGateway";
 import RazorPayGateway from "../components/paymentPages/IndiaPayment/RazorPayGateway";
 import Error404Page from './../components/Error404Page'
+import Dashboard from "../pages/Dashboard";
+import Main, { mainLoader } from "../pages/Main";
+import Settings from '../pages/Settings';
+import Inventory from "../pages/Inventory";
+import Qrcodes from "../pages/Qrcodes";
+import Orders from "../pages/Orders";
+import Signup from "../pages/Signup";
+import Login from "../pages/Login";
 
 export const router = createBrowserRouter([
     {
         path: "/",
-        element: <Error404Page />,
-    },
-    {
-        path: "/preregistration",
-        element: <Outlet />,
+        element: <Main />,
+        loader: mainLoader,
         errorElement: <Error404Page />,
         children: [
             {
-                path: "/preregistration",
-                element: <h1>Pre Registration</h1>,
-                errorElement: <Error404Page />,
+                path: "/",
+                element: <Dashboard />,
             },
             {
-                path: "/preregistration/payment",
-                element: <RazorPayGateway />,
-                loader: RazorPayGatewayLoader,
+                path: "/settings",
+                element: <Settings />,
+            },
+            {
+                path: "/inventory",
+                element: <Inventory />,
+            },
+            {
+                path: "/qrcodes",
+                element: <Qrcodes />,
+            },
+            {
+                path: "/orders",
+                element: <Orders />,
             },
         ]
     },
     {
-        path: "/waitinglist",
-        element: <h1>Waiting List</h1>,
+        path: "/:storeId/:qrId",
+        element: <Outlet />,
         errorElement: <Error404Page />,
+        children: [
+            {
+                path: "/:storeId/:qrId/payment",
+                element: <RazorPayGateway />,
+                loader: RazorPayGatewayLoader,
+            }
+        ]
     },
-    // {
-    //     path: "/:storeId/signup",
-    //     loader: SignupLoader,
-    //     element: <Signup />,
-    // },
-    // {
-    //     path: "/:storeId/login",
-    //     loader: LoginLoader,
-    //     element: <Login />,
-    // },
+    {
+        path: "/signup",
+        element: <Signup />,
+    },
+    {
+        path: "/login",
+        element: <Login />,
+    },
     // {
     //     path: "/:storeId/forgot-password",
     //     element: <ForgotPassword />,

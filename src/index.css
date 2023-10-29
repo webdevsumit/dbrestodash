@@ -11,3 +11,46 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+:root {
+  --main-bg-of-bg: #F6F7FA;
+  --main-bg: #ffffff;
+  --link-color: #1E73E6;
+  --nav-color: #38393B;
+  --text-muted: #797a7c;
+  --nav-active-link-bg: #F2F7FF;
+  --highlight-head: white;
+  --highlight-head-bg: black;
+  --primary: #081351;
+}
+
+/* :root {
+  --main-bg-of-bg: #01081c;
+  --main-bg: #170c34;
+  --link-color: #b7d5ff;
+  --nav-color: #38393B;
+  --text-muted: #797a7c;
+  --nav-active-link-bg: #2c7af8;
+} */
+
+
+a:hover{
+  color: var(--link-color);
+}
+
+
+.border-none{
+  border: none !important;
+}
+
+.border-15{
+  border-radius: 15px !important;
+}
+
+body, html{
+  background-color: var(--main-bg-of-bg);
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}

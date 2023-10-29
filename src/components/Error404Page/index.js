@@ -8,7 +8,8 @@ function Error404Page() {
 			<div className='Error404Page'>
 				<h1>404</h1>
 				<h2>Page Not Found</h2>
-				<a href="https://dbresto.com">Go Back To Home</a>
+				<Link href="/">Go To Dashboard</Link>
+				<a href="https://dbresto.com">Go To Home</a>
 			</div>
 		</div>
 	)

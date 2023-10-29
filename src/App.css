@@ -22,7 +22,7 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #121212;
+  background: var(--main-bg-of-bg);
 }
 
 /* Handle */
