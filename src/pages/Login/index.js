@@ -59,7 +59,7 @@ function Login() {
                                     onChange={e => setData(prev => ({ ...prev, "password": e.target.value }))}
                                 />
                             </div>
-                            <label className="form-check-label cursor-pointer" for="privacycheck"><small>Do not have an account? <Link to="/singup" >Register here</Link>.</small></label><br/>
+                            <label className="form-check-label cursor-pointer" for="privacycheck"><small>Do not have an account? <Link to="/signup" >Register here</Link>.</small></label><br/>
                             <button type="submit" className="btn btn-primary mt-1">Login</button>
                         </form>
                     </div>

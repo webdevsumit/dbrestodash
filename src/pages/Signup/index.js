@@ -27,7 +27,8 @@ function Signup() {
             return;
         }
         if (!check) {
-            toast.error("You need to check the checkbox.")
+            toast.error("You need to check the checkbox.");
+            return;
         }
 
         await signupApi({ ...data }).then(res => {
