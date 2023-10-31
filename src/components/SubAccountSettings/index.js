@@ -6,7 +6,7 @@ import SubAccountCard from '../SubAccountCard';
 function SubAccountSettings({ subAccountsData }) {
 
     const subaccountTemplate = {
-        "name": "",
+        "contact_number": "",
         "email": "",
         "password": "",
     }
@@ -32,7 +32,7 @@ function SubAccountSettings({ subAccountsData }) {
             </div>
             <div className='w-100 d-flex subaccount'>
                 {data.map((subAcc, index) =>
-                    <SubAccountCard key={!!subAcc.id ? subAcc.id : index} index={index} newToAdd={!subAcc.id} subAccount={subAcc} onUpdateData={onUpdateData} onDeleteCard={onDeleteCard} />
+                    <SubAccountCard key={!!subAcc.id ? subAcc.id : index} index={index} newToAdd={!subAcc.id} arrLen={data.length} subAccount={subAcc} onUpdateData={onUpdateData} onDeleteCard={onDeleteCard} />
                 )}
             </div>
         </Card>
