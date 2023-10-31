@@ -110,8 +110,13 @@ function SubAccountCard({ index, subAccount, newToAdd, arrLen, onUpdateData, onD
                         </div>
                     </>
                 }
-                <small className="form-text mb-4">Status: <span className={`text-${data.is_diabled ? 'danger' : "success"} subaccountCardStatus`}>{data.is_diabled ? "Deactivated" : 'Activated'}</span></small>
-                <br />
+                {
+                    !newAccout &&
+                    <>
+                        <small className="form-text mb-4">Status: <span className={`text-${data.is_diabled ? 'danger' : "success"} subaccountCardStatus`}>{data.is_diabled ? "Deactivated" : 'Activated'}</span></small>
+                        <br />
+                    </>
+                }
                 {
                     (changingPass || newToAdd) ?
                         <div className="form-group my-2">
