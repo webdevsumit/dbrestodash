@@ -1,0 +1,11 @@
+
+
+.choose-image-btn{
+    max-width: 120px;
+    overflow: hidden;
+}
+
+.gnrl-buttonWrapper{
+    transform: translateX(-127px);
+    pointer-events: none;
+}

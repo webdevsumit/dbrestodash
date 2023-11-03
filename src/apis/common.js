@@ -161,37 +161,16 @@ export async function changeSubAccountStatusAPI(payloads) {
     });
 }
 
-// ===========================================================================
-
-export async function sendOtpOnMailApi(payloads, storeId) {
+export async function changeLogoAPI(payloads) {
     return await new Promise(async (onResolve, onReject) => {
         await axios.post(
-            `${baseUrl}customer_app/${storeId}/sendOtpOnMail/`,
+            `${baseUrl}account/changeLogo/`,
             payloads,
             {
                 headers: {
-                    'Content-Type': "application/json",
+                    'Content-Type': "multipart/form-data",
                     'Accept': "application/json",
-                    // 'Authorization': `Token ${localStorage.getItem("token")}`
-                }
-            }
-        )
-            .then(res => onResolve(res))
-            .catch(err => onReject(err));
-    });
-}
-
-
-export async function resetPasswordApi(payloads, storeId) {
-    return await new Promise(async (onResolve, onReject) => {
-        await axios.post(
-            `${baseUrl}customer_app/${storeId}/resetPassword/`,
-            payloads,
-            {
-                headers: {
-                    'Content-Type': "application/json",
-                    'Accept': "application/json",
-                    // 'Authorization': `Token ${localStorage.getItem("token")}`
+                    'Authorization': `Token ${localStorage.getItem("token")}`
                 }
             }
         )

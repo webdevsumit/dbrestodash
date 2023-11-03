@@ -68,3 +68,17 @@
 .logout-button>img{
     margin: 0;
 }
+
+.sidebar-logo-name-wrapper{
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--main-bg-of-bg);
+    border: 1px solid #ddd;
+}
+
+.sidebar-logo-name-wrapper>h3{
+    font-weight: bold;
+}

@@ -1,9 +1,14 @@
 import React, { useState } from 'react'
 import { Card } from 'react-bootstrap';
-import { saveAccountDataApi } from '../../apis/common';
+import { changeLogoAPI, saveAccountDataApi } from '../../apis/common';
 import toast from 'react-hot-toast';
+import "./style.css";
+import { useDispatch } from 'react-redux';
+import { setAuthData } from '../../redux/navbar';
 
 function GeneralSettings({ accountData }) {
+
+    const dispatch = useDispatch();
 
     const setDefaultData = () => {
         return {
@@ -28,6 +33,20 @@ function GeneralSettings({ accountData }) {
                 toast.error(res.data.message);
             }
         }).catch(err => toast.error(err.message));
+    }
+
+    const onUploadLogo = async (e) => {
+        let file = e.target.files[0];
+        if(!!file){
+            const form = new FormData();
+            form.append("logo", file);
+            await changeLogoAPI(form).then(res=>{
+                if(res.data.status === "success"){
+                    toast.success("Logo changed successfylly.");
+                    dispatch(setAuthData(res.data.data));
+                }
+            })
+        }
     }
 
     return (
@@ -79,7 +98,8 @@ function GeneralSettings({ accountData }) {
                     </div>
                     <button type="submit" className="btn btn-success btn-min-width m-1">Save</button>
                     <button type="button" onClick={onClickCancle} className="btn btn-secondary btn-min-width m-1">Discard</button>
-                    <button type="button" className="btn btn-primary btn-min-width m-1">Change Logo</button>
+                    <input onChange={onUploadLogo} type="file" accept="image/png, image/jpeg" className="btn btn-primary btn-min-width m-1 choose-image-btn" />
+                    <button className="btn btn-primary btn-min-width gnrl-buttonWrapper m-1" >Chagne Logo</button>
                 </form>
             </div>
         </Card>

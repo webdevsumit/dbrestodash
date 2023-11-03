@@ -2,9 +2,7 @@ import { createSlice} from '@reduxjs/toolkit'
 
 const initialState= {
   isLoanding: false,
-  currentStoreInfoId: '',
-  currentUserProfileId: '',
-  searchedText: ""
+  authdata: {}
 }
 
 export const navbarSlice = createSlice({
@@ -15,19 +13,19 @@ export const navbarSlice = createSlice({
     setIsLoading: (state, action) => {
       state.isLoanding = action.payload
     },
-    setCurrentStoreInfoId: (state, action) => {
-      state.currentStoreInfoId = action.payload
-    },
-    setCurrentUserProfileId: (state, action) => {
-      state.currentUserProfileId = action.payload
-    },
-    setSearchedText: (state, action) => {
-      state.searchedText = action.payload
+    setAuthData: (state, action) => {
+      state.authdata = action.payload;
     },
 
   },
 })
 
-export const { setIsLoading, setCurrentStoreInfoId, setCurrentUserProfileId, setSearchedText } = navbarSlice.actions;
+export const { 
+  setIsLoading,
+  setAuthData,
+} = navbarSlice.actions;
+
+export const getIsLoading = store => store.navbar.isLoanding; 
+export const getAuthData = store => store.navbar.authdata; 
 
 export default navbarSlice.reducer;

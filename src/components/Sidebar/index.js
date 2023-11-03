@@ -3,24 +3,36 @@ import './style.css';
 import { Card } from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { signOutdApi } from '../../apis/common';
+import { useSelector } from 'react-redux';
+import { getAuthData } from '../../redux/navbar';
 
 function Sidebar() {
 
     const navigate = useNavigate();
+    const authData = useSelector(getAuthData);
 
     const logout = async () => {
-        await signOutdApi().then(res=>{
-            if(res.data.status==="success"){
+        await signOutdApi().then(res => {
+            if (res.data.status === "success") {
                 localStorage.clear();
                 navigate("/login");
             }
         })
-    } 
+    }
 
     return (
         <Card className='sidebar-main shadow-lg p-3 m-3' >
             <div className='sidebar-logo-div' >
-                <Card.Img className='sidebar-logo' variant="top" src="/logo512.png" />
+                {!!authData.business_logo ?
+                    <Card.Img className='sidebar-logo' variant="top" src={authData.business_logo} />
+                    :
+                    <div className='sidebar-logo-name-wrapper'>
+                        <h3>
+                            {authData?.business_name?.split(" ")[0]?.slice(0, 1)?.toUpperCase()}
+                            {authData?.business_name?.split(" ")[1]?.slice(0, 1)?.toUpperCase()}
+                        </h3>
+                    </div>
+                }
             </div>
             <hr />
             <div className='px-2 py-2'>
@@ -73,7 +85,7 @@ function Sidebar() {
             <div className='sidebar-footer'>
                 <hr />
                 <div onClick={logout} className='logout-button'>
-                    <img className='sidebar-link-icon' src='/assets/svgs/logout.svg' alt='logout'/>
+                    <img className='sidebar-link-icon' src='/assets/svgs/logout.svg' alt='logout' />
                     LOGOUT
                 </div>
             </div>
