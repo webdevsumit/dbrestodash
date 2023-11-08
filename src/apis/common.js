@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const baseUrl = 'http://127.0.0.1:8000/v1/';
-// const baseUrl = 'https://be.dbresto.com/v1/';
+// const baseUrl = 'http://127.0.0.1:8000/v1/';
+const baseUrl = 'https://be.dbresto.com/v1/';
 
 
 const APICalller = async (method, url, payload={}, ContentType="application/json") => {
