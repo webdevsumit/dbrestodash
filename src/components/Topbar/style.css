@@ -11,7 +11,7 @@
     transition: all ease 0.3s;
     position: fixed!important;
     right: 70px;
-    z-index: 999999;
+    z-index: 99;
 }
 
 .Topbar-main-btn:hover{
@@ -32,5 +32,5 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 999999;
+    z-index: 99;
 }

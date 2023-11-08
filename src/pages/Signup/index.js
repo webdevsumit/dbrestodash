@@ -3,11 +3,12 @@ import './style.css';
 import { Card } from 'react-bootstrap';
 import toast from 'react-hot-toast';
 import { signupApi } from '../../apis/common';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function Signup() {
 
     const navigate = useNavigate();
+    const { plan } = useParams();
 
     const [data, setData] = useState({
         business_name: "",
@@ -31,7 +32,7 @@ function Signup() {
             return;
         }
 
-        await signupApi({ ...data }).then(res => {
+        await signupApi({ ...data, "plan": !!plan ? plan : "starter" }).then(res => {
             if (res.data.status === "success") {
                 toast.success("Successfully Registered.");
                 localStorage.setItem("token", res.data.token)
