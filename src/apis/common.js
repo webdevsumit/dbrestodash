@@ -4,7 +4,7 @@ import axios from "axios";
 const baseUrl = 'https://be.dbresto.com/v1/';
 
 
-const APICalller = async (method, url, payload={}, ContentType="application/json") => {
+const APICalller = async (method, url, payload = {}, ContentType = "application/json") => {
     return await new Promise(async (onResolve, onReject) => {
         if (method === "POST") {
             await axios.post(
@@ -104,4 +104,27 @@ export async function changeProductStatusByIdAPI(payload) {
 
 export async function changeProductByIdAPI(payload) {
     return APICalller("POST", "inventory/changeProductById/", payload);
+}
+
+export async function getImagesByProductIdAPI(payload) {
+    return APICalller("POST", "inventory/getImagesByProductId/", payload);
+}
+
+export async function addImageByProductIdAPI(payload) {
+    return APICalller("POST", "inventory/addImageByProductId/", payload, "multipart/form-data");
+}
+export async function deleteImageByProductIdAndImageIdAPI(payload) {
+    return APICalller("POST", "inventory/deleteImageByProductIdAndImageId/", payload, "multipart/form-data");
+}
+
+export async function replaceImageByProductIdAndImageIdAPI(payload) {
+    return APICalller("POST", "inventory/replaceImageByProductIdAndImageId/", payload, "multipart/form-data");
+}
+
+export async function saveDescByProductIdAPI(payload) {
+    return APICalller("POST", "inventory/saveDescByProductId/", payload);
+}
+
+export async function getDescByProductIdAPI(payload) {
+    return APICalller("POST", "inventory/getDescByProductId/", payload);
 }

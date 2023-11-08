@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { addNewProductAPI, changeProductByIdAPI, changeProductStatusByIdAPI } from '../../apis/common';
 import toast from 'react-hot-toast';
 import './style.css';
 
-function ProductCard({ index, product, newToAdd, arrLen, onUpdateData, onDeleteCard, categoryOptions }) {
+function ProductCard({ index, product, newToAdd, arrLen, onUpdateData, onDeleteCard, categoryOptions, setProductToAddImages, setProductToAddDesc }) {
 
     const returnDefaultData = () => {
         return { ...product }
@@ -13,9 +13,9 @@ function ProductCard({ index, product, newToAdd, arrLen, onUpdateData, onDeleteC
     const [newProduct, setNewProduct] = useState(newToAdd);
     const [isSaving, setIsSaving] = useState(false);
 
-    const onClickDisableEnable = async (is_diabled=true) => {
+    const onClickDisableEnable = async (is_diabled = true) => {
         const savingToast = toast.loading("Saving...");
-        await changeProductStatusByIdAPI({ "id": data.id, "is_diabled": is_diabled  }).then(res => {
+        await changeProductStatusByIdAPI({ "id": data.id, "is_diabled": is_diabled }).then(res => {
             if (res.data.status === "success") {
                 setData(res.data.data);
                 onUpdateData(res.data.data, index, res.data.data.id);
@@ -82,7 +82,7 @@ function ProductCard({ index, product, newToAdd, arrLen, onUpdateData, onDeleteC
 
 
     return (
-        <div className={`card product-card p-2 m-2 ${newProduct?"border-primary":"border-secondary"}`}>
+        <div className={`card product-card p-2 m-2 ${newProduct ? "border-primary" : "border-secondary"}`}>
             <form className='mx-4 mt-4' onSubmit={e => { e.preventDefault(); onSubmitForm(); }}>
 
                 <div className="form-group my-2">
@@ -117,8 +117,8 @@ function ProductCard({ index, product, newToAdd, arrLen, onUpdateData, onDeleteC
                         />
                     </div>
                     <div className='col-6'>
-                        <label htmlFor={"category" + index}>Images ({!!data.id ? data.images.length : "0"})</label><br />
-                        <button disabled={newProduct} title={newProduct ? "First save that." : "Images"} className="btn btn-secondary btn-min-width w-100 m-0">Edit Images</button>
+                        <label htmlFor={"category" + index}>Images</label><br />
+                        <button type='button' disabled={newProduct} title={newProduct ? "First save that." : "Images"} onClick={() => setProductToAddImages(data)} className="btn btn-secondary btn-min-width w-100 m-0">Edit Images</button>
                     </div>
                 </div>
 
@@ -128,6 +128,9 @@ function ProductCard({ index, product, newToAdd, arrLen, onUpdateData, onDeleteC
                         <small className="form-text mb-4">Status: <span className={`text-${data.is_diabled ? 'danger' : "success"} subaccountCardStatus`}>{data.is_diabled ? "Disabled" : 'Enabled'}</span></small>
                         <br />
                     </>
+                }
+                {!newProduct &&
+                    <button type="button" className="btn btn-success btn-min-width m-1" onClick={() => setProductToAddDesc(data)}>Edit Description</button>
                 }
                 <button type="submit" className="btn btn-success btn-min-width m-1">{isSaving ? "Saving..." : "Save"}</button>
                 {
@@ -140,7 +143,7 @@ function ProductCard({ index, product, newToAdd, arrLen, onUpdateData, onDeleteC
 
                 {
                     (!newProduct) &&
-                    <button type="button" onClick={()=>onClickDisableEnable(data.is_diabled?false:true)} className={`btn btn-${data.is_diabled ? "success" : 'danger'} btn-min-width m-1`}>{data.is_diabled ? 'Enable' : 'Disable'}</button>
+                    <button type="button" onClick={() => onClickDisableEnable(data.is_diabled ? false : true)} className={`btn btn-${data.is_diabled ? "success" : 'danger'} btn-min-width m-1`}>{data.is_diabled ? 'Enable' : 'Disable'}</button>
                 }
             </form>
         </div>

@@ -38,6 +38,10 @@ function GeneralSettings({ accountData }) {
     const onUploadLogo = async (e) => {
         let file = e.target.files[0];
         if(!!file){
+            if (file.size / 1024 > 500) {
+                toast.error("Image Size should be less than 500 KB.");
+                return;
+            }
             const form = new FormData();
             form.append("logo", file);
             await changeLogoAPI(form).then(res=>{

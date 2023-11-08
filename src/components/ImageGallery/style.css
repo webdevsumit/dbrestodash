@@ -1,0 +1,79 @@
+.ImageGallery{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.424);
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ImageGallery-inner{
+    /* width: 375px; */
+    max-width: 100%;
+    padding: 25px 2px;
+    padding-top: 0;
+    /* background-color: var(--store-primary); */
+    background-color: white;
+    border-radius: 4px;
+    position: relative;
+}
+
+.ImageGallery-divStyle{
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    background-size: contain;
+    /* width: 375px;
+    height: 375px; */
+    position: relative;
+}
+
+.ImageGallery-spanStyle{
+    padding: 2px 5px;
+    background-color: var(--store-primary);
+    margin-left: 3px;
+    margin-right: 3px;
+    border-radius: 3px;
+    color: white;
+    flex: 1;
+    text-align: center;
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.ImageGallery-spanStyle:hover{
+    opacity: 1;
+}
+
+.ImageGallery-close-button{
+    position: absolute;
+    right: 5px;
+    top: -12px;
+    font-weight: bold;
+    color: red;
+    cursor: pointer;
+}
+
+.ImageGallery-new-image-input{
+    display: none;
+}
+
+.ImageGallery-divStyle-numImage-indicator{
+    position: absolute;
+    top: -10px;
+    right: 6px;
+    font-size: 14px;
+    background-color: rgba(0, 0, 0, 0.419);
+    color: white;
+    font-family: monospace;
+    padding: 5px;
+    border-radius: 12px;
+}
+
+.ImageGallery-top-header{
+    margin: 5px;
+}

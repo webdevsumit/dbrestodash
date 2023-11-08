@@ -6,6 +6,8 @@ import { fetchCategoriesAPI, fetchProductsAPI } from '../../apis/common';
 import toast from 'react-hot-toast';
 import ProductCard from '../../components/ProductCard';
 import ShowCategoryBox from '../../components/ShowCategoryBox';
+import ImageModel from '../../components/ImageModel';
+import DescModal from '../../components/DescModal';
 
 function Inventory() {
 
@@ -18,6 +20,8 @@ function Inventory() {
   const [data, setData] = useState(null);
   const [categories, setCategories] = useState([]);
   const [showCategoryBox, setShowCategoryBox] = useState(false);
+  const [productToAddImages, setProductToAddImages] = useState(null);
+  const [productToAddDesc, setProductToAddDesc] = useState(null);
 
   const onUpdateData = (newData, index, id = null) => {
     setData(prev => prev.map((prod, ind) => {
@@ -66,6 +70,8 @@ function Inventory() {
   return (
     <>
       {showCategoryBox && <ShowCategoryBox onclose={() => setShowCategoryBox(false)} categories={categories} updateCategoryList={updateCategoryList} />}
+      <ImageModel product={productToAddImages} show={!!productToAddImages} onHide={() => setProductToAddImages(null)} />
+      {!!productToAddDesc && <DescModal product={productToAddDesc} show={!!productToAddDesc} onHide={() => setProductToAddDesc(null)} />}
       <Card className='settings-card shadow-lg p-4 ms-4 border-none border-15'>
         <div className='d-flex'>
           <h3 className='h3 text-decoration-underline'>Inventory</h3>
@@ -74,7 +80,7 @@ function Inventory() {
         </div>
         <div className='w-100 d-flex subaccount'>
           {data.map((prod, index) =>
-            <ProductCard key={!!prod.id ? prod.id : index} index={index} newToAdd={!prod.id} arrLen={data.length} product={prod} onDeleteCard={onDeleteCard} onUpdateData={onUpdateData} categoryOptions={categories} />
+            <ProductCard key={!!prod.id ? prod.id : index} index={index} newToAdd={!prod.id} arrLen={data.length} product={prod} onDeleteCard={onDeleteCard} onUpdateData={onUpdateData} categoryOptions={categories} setProductToAddImages={setProductToAddImages} setProductToAddDesc={setProductToAddDesc} />
           )}
         </div>
       </Card>
