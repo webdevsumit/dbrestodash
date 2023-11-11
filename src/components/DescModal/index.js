@@ -70,7 +70,7 @@ function DescModal({ show, onHide, product }) {
             </Modal.Body>
             <Modal.Footer>
                 <Button className='btn-success' onClick={saveDesc}>Save</Button>
-                <Button onClick={onLocaLHide}>Close</Button>
+                <Button onClick={onLocaLHide}>Cancel</Button>
             </Modal.Footer>
         </Modal>
     );

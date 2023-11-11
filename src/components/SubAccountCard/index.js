@@ -152,7 +152,7 @@ function SubAccountCard({ index, subAccount, newToAdd, arrLen, onUpdateData, onD
                 }
                 <button type="submit" className="btn btn-success btn-min-width m-1">Save</button>
                 {
-                    (index !== 0 || (!newAccout && showDiscardButton()) || arrLen > 1) &&
+                    (((index !== 0 || arrLen > 1) && newAccout) || (!newAccout && showDiscardButton())) &&
                     <button type="button" onClick={() => {
                         if (changingPass) setChangingPass(false);
                         else if (newAccout) onDeleteCard(index);

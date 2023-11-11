@@ -13,6 +13,14 @@ function ProductCard({ index, product, newToAdd, arrLen, onUpdateData, onDeleteC
     const [newProduct, setNewProduct] = useState(newToAdd);
     const [isSaving, setIsSaving] = useState(false);
 
+    const showDiscardButton = () => {
+        return (
+            data.category !== product.category
+            || data.name !== product.name
+            || data.price_in_paisa !== product.price_in_paisa
+        )
+    }
+
     const onClickDisableEnable = async (is_diabled = true) => {
         const savingToast = toast.loading("Saving...");
         await changeProductStatusByIdAPI({ "id": data.id, "is_diabled": is_diabled }).then(res => {
@@ -134,7 +142,7 @@ function ProductCard({ index, product, newToAdd, arrLen, onUpdateData, onDeleteC
                 }
                 <button type="submit" className="btn btn-success btn-min-width m-1">{isSaving ? "Saving..." : "Save"}</button>
                 {
-                    (index !== 0 || !newProduct || arrLen > 1) &&
+                    (((index !== 0 || arrLen > 1) && newProduct) || (!newProduct && showDiscardButton())) &&
                     <button type="button" onClick={() => {
                         if (newProduct) onDeleteCard(index);
                         else setData(returnDefaultData())
