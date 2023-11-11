@@ -50,8 +50,8 @@ function ShowCategoryBox({ onclose, categories, updateCategoryList}) {
                     </Card>
                 }
                 {
-                    categories.map(cat =>
-                        <Card className='settings-card py-2 px-3 mb-1 w-100 flex-row d-flex justify-content-between'>
+                    categories.map((cat, index) =>
+                        <Card key={index} className='settings-card py-2 px-3 mb-1 w-100 flex-row d-flex justify-content-between'>
                             {cat.category}
                             <img onClick={()=>onDeleteCategory(cat.id)} className='cursor-pointer' src='/assets/svgs/deleteRed.svg' width="26px" alt='delete' />
                         </Card>
@@ -59,7 +59,7 @@ function ShowCategoryBox({ onclose, categories, updateCategoryList}) {
                 }
             </Offcanvas.Body>
             <hr className='m-0' />
-            <form class="form-group offcanvas-footer d-flex justify-content-between" onSubmit={onAddNewCat}>
+            <form className="form-group offcanvas-footer d-flex justify-content-between" onSubmit={onAddNewCat}>
                 <input className='form-control w-75 m-1' placeholder='Enter new category here' value={catText} onChange={e => setCatText(e.target.value)} />
                 <button type='submit' className='btn btn-success btn-min-width m-1'>Add</button>
             </form>

@@ -11,7 +11,7 @@ function ImageGallery({ product }) {
     const [images, setImages] = useState([]);
 
     // Defining image width and height...
-    var windowInnerWidth = window.innerWidth;
+    var windowInnerWidth = document.getElementById("image_modal_header").offsetWidth-25;
     var windowInnerHeight = window.innerHeight;
     var imageSize = windowInnerWidth < windowInnerHeight ? windowInnerWidth : windowInnerHeight - 300;
 
@@ -124,6 +124,7 @@ function ImageGallery({ product }) {
             <Slide
                 transitionDuration="400"
                 autoplay={false}
+                key={images.length}
             >
                 {images.map((slideImage, index) => (
                     <div key={index}>

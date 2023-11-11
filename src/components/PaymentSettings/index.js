@@ -20,11 +20,11 @@ function PaymentSettings() {
             <h3 className='h3 text-decoration-underline'>Payment Settings</h3>
             <div>
                 <form className='mx-4 mt-4' onSubmit={e => { e.preventDefault(); onSubmitForm(); }}>
-                    <div class="input-group form-group w-50 mb-3 no-drop">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" htmlFor="paymentGateway">Payment Gateway</label>
+                    <div className="input-group form-group w-50 mb-3 no-drop">
+                        <div className="input-group-prepend">
+                            <label className="input-group-text" htmlFor="paymentGateway">Payment Gateway</label>
                         </div>
-                        <select class="form-control" value={data.payment_gateway} disabled={true} onChange={val => {setData(prev => ({ ...prev, "payment_gateway": val.target.value })); setTypingDisabled(true)}} id="paymentGateway">
+                        <select className="form-control" value={data.payment_gateway} disabled={true} onChange={val => {setData(prev => ({ ...prev, "payment_gateway": val.target.value })); setTypingDisabled(true)}} id="paymentGateway">
                             <option value="">Select</option>
                             <option value="0">Integrated</option>
                             <option value="1">Razorpay</option>

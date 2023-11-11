@@ -13,14 +13,14 @@ function ImageModel(props) {
     return (
         <Modal
             {...props}
-            size="md"
+            size="500px"
             aria-labelledby="contained-modal-title-vcenter"
             centered
             backdrop="static"
             keyboard={false}
     
         >
-            <Modal.Header closeButton>
+            <Modal.Header closeButton id='image_modal_header'>
                 <Modal.Title id="contained-modal-title-vcenter">
                     Product Images
                 </Modal.Title>

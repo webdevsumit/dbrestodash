@@ -97,10 +97,10 @@ function ProductCard({ index, product, newToAdd, arrLen, onUpdateData, onDeleteC
                 </div>
                 <div className="form-group my-2">
                     <label htmlFor={"category" + index}>Category {!categoryOptions.length && <>(First, add category.)</>}</label>
-                    <select class="form-control" value={data.category} onChange={(e) => setData(prev => ({ ...prev, "category": e.target.value }))} id={"category" + index}>
+                    <select className="form-control" value={data.category} onChange={(e) => setData(prev => ({ ...prev, "category": e.target.value }))} id={"category" + index}>
                         <option value="">Select Category</option>
                         {categoryOptions.map(cat =>
-                            <option value={cat.id}>{cat.category}</option>
+                            <option key={cat.id} value={cat.id}>{cat.category}</option>
                         )}
                     </select>
                 </div>

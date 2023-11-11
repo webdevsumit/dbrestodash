@@ -80,7 +80,7 @@ function Inventory() {
         </div>
         <div className='w-100 d-flex subaccount'>
           {data.map((prod, index) =>
-            <ProductCard key={!!prod.id ? prod.id : index} index={index} newToAdd={!prod.id} arrLen={data.length} product={prod} onDeleteCard={onDeleteCard} onUpdateData={onUpdateData} categoryOptions={categories} setProductToAddImages={setProductToAddImages} setProductToAddDesc={setProductToAddDesc} />
+            <ProductCard key={!!prod.id ? `${prod.id}${index}` : index} index={index} newToAdd={!prod.id} arrLen={data.length} product={prod} onDeleteCard={onDeleteCard} onUpdateData={onUpdateData} categoryOptions={categories} setProductToAddImages={setProductToAddImages} setProductToAddDesc={setProductToAddDesc} />
           )}
         </div>
       </Card>

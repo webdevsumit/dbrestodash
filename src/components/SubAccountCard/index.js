@@ -88,24 +88,24 @@ function SubAccountCard({ index, subAccount, newToAdd, arrLen, onUpdateData, onD
                         </div>
                         <div className='row ms-1 my-2'>
                             <div className="col-6 form-check">
-                                <input type="checkbox" checked={data.access_dashboard} onChange={e => setData(prev => ({ ...prev, "access_dashboard": e.target.checked }))} className="form-check-input cursor-pointer" id="dashboard" />
-                                <label className="form-check-label cursor-pointer" htmlFor="dashboard">Dashboard</label>
+                                <input type="checkbox" checked={data.access_dashboard} onChange={e => setData(prev => ({ ...prev, "access_dashboard": e.target.checked }))} className="form-check-input cursor-pointer" id={"dashboard"+index} />
+                                <label className="form-check-label cursor-pointer" htmlFor={"dashboard"+index}>Dashboard</label>
                             </div>
                             <div className="col-6 form-check">
-                                <input type="checkbox" checked={data.access_settings} onChange={e => setData(prev => ({ ...prev, "access_settings": e.target.checked }))} className="form-check-input cursor-pointer" id="access_settings" />
-                                <label className="form-check-label cursor-pointer" htmlFor="access_settings">Settings</label>
+                                <input type="checkbox" checked={data.access_settings} onChange={e => setData(prev => ({ ...prev, "access_settings": e.target.checked }))} className="form-check-input cursor-pointer" id={"access_settings"+index} />
+                                <label className="form-check-label cursor-pointer" htmlFor={"access_settings"+index}>Settings</label>
                             </div>
                             <div className="col-6 form-check">
-                                <input type="checkbox" checked={data.access_inventory} onChange={e => setData(prev => ({ ...prev, "access_inventory": e.target.checked }))} className="form-check-input cursor-pointer" id="access_inventory" />
-                                <label className="form-check-label cursor-pointer" htmlFor="access_inventory">Inventory</label>
+                                <input type="checkbox" checked={data.access_inventory} onChange={e => setData(prev => ({ ...prev, "access_inventory": e.target.checked }))} className="form-check-input cursor-pointer" id={"access_inventory"+index} />
+                                <label className="form-check-label cursor-pointer" htmlFor={"access_inventory"+index}>Inventory</label>
                             </div>
                             <div className="col-6 form-check">
-                                <input type="checkbox" checked={data.access_qrcodes} onChange={e => setData(prev => ({ ...prev, "access_qrcodes": e.target.checked }))} className="form-check-input cursor-pointer" id="access_qrcodes" />
-                                <label className="form-check-label cursor-pointer" htmlFor="access_qrcodes">Qr Codes</label>
+                                <input type="checkbox" checked={data.access_qrcodes} onChange={e => setData(prev => ({ ...prev, "access_qrcodes": e.target.checked }))} className="form-check-input cursor-pointer" id={"access_qrcodes"+index} />
+                                <label className="form-check-label cursor-pointer" htmlFor={"access_qrcodes"+index}>Qr Codes</label>
                             </div>
                             <div className="col-6 form-check">
-                                <input type="checkbox" checked={data.access_orders} onChange={e => setData(prev => ({ ...prev, "access_orders": e.target.checked }))} className="form-check-input cursor-pointer" id="access_orders" />
-                                <label className="form-check-label cursor-pointer" htmlFor="access_orders">Orders</label>
+                                <input type="checkbox" checked={data.access_orders} onChange={e => setData(prev => ({ ...prev, "access_orders": e.target.checked }))} className="form-check-input cursor-pointer" id={"access_orders"+index} />
+                                <label className="form-check-label cursor-pointer" htmlFor={"access_orders"+index}>Orders</label>
                             </div>
                         </div>
                     </>
@@ -132,7 +132,7 @@ function SubAccountCard({ index, subAccount, newToAdd, arrLen, onUpdateData, onD
                         </div>
                         :
                         <>
-                            <small id="passHelp" onClick={() => setChangingPass(prev => !prev)} className="form-text text-muted text-decoration-underline cursor-pointer mb-4">Click here to change password</small>
+                            <small id={"passHelp"+index} onClick={() => setChangingPass(prev => !prev)} className="form-text text-muted text-decoration-underline cursor-pointer mb-4">Click here to change password</small>
                             <br />
                         </>
 
