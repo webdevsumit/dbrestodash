@@ -13,6 +13,19 @@ function SubAccountCard({ index, subAccount, newToAdd, arrLen, onUpdateData, onD
     const [newAccout, setNewAccount] = useState(newToAdd);
     const [changingPass, setChangingPass] = useState(false);
 
+    const showDiscardButton = () => {
+        return (
+            data.contact_number !== subAccount.user.username
+            || data.name !== subAccount.name
+            || data.access_dashboard !== subAccount.access_dashboard
+            || data.access_inventory !== subAccount.access_inventory
+            || data.access_orders !== subAccount.access_orders
+            || data.access_qrcodes !== subAccount.access_qrcodes
+            || data.access_settings !== subAccount.access_settings
+            || changingPass
+            )
+    }
+
     const onClickDisableEnable = async () => {
         await changeSubAccountStatusAPI({ ...data, userId: subAccount.user?.id }).then(res => {
             if (res.data.status === "success") {
@@ -88,24 +101,24 @@ function SubAccountCard({ index, subAccount, newToAdd, arrLen, onUpdateData, onD
                         </div>
                         <div className='row ms-1 my-2'>
                             <div className="col-6 form-check">
-                                <input type="checkbox" checked={data.access_dashboard} onChange={e => setData(prev => ({ ...prev, "access_dashboard": e.target.checked }))} className="form-check-input cursor-pointer" id={"dashboard"+index} />
-                                <label className="form-check-label cursor-pointer" htmlFor={"dashboard"+index}>Dashboard</label>
+                                <input type="checkbox" checked={data.access_dashboard} onChange={e => setData(prev => ({ ...prev, "access_dashboard": e.target.checked }))} className="form-check-input cursor-pointer" id={"dashboard" + index} />
+                                <label className="form-check-label cursor-pointer" htmlFor={"dashboard" + index}>Dashboard</label>
                             </div>
                             <div className="col-6 form-check">
-                                <input type="checkbox" checked={data.access_settings} onChange={e => setData(prev => ({ ...prev, "access_settings": e.target.checked }))} className="form-check-input cursor-pointer" id={"access_settings"+index} />
-                                <label className="form-check-label cursor-pointer" htmlFor={"access_settings"+index}>Settings</label>
+                                <input type="checkbox" checked={data.access_settings} onChange={e => setData(prev => ({ ...prev, "access_settings": e.target.checked }))} className="form-check-input cursor-pointer" id={"access_settings" + index} />
+                                <label className="form-check-label cursor-pointer" htmlFor={"access_settings" + index}>Settings</label>
                             </div>
                             <div className="col-6 form-check">
-                                <input type="checkbox" checked={data.access_inventory} onChange={e => setData(prev => ({ ...prev, "access_inventory": e.target.checked }))} className="form-check-input cursor-pointer" id={"access_inventory"+index} />
-                                <label className="form-check-label cursor-pointer" htmlFor={"access_inventory"+index}>Inventory</label>
+                                <input type="checkbox" checked={data.access_inventory} onChange={e => setData(prev => ({ ...prev, "access_inventory": e.target.checked }))} className="form-check-input cursor-pointer" id={"access_inventory" + index} />
+                                <label className="form-check-label cursor-pointer" htmlFor={"access_inventory" + index}>Inventory</label>
                             </div>
                             <div className="col-6 form-check">
-                                <input type="checkbox" checked={data.access_qrcodes} onChange={e => setData(prev => ({ ...prev, "access_qrcodes": e.target.checked }))} className="form-check-input cursor-pointer" id={"access_qrcodes"+index} />
-                                <label className="form-check-label cursor-pointer" htmlFor={"access_qrcodes"+index}>Qr Codes</label>
+                                <input type="checkbox" checked={data.access_qrcodes} onChange={e => setData(prev => ({ ...prev, "access_qrcodes": e.target.checked }))} className="form-check-input cursor-pointer" id={"access_qrcodes" + index} />
+                                <label className="form-check-label cursor-pointer" htmlFor={"access_qrcodes" + index}>Qr Codes</label>
                             </div>
                             <div className="col-6 form-check">
-                                <input type="checkbox" checked={data.access_orders} onChange={e => setData(prev => ({ ...prev, "access_orders": e.target.checked }))} className="form-check-input cursor-pointer" id={"access_orders"+index} />
-                                <label className="form-check-label cursor-pointer" htmlFor={"access_orders"+index}>Orders</label>
+                                <input type="checkbox" checked={data.access_orders} onChange={e => setData(prev => ({ ...prev, "access_orders": e.target.checked }))} className="form-check-input cursor-pointer" id={"access_orders" + index} />
+                                <label className="form-check-label cursor-pointer" htmlFor={"access_orders" + index}>Orders</label>
                             </div>
                         </div>
                     </>
@@ -132,19 +145,19 @@ function SubAccountCard({ index, subAccount, newToAdd, arrLen, onUpdateData, onD
                         </div>
                         :
                         <>
-                            <small id={"passHelp"+index} onClick={() => setChangingPass(prev => !prev)} className="form-text text-muted text-decoration-underline cursor-pointer mb-4">Click here to change password</small>
+                            <small id={"passHelp" + index} onClick={() => setChangingPass(prev => !prev)} className="form-text text-muted text-decoration-underline cursor-pointer mb-4">Click here to change password</small>
                             <br />
                         </>
 
                 }
                 <button type="submit" className="btn btn-success btn-min-width m-1">Save</button>
                 {
-                    (index !== 0 || !newAccout || arrLen > 1) &&
+                    (index !== 0 || (!newAccout && showDiscardButton()) || arrLen > 1) &&
                     <button type="button" onClick={() => {
                         if (changingPass) setChangingPass(false);
                         else if (newAccout) onDeleteCard(index);
                         else setData(returnDefaultData())
-                    }} className="btn btn-secondary btn-min-width m-1">{newAccout ? 'Cancel' : 'Discard'}</button>
+                    }} className="btn btn-secondary btn-min-width m-1">{(newAccout || changingPass) ? 'Cancel' : 'Discard'}</button>
                 }
 
                 {
