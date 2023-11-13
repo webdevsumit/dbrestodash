@@ -136,3 +136,19 @@ export async function filterProductsAPI(payload) {
 export async function createOrderAPI(payload) {
     return APICalller("POST", "inventory/createOrder/", payload);
 }
+
+export async function filterOrdersAPI(payload) {
+    return APICalller("POST", "inventory/filterOrders/", payload);
+}
+
+export async function completeOrderAPI(payload) {
+    return APICalller("POST", "inventory/completeOrder/", payload);
+}
+
+export async function cancelOrderAPI(payload) {
+    return APICalller("POST", "inventory/cancelOrder/", payload);
+}
+
+export async function undoOrderAPI(payload) {
+    return APICalller("POST", "inventory/undoOrder/", payload);
+}

@@ -1,0 +1,43 @@
+
+
+.order-id-width{
+    width: 15%;
+    overflow: hidden;
+    min-width: 85px;
+}
+
+
+.table-no-width{
+    width: 10%;
+    overflow: hidden;
+    min-width: 75px;
+}
+
+.customer-name-width{
+    width: 20%;
+    overflow: hidden;
+    min-width: 120px;
+}
+
+.actions-width{
+    width: 25%;
+    overflow: hidden;
+    min-width: fit-content;
+}
+
+.order-before-empty{
+    width: 80px;
+    overflow: hidden;
+}
+
+.quantity-width{
+    width: fit-content;
+}
+
+.timer-width{
+    width: 17px;
+}
+
+.badge-order{
+    border-right: 1px solid black;
+}

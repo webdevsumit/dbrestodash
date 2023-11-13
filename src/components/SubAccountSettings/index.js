@@ -27,9 +27,12 @@ function SubAccountSettings({ subAccountsData }) {
     return (
         <Card className='settings-card shadow-lg p-4 ms-4 border-none border-15'>
             <div className='d-flex'>
-                <h3 className='h3 text-decoration-underline'>Sub Accounts</h3>
-                <button onClick={() => setData(prev => [{ ...subaccountTemplate }, ...prev])} className='btn btn-primary ms-4'>Add New</button>
+                <h3 className='h3'>Sub Accounts</h3>
+                <div>
+                    <button onClick={() => setData(prev => [{ ...subaccountTemplate }, ...prev])} className='btn btn-primary btn-sm ms-4'>Add New</button>
+                </div>
             </div>
+            <hr className='m-0 mb-2'/>
             <div className='w-100 d-flex subaccount'>
                 {data.map((subAcc, index) =>
                     <SubAccountCard key={!!subAcc.id ? `${subAcc.id}${index}` : index} index={index} newToAdd={!subAcc.id} arrLen={data.length} subAccount={subAcc} onUpdateData={onUpdateData} onDeleteCard={onDeleteCard} />

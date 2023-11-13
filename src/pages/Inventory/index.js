@@ -74,10 +74,13 @@ function Inventory() {
       {!!productToAddDesc && <DescModal product={productToAddDesc} show={!!productToAddDesc} onHide={() => setProductToAddDesc(null)} />}
       <Card className='settings-card shadow-lg p-4 ms-4 border-none border-15'>
         <div className='d-flex'>
-          <h3 className='h3 text-decoration-underline'>Inventory</h3>
-          <button onClick={() => setData(prev => [{ ...productTemplate }, ...prev])} className='btn btn-primary ms-4'>Add New</button>
-          <button onClick={() => setShowCategoryBox(true)} className='btn btn-primary ms-4'>Categories</button>
+          <h3 className='h3'>Inventory</h3>
+          <div>
+            <button onClick={() => setData(prev => [{ ...productTemplate }, ...prev])} className='btn btn-primary btn-sm ms-4'>Add New</button>
+            <button onClick={() => setShowCategoryBox(true)} className='btn btn-primary btn-sm ms-4'>Categories</button>
+          </div>
         </div>
+        <hr className='m-0' />
         <div className='w-100 d-flex subaccount'>
           {data.map((prod, index) =>
             <ProductCard key={!!prod.id ? `${prod.id}${index}` : index} index={index} newToAdd={!prod.id} arrLen={data.length} product={prod} onDeleteCard={onDeleteCard} onUpdateData={onUpdateData} categoryOptions={categories} setProductToAddImages={setProductToAddImages} setProductToAddDesc={setProductToAddDesc} />

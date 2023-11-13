@@ -55,7 +55,8 @@ function GeneralSettings({ accountData }) {
 
     return (
         <Card className='settings-card shadow-lg p-4 ms-4 border-none border-15'>
-            <h3 className='h3 text-decoration-underline'>General Settings</h3>
+            <h3 className='h3'>General Settings</h3>
+            <hr className='m-0'/>
             <div>
                 <form className='mx-4 mt-4' onSubmit={e => { e.preventDefault(); onSubmitForm(); }}>
                     <div className="form-group my-2">
