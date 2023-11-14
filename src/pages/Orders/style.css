@@ -38,6 +38,12 @@
     width: 17px;
 }
 
-.badge-order{
-    border-right: 1px solid black;
+.prev-next-btn-size{
+    width: 100px;
 }
+
+/* .order-header{
+    position: sticky!important;
+    top: -80px;
+    z-index: 1;
+} */

@@ -46,34 +46,34 @@ function Orders() {
       payload["search"] = filters.search;
     }
     let loader;
-    if(!!data){
+    if (!!data) {
       loader = toast.loading("Refreshing...");
     }
     await filterOrdersAPI(payload).then(res => {
       if (res.data.status === "success") {
         setData(res.data.data);
-        setTotalPages(res.data.TotalPages);
+        setTotalPages(res.data.totalPages);
       }
     }).catch(err => toast.error(err.error));
-    if(!!loader){
+    if (!!loader) {
       toast.dismiss(loader);
     }
   }
 
-  useEffect(() => {
-    if (refreshTimer >= 0) {
-      setTimeout(() => {
-        setRefreshTimer(prev => prev - 1);
-      }, 1000);
-    } else {
-      setRefreshCounter(prev => prev + 1);
-      setRefreshTimer(refreshTime);
-    }
-  }, [refreshTimer])
+  // useEffect(() => {
+  //   if (refreshTimer >= 0) {
+  //     setTimeout(() => {
+  //       setRefreshTimer(prev => prev - 1);
+  //     }, 1000);
+  //   } else {
+  //     setRefreshCounter(prev => prev + 1);
+  //     setRefreshTimer(refreshTime);
+  //   }
+  // }, [refreshTimer])
 
   useEffect(() => {
     fetchOrders();
-  }, [filters, refreshCounter]);
+  }, [filters, refreshCounter, page]);
 
   const onCancelOrder = async () => {
     const loader = toast.loading("Saving...");
@@ -121,7 +121,7 @@ function Orders() {
       {!!cancelId && <SureModal show={!!cancelId} onHide={() => setCancelId(null)} onYes={onCancelOrder} />}
       {!!undoId && <SureModal show={!!undoId} onHide={() => setUndoId(null)} onYes={onUndoOrder} />}
       {showFilter && <OrderFilterBox onclose={() => setShowFilter(false)} filters={filters} setFilters={setFilters} />}
-      <Card className='shadow-lg p-4 ms-4 border-none border-15'>
+      <Card className='shadow-sm p-4 ms-4 border-none border-15 order-header'>
         <div className='d-flex justify-content-between'>
           <h3 className='h3 m-0 p-0'>Orders</h3>
           <div className='d-flex'>
@@ -136,7 +136,7 @@ function Orders() {
                 />
                 <img onClick={onSearch} width={30} className='cursor-pointer me-1' src='/assets/svgs/search.svg' alt='search' />
               </form>
-              <img width={27} className='cursor-pointe mx-1' onClick={() => setShowFilter(true)} src='/assets/svgs/filter.svg' alt='search' />
+              <img width={27} className='cursor-pointer mx-1' onClick={() => setShowFilter(true)} src='/assets/svgs/filter.svg' alt='search' />
               <img width={22} className='cursor-pointer ms-1' onClick={() => setRefreshCounter(prev => prev + 1)} src='/assets/svgs/refresh.svg' alt='search' />
               <p className='fw-light timer-width text-end'>{refreshTimer > 9 ? refreshTimer : `0${refreshTimer}`}</p>
             </div>
@@ -165,7 +165,7 @@ function Orders() {
               <span>|</span>
               <a href={`https://be.dbresto.com/v1/inventory/order/${order.safetyToken}/`} target='blank' className='btn btn-primary btn-sm my-0 mx-1'>View</a>
               {!order.completed && !order.is_canceled ? <>
-                <button className='btn btn-success btn-sm my-0 mx-1' onClick={()=>onCompleteOrder(order.id)}>Complete</button>
+                <button className='btn btn-success btn-sm my-0 mx-1' onClick={() => onCompleteOrder(order.id)}>Complete</button>
                 <button className='btn btn-danger btn-sm my-0 mx-1' onClick={() => setCancelId(order.id)}>Cancel</button>
               </> : <>
                 <button className='btn btn-danger btn-sm my-0 mx-1' onClick={() => setUndoId(order.id)}>Undo</button>
@@ -201,6 +201,12 @@ function Orders() {
           </div>
         </Card>
       )}
+      <Card className='shadow-lg p-4 mt-2 ms-4 border-none border-15'>
+        <div className='d-flex justify-content-end'>
+          <button className='btn btn-primary my-0 mx-1 prev-next-btn-size' disabled={page <= 1} onClick={() => setPage(prev => prev > 1 ? prev - 1 : prev)}>Prevous</button>
+          <button className='btn btn-primary my-0 mx-1 prev-next-btn-size' disabled={page >= TotalPages} onClick={() => setPage(prev => prev < TotalPages ? prev + 1 : prev)}>Next</button>
+        </div>
+      </Card>
     </>
   )
 }
