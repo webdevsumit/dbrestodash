@@ -60,16 +60,16 @@ function Orders() {
     }
   }
 
-  // useEffect(() => {
-  //   if (refreshTimer >= 0) {
-  //     setTimeout(() => {
-  //       setRefreshTimer(prev => prev - 1);
-  //     }, 1000);
-  //   } else {
-  //     setRefreshCounter(prev => prev + 1);
-  //     setRefreshTimer(refreshTime);
-  //   }
-  // }, [refreshTimer])
+  useEffect(() => {
+    if (refreshTimer >= 0) {
+      setTimeout(() => {
+        setRefreshTimer(prev => prev - 1);
+      }, 1000);
+    } else {
+      setRefreshCounter(prev => prev + 1);
+      setRefreshTimer(refreshTime);
+    }
+  }, [refreshTimer])
 
   useEffect(() => {
     fetchOrders();
