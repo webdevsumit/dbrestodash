@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './style.css';
 import { Card } from 'react-bootstrap';
 import OrderFilterBox from '../../components/OrderFilterBox';
-import { cancelOrderAPI, completeOrderAPI, filterOrdersAPI, undoOrderAPI } from '../../apis/common';
+import { baseUrl, cancelOrderAPI, completeOrderAPI, filterOrdersAPI, undoOrderAPI } from '../../apis/common';
 import toast from 'react-hot-toast';
 import moment from 'moment/moment';
 import SureModal from '../../components/SureModal';
@@ -163,7 +163,7 @@ function Orders() {
             <div className='d-flex actions-width justify-content-end'>
               <span className={`badge d-flex align-items-center text-center bg-${order.completed ? 'success' : order.is_canceled ? 'danger' : 'primary'} btn-sm my-0 mx-1`}>{order.completed ? 'Completed' : order.is_canceled ? 'Canceled' : 'New'}</span>
               <span>|</span>
-              <a href={`https://be.dbresto.com/v1/inventory/order/${order.safetyToken}/`} target='blank' className='btn btn-primary btn-sm my-0 mx-1'>View</a>
+              <a href={`${baseUrl}inventory/order/${order.safetyToken}/`} target='blank' className='btn btn-primary btn-sm my-0 mx-1'>View</a>
               {!order.completed && !order.is_canceled ? <>
                 <button className='btn btn-success btn-sm my-0 mx-1' onClick={() => onCompleteOrder(order.id)}>Complete</button>
                 <button className='btn btn-danger btn-sm my-0 mx-1' onClick={() => setCancelId(order.id)}>Cancel</button>
