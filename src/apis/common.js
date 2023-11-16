@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const baseUrl = 'http://127.0.0.1:8000/v1/';
-const baseUrl = 'https://be.dbresto.com/v1/';
+// export const baseUrl = 'http://127.0.0.1:8000/v1/';
+export const baseUrl = 'https://be.dbresto.com/v1/';
 
 
 const APICalller = async (method, url, payload = {}, ContentType = "application/json") => {
@@ -151,4 +151,16 @@ export async function cancelOrderAPI(payload) {
 
 export async function undoOrderAPI(payload) {
     return APICalller("POST", "inventory/undoOrder/", payload);
+}
+
+export async function dashboardDataAPI(payload) {
+    return APICalller("GET", "inventory/dashboard-data/", payload);
+}
+
+export async function orderSalesDataAPI(payload) {
+    return APICalller("POST", "inventory/order-sales-data/", payload);
+}
+
+export async function numberOfProductsSoldAPI(payload) {
+    return APICalller("POST", "inventory/number-of-products-sold/", payload);
 }
