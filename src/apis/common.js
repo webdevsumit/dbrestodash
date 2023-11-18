@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// export const baseUrl = 'http://127.0.0.1:8000/v1/';
-export const baseUrl = 'https://be.dbresto.com/v1/';
+export const baseUrl = 'http://127.0.0.1:8000/v1/';
+// export const baseUrl = 'https://be.dbresto.com/v1/';
 
 
 const APICalller = async (method, url, payload = {}, ContentType = "application/json") => {
@@ -44,6 +44,14 @@ export async function signupApi(payloads) {
 
 export async function loginApi(payloads) {
     return APICalller("POST", "auth/login/", payloads);
+}
+
+export async function sendOtpApi(payloads) {
+    return APICalller("POST", "auth/sendOtp/", payloads);
+}
+
+export async function resetPasswordApi(payloads) {
+    return APICalller("POST", "auth/resetPassword/", payloads);
 }
 
 export async function checkUserAPI() {

@@ -60,6 +60,7 @@ function Login() {
                                 />
                             </div>
                             <label className="form-check-label cursor-pointer" htmlFor="privacycheck"><small>Do not have an account? <Link to="/signup" >Register here</Link>.</small></label><br/>
+                            <label className="form-check-label cursor-pointer" htmlFor="privacycheck"><small>Forgot Password? <Link to="/forgotpassword" >Click here</Link>.</small></label><br/>
                             <button type="submit" className="btn btn-primary mt-1">Login</button>
                         </form>
                     </div>

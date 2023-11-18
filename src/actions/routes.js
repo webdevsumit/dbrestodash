@@ -13,6 +13,7 @@ import Qrcodes from "../pages/Qrcodes";
 import Orders from "../pages/Orders";
 import Signup from "../pages/Signup";
 import Login from "../pages/Login";
+import ForgotPassword from "../pages/ForgotPassword";
 
 export const router = createBrowserRouter([
     {
@@ -68,13 +69,8 @@ export const router = createBrowserRouter([
         path: "/login",
         element: <Login />,
     },
-    // {
-    //     path: "/:storeId/forgot-password",
-    //     element: <ForgotPassword />,
-    // },
-    // {
-    //     path: "/:storeId/sign-out",
-    //     element: <SignOut />,
-    //     loader: SignOutLoader,
-    // },
+    {
+        path: "/forgotpassword",
+        element: <ForgotPassword />,
+    },
 ]);
