@@ -9,8 +9,8 @@
 
 .signup-card{
     background-color: var(--main-bg)!important;
-    min-height: 80vh;
-    width: 70%;
+    /* min-height: 80vh; */
+    min-width: 70%;
     max-width: 1200px;
 }
 
