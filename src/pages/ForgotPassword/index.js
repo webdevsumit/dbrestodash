@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import './style.css';
 import { Card } from 'react-bootstrap';
 import toast from 'react-hot-toast';
-import { loginApi, resetPasswordApi, sendOtpApi } from '../../apis/common';
-import { Link, useNavigate } from 'react-router-dom';
+import { resetPasswordApi, sendOtpApi } from '../../apis/common';
+import { useNavigate } from 'react-router-dom';
 
 function ForgotPassword() {
 
