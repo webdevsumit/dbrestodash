@@ -26,7 +26,7 @@ function ImageModel(props) {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                {!!product && <ImageGallery product={product} />}
+                {!!product && <ImageGallery productId={product.id} />}
             </Modal.Body>
             <Modal.Footer>
                 <Button onClick={props.onHide}>Close</Button>

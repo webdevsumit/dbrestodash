@@ -22,11 +22,17 @@
     position: relative;
 }
 
+.ImageGallery-background{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover!important;
+}
+
 .ImageGallery-divStyle{
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    background-size: contain;
+    background-size: cover;
     /* width: 375px;
     height: 375px; */
     position: relative;
@@ -76,4 +82,24 @@
 
 .ImageGallery-top-header{
     margin: 5px;
+}
+
+.imageGallery-custom-indicator{
+    min-width: 10px;
+    height: 10px;
+    background-color: white;
+    border: 1px solid black;
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 50%;
+    transition: all ease 0.3s;
+}
+
+ul.indicators{
+    margin-top: 5px;
+    padding: 0;
+}
+
+.imageGallery-custom-indicator.active{
+    background-color: black;
 }

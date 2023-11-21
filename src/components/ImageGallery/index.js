@@ -5,13 +5,12 @@ import 'react-slideshow-image/dist/styles.css'
 import { addImageByProductIdAPI, deleteImageByProductIdAndImageIdAPI, getImagesByProductIdAPI, replaceImageByProductIdAndImageIdAPI } from '../../apis/common';
 import { toast } from 'react-hot-toast';
 
-function ImageGallery({ product }) {
+function ImageGallery({ productId, productImages = null }) {
 
-    const productId = product.id;
-    const [images, setImages] = useState([]);
+    const [images, setImages] = useState(null);
 
     // Defining image width and height...
-    var windowInnerWidth = document.getElementById("image_modal_header").offsetWidth-25;
+    var windowInnerWidth = document.getElementById("image_modal_header")?.offsetWidth - 25;
     var windowInnerHeight = window.innerHeight;
     var imageSize = windowInnerWidth < windowInnerHeight ? windowInnerWidth : windowInnerHeight - 300;
 
@@ -26,12 +25,16 @@ function ImageGallery({ product }) {
     }
 
     useEffect(() => {
-        getImages();
+        if (!!productImages) {
+            setImages(productImages);
+        } else {
+            getImages();
+        }
         // eslint-disable-next-line
     }, []);
 
     const onAddImage = async (e) => {
-        if(images.length===3){
+        if (images.length === 3) {
             toast.error("Cannot add more than 3 images.");
             return;
         }
@@ -104,9 +107,11 @@ function ImageGallery({ product }) {
         }).catch(err => toast.error(err.message));
     }
 
+    const customIndicator = (index) => <div className='imageGallery-custom-indicator'></div>
+
     return (
-        (images.length === 0) ? <>
-            {(images.length === 0) ? <>
+        (!images || images.length === 0) ? <>
+            {(!!images && images.length === 0) ? <>
                 <div>
                     <div className='ImageGallery-divStyle' style={{ width: `${imageSize}px`, height: `${imageSize}px`, 'backgroundImage': `url("/assets/pngs/add.jpeg")` }}>
                         <label className='ImageGallery-spanStyle' htmlFor='ImageGallery-new-image-input-new-one'>Add New</label>
@@ -122,26 +127,28 @@ function ImageGallery({ product }) {
             </>}
         </> : <>
             <Slide
-                transitionDuration="400"
-                autoplay={false}
+                arrows={false}
+                indicators={customIndicator}
+                transitionDuration="500"
+                autoplay={true}
+                easing='cubic'
                 key={images.length}
             >
                 {images.map((slideImage, index) => (
                     <div key={index}>
-                        <div className='ImageGallery-divStyle' style={{ width: `${imageSize - 4}px`, height: `${imageSize}px`, 'backgroundImage': `url(${slideImage.image})` }}>
-                            <p className='ImageGallery-divStyle-numImage-indicator'>{index + 1}/{images.length}</p>
-                            <span className='ImageGallery-spanStyle' onClick={() => deleteImage(slideImage.id)}>Delete</span>
-                            <label className='ImageGallery-spanStyle' htmlFor={`ImageGallery-new-image-change-input-${index}`}>Replace</label>
-                            <input type="file" id={`ImageGallery-new-image-change-input-${index}`} className="ImageGallery-new-image-input" accept="image/png, image/jpeg" onChange={(e) => onReplaceImage(e, slideImage.id)} />
-                            <label className='ImageGallery-spanStyle' htmlFor={`ImageGallery-new-image-input-${index}`}>Add New</label>
-                            <input type="file" id={`ImageGallery-new-image-input-${index}`} className="ImageGallery-new-image-input" accept="image/png, image/jpeg" onChange={onAddImage} />
+                        <div className='ImageGallery-divStyle ImageGallery-background w-100' style={{ width: `${imageSize - 4}px`, height: `${imageSize}px`, 'backgroundImage': `url(${slideImage.image})` }}>
+                            {!productImages && <>
+                                <span className='ImageGallery-spanStyle' onClick={() => deleteImage(slideImage.id)}>Delete</span>
+                                <label className='ImageGallery-spanStyle' htmlFor={`ImageGallery-new-image-change-input-${index}`}>Replace</label>
+                                <input type="file" id={`ImageGallery-new-image-change-input-${index}`} className="ImageGallery-new-image-input" accept="image/png, image/jpeg" onChange={(e) => onReplaceImage(e, slideImage.id)} />
+                                <label className='ImageGallery-spanStyle' htmlFor={`ImageGallery-new-image-input-${index}`}>Add New</label>
+                                <input type="file" id={`ImageGallery-new-image-input-${index}`} className="ImageGallery-new-image-input" accept="image/png, image/jpeg" onChange={onAddImage} />
+                            </>}
                         </div>
                     </div>
                 ))}
             </Slide>
         </>
-
-
     )
 }
 

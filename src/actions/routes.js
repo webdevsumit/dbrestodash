@@ -14,6 +14,8 @@ import Orders from "../pages/Orders";
 import Signup from "../pages/Signup";
 import Login from "../pages/Login";
 import ForgotPassword from "../pages/ForgotPassword";
+import Menu from "../pages/Menu";
+import MenuCart from "../pages/MenuCart";
 
 export const router = createBrowserRouter([
     {
@@ -64,13 +66,26 @@ export const router = createBrowserRouter([
     {
         path: "/signup/:plan",
         element: <Signup />,
+        errorElement: <Error404Page />,
     },
     {
         path: "/login",
         element: <Login />,
+        errorElement: <Error404Page />,
     },
     {
         path: "/forgotpassword",
         element: <ForgotPassword />,
+        errorElement: <Error404Page />,
     },
+    {
+        path: "/menu/:menuId",
+        element: <Menu />,
+        errorElement: <Error404Page />,
+    },
+    {
+        path: "/menu/:menuId/cart",
+        element: <MenuCart />,
+        errorElement: <Error404Page />,
+    }
 ]);

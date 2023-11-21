@@ -108,7 +108,7 @@ function ProductCard({ index, product, newToAdd, arrLen, onUpdateData, onDeleteC
                     <select className="form-control" value={data.category} onChange={(e) => setData(prev => ({ ...prev, "category": e.target.value }))} id={"category" + index}>
                         <option value="">Select Category</option>
                         {categoryOptions.map(cat =>
-                            <option key={cat.id} value={cat.id}>{cat.category}</option>
+                            <option key={cat.id} value={cat.category}>{cat.category}</option>
                         )}
                     </select>
                 </div>

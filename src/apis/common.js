@@ -172,3 +172,15 @@ export async function orderSalesDataAPI(payload) {
 export async function numberOfProductsSoldAPI(payload) {
     return APICalller("POST", "inventory/number-of-products-sold/", payload);
 }
+
+export async function fetchMenuDataAPI(payload) {
+    return APICalller("POST", "menu/fetchMenuData/", payload);
+}
+
+export async function fetchMenuProductDataAPI(payload) {
+    return APICalller("POST", "menu/fetchMenuProductData/", payload);
+}
+
+export async function fetchMenuCartDataAPI(payload) {
+    return APICalller("POST", "menu/fetchMenuCartData/", payload);
+}
