@@ -149,6 +149,7 @@ function MenuCart() {
 
     const onCreateOrder = async () => {
         if (creatingOrder || !products.length) {
+            toast("Please wait.")
             return;
         }
         if(!isMobile){
