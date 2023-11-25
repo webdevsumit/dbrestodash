@@ -2,7 +2,8 @@ import { createSlice} from '@reduxjs/toolkit'
 
 const initialState= {
   isLoanding: false,
-  authdata: {}
+  authdata: {},
+  itemsInCart: 0
 }
 
 export const navbarSlice = createSlice({
@@ -16,6 +17,9 @@ export const navbarSlice = createSlice({
     setAuthData: (state, action) => {
       state.authdata = action.payload;
     },
+    setItemsInCart: (state, action) => {
+      state.itemsInCart = action.payload;
+    },
 
   },
 })
@@ -23,9 +27,11 @@ export const navbarSlice = createSlice({
 export const { 
   setIsLoading,
   setAuthData,
+  setItemsInCart
 } = navbarSlice.actions;
 
 export const getIsLoading = store => store.navbar.isLoanding; 
 export const getAuthData = store => store.navbar.authdata; 
+export const getItemsInCart = store => store.navbar.itemsInCart
 
 export default navbarSlice.reducer;

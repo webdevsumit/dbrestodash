@@ -82,10 +82,12 @@ export const router = createBrowserRouter([
         path: "/menu/:menuId",
         element: <Menu />,
         errorElement: <Error404Page />,
+        children: [
+            {
+                path: "/menu/:menuId/cart",
+                element: <MenuCart />,
+                errorElement: <Error404Page />,
+            }
+        ]
     },
-    {
-        path: "/menu/:menuId/cart",
-        element: <MenuCart />,
-        errorElement: <Error404Page />,
-    }
 ]);

@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import './style.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { fetchMenuDataAPI } from '../../apis/common';
 import toast from 'react-hot-toast';
 import { Card } from 'react-bootstrap';
 import MenuDesc from '../../components/MenuDesc';
 import FullScreenModal from '../../components/FullScreenModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { getItemsInCart } from '../../redux/navbar';
+import { setItemsInCart } from "../../redux/navbar";
 
 function Menu() {
   const { menuId } = useParams();
   const navigate = useNavigate();
+  
+  const dispatch = useDispatch();
+  const itemsInCart = useSelector(getItemsInCart);
 
   const [search, setSearch] = useState("")
   const [products, setProducts] = useState([]);
@@ -17,7 +23,7 @@ function Menu() {
   const [baseImageUrl, setBaseImageUrl] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [showDescOf, setShowDescOf] = useState(null);
-  const [itemsInCart, setItemsInCart] = useState(0);
+
 
   const fetchData = async () => {
     if (!menuId) {
@@ -44,7 +50,7 @@ function Menu() {
     if (cart) {
       let cartData = JSON.parse(cart);
       if (!!cartData[menuId]) {
-        setItemsInCart(cartData[menuId].length);
+        dispatch(setItemsInCart(cartData[menuId].length));
       }
     }
   }
@@ -60,16 +66,21 @@ function Menu() {
     if (!!cart) {
       let cartData = JSON.parse(cart);
       if (!!cartData[menuId]) {
+        if(!!cartData[menuId].filter(prodId => prodId.id === id).length){
+          toast.success("Product is already added.")
+        }else{
+          toast.success("Added.")
+        }
         cartData[menuId] = [...cartData[menuId].filter(prodId => prodId.id != id), { id, "quantity": 1 }];
       } else {
         cartData[menuId] = [{ id, "quantity": 1 }];
       }
       localStorage.setItem("cart", JSON.stringify(cartData));
-      setItemsInCart(cartData[menuId].length);
+      dispatch(setItemsInCart(cartData[menuId].length));
     } else {
       let cartData = { [menuId]: [{ id, "quantity": 1 }] };
       localStorage.setItem("cart", JSON.stringify(cartData));
-      setItemsInCart(cartData[menuId].length);
+      dispatch(setItemsInCart(cartData[menuId].length));
     }
   }
 
@@ -77,6 +88,7 @@ function Menu() {
     <>
       {!!showDescOf && <MenuDesc onHide={() => setShowDescOf(null)} productId={showDescOf} onClickAdd={onClickAdd} />}
       <FullScreenModal />
+      <Outlet />
       <div className='Menu-outer'>
         <div className='Menu-main'>
           <nav className='Menu-main-nav d-flex p-auto shadow-sm justify-content-between p-2 align-items-center'>
