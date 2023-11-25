@@ -13,7 +13,7 @@ import { setItemsInCart } from "../../redux/navbar";
 function Menu() {
   const { menuId } = useParams();
   const navigate = useNavigate();
-  
+
   const dispatch = useDispatch();
   const itemsInCart = useSelector(getItemsInCart);
 
@@ -66,9 +66,9 @@ function Menu() {
     if (!!cart) {
       let cartData = JSON.parse(cart);
       if (!!cartData[menuId]) {
-        if(!!cartData[menuId].filter(prodId => prodId.id === id).length){
+        if (!!cartData[menuId].filter(prodId => prodId.id === id).length) {
           toast.success("Product is already added.")
-        }else{
+        } else {
           toast.success("Added.")
         }
         cartData[menuId] = [...cartData[menuId].filter(prodId => prodId.id != id), { id, "quantity": 1 }];
@@ -113,17 +113,18 @@ function Menu() {
             </div>
             <hr className='m-0' />
             <div className='d-flex food-card-box'>
-              {products.filter(prod => (!selectedCategory || prod.category == selectedCategory)).map((prod, index) =>
-                <Card key={index} className='shadow border-none d-flex justify-content-end food-card m-2' style={{ backgroundImage: !!prod.image ? `url(${baseImageUrl.substring(0, baseImageUrl.length - 1)}${prod.image})` : "url('/assets/svgs/food.svg')", backgroundSize: !!prod.image ? 'cover' : "contain" }}>
-                  <div className='h-100 bg-curtom-for-food bg-curtom-for-food1' onClick={() => setShowDescOf(prod.id)}>
-                    <h6>{prod.name}</h6>
-                  </div>
-                  <div className='w-100 bg-curtom-for-food d-flex w-100 button-badge-box'>
-                    <span className='btn btn-sm btn-primary m-1 p-0 button-badge' onClick={() => setShowDescOf(prod.id)}>₹{(prod.price_in_paisa / 100).toFixed(2)}</span>
-                    <span className='btn btn-sm btn-success m-1 p-0 button-badge' onClick={() => onClickAdd(prod.id)}>+Add</span>
-                  </div>
-                </Card>
-              )}
+              {products.filter(prod => (!selectedCategory || prod.category == selectedCategory) &&
+                (search.trim() === "" || prod.name.toLowerCase().includes(search.toLowerCase()))).map((prod, index) =>
+                  <Card key={index} className='shadow border-none d-flex justify-content-end food-card m-2' style={{ backgroundImage: !!prod.image ? `url(${baseImageUrl.substring(0, baseImageUrl.length - 1)}${prod.image})` : "url('/assets/svgs/food.svg')", backgroundSize: !!prod.image ? 'cover' : "contain" }}>
+                    <div className='h-100 bg-curtom-for-food bg-curtom-for-food1' onClick={() => setShowDescOf(prod.id)}>
+                      <h6>{prod.name}</h6>
+                    </div>
+                    <div className='w-100 bg-curtom-for-food d-flex w-100 button-badge-box'>
+                      <span className='btn btn-sm btn-primary m-1 p-0 button-badge' onClick={() => setShowDescOf(prod.id)}>₹{(prod.price_in_paisa / 100).toFixed(2)}</span>
+                      <span className='btn btn-sm btn-success m-1 p-0 button-badge' onClick={() => onClickAdd(prod.id)}>+Add</span>
+                    </div>
+                  </Card>
+                )}
             </div>
           </main>
         </div>

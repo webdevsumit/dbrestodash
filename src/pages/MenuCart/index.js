@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './style.css';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { fetchMenuCartDataAPI } from '../../apis/common';
+import { useNavigate, useParams } from 'react-router-dom';
+import { createOrderFromMenuAPI, fetchMenuCartDataAPI } from '../../apis/common';
 import toast from 'react-hot-toast';
 import { Card, Offcanvas } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { setItemsInCart } from '../../redux/navbar';
+import { isMobile } from 'react-device-detect';
 // import MenuDesc from '../../components/MenuDesc';
 
 
@@ -13,13 +14,16 @@ function MenuCart() {
 
     const { menuId } = useParams();
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useDispatch(); 
 
     const [products, setProducts] = useState([]);
     const [cartData, setCartData] = useState(null);
     const [baseImageUrl, setBaseImageUrl] = useState("");
     // const [showDescOf, setShowDescOf] = useState(null);
     const [totalAmount, setTotalAmount] = useState(0);
+    const [payOnline, setPayOnline] = useState(false);
+    const [upiAddr, setUpiAddr] = useState("");
+    const [creatingOrder, setCreatingOrder] = useState(false);
 
     const [localShow, setLocalShow] = useState(true);
     const onLocaLHide = () => {
@@ -36,9 +40,10 @@ function MenuCart() {
         }
         await fetchMenuCartDataAPI({ "token": menuId, ids }).then(res => {
             if (res.data.status === "success") {
+                setPayOnline(res.data.payOnline);
                 setProducts(res.data.data);
+                dispatch(setItemsInCart(res.data.data.length));
                 let totalAmt = 0;
-                dispatch(setItemsInCart(res.data.data.length))
                 res.data.data.forEach((prod) => {
                     let product = cartData.filter(prodId => prodId.id == prod.id)[0];
                     totalAmt += (prod.price_in_paisa * (!!product ? product.quantity : 0));
@@ -116,6 +121,69 @@ function MenuCart() {
         }
     }
 
+    const resetCart = () => {
+        let cart = localStorage.getItem('cart');
+        localStorage.removeItem("cart");
+        if (!!cart) {
+            let cartData = JSON.parse(cart);
+            cartData[menuId] = [];
+            dispatch(setItemsInCart([0]));
+            setCartData([]);
+            localStorage.setItem("cart", JSON.stringify(cartData));
+        }
+    }
+
+    const continueOnLineProcessOnOrder = async (res) => {
+        let paymentLink = `upi://pay?pa=${res.data.upi_address}&am=${totalAmount}&mam=1&cu=INR&pn=OrderId-${res.data.orderId}`;
+        const waitLoader = toast.loading("Waiting for payment...");
+        // Open payment URL
+        window.location.replace(paymentLink);
+
+        // This event listener will be triggered when the page is redirected after the payment
+        window.addEventListener('load', () => {
+            // Open the invoice URL
+            window.open(res.data.url);
+            toast.dismiss(waitLoader);
+        });
+    }
+
+    const onCreateOrder = async () => {
+        if (creatingOrder || !products.length) {
+            return;
+        }
+        if(!isMobile){
+            toast.error("It just works on mobile phones.")
+            return;
+        }
+        const payload = {
+            "token": menuId,
+            "products": cartData.map(prod => ({ "id": prod.id, "quantity": prod.quantity })),
+            "name": "",
+            "phone": "",
+        }
+        setCreatingOrder(true);
+        const loader = toast.loading("Creating Order...")
+        await createOrderFromMenuAPI(payload).then(res => {
+            if (res.data.status === "success") {
+                resetCart();
+                setUpiAddr(res.data.upi_address);
+                if (!!loader) {
+                    toast.dismiss(loader);
+                }
+                if (payOnline) {
+                    continueOnLineProcessOnOrder(res);
+                } else {
+                    toast.success("Order created successfully.");
+                    window.open(res.data.url);
+                }
+            }
+        }).catch(err => toast.error(err.message));
+        setCreatingOrder(false);
+        if (!!loader) {
+            toast.dismiss(loader)
+        }
+    }
+
     return (
 
         <Offcanvas show={localShow} placement='bottom' className="cart-canvas" onHide={onLocaLHide}>
@@ -159,7 +227,7 @@ function MenuCart() {
             </Offcanvas.Body>
             <footer className='Menu-cart-main-nav d-flex p-auto shadow-sm justify-content-between p-2 align-items-center'>
                 <div className='fw-bold'>₹{(totalAmount / 100).toFixed(2)}</div>
-                <span className='btn btn-success'>Pay Now</span>
+                <span className='btn btn-success' onClick={onCreateOrder}>{payOnline ? "Pay Now" : "Order Now"}</span>
             </footer>
         </Offcanvas>
     )
