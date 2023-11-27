@@ -14,7 +14,7 @@ function MenuCart() {
 
     const { menuId } = useParams();
     const navigate = useNavigate();
-    const dispatch = useDispatch(); 
+    const dispatch = useDispatch();
 
     const [products, setProducts] = useState([]);
     const [cartData, setCartData] = useState(null);
@@ -134,15 +134,20 @@ function MenuCart() {
     }
 
     const continueOnLineProcessOnOrder = async (res) => {
-        let paymentLink = `upi://pay?pa=${res.data.upi_address}&am=${totalAmount}&mam=1&cu=INR&pn=OrderId-${res.data.orderId}`;
+        console.log("document.referrer: ", document.referrer);
+        let paymentLink = `upi://pay?pa=${res.data.upi_address}&am=${(totalAmount / 100).toFixed(2)}&mam=1&cu=INR&pn=OrderId-${res.data.orderId}`;
         const waitLoader = toast.loading("Waiting for payment...");
         // Open payment URL
-        window.location.replace(paymentLink);
+        try {
+            window.open(paymentLink);
+        } catch (err) {
+            toast.error(err.message);
+        }
 
         // This event listener will be triggered when the page is redirected after the payment
         window.addEventListener('load', () => {
             // Open the invoice URL
-            window.open(res.data.url);
+            window.location.replace(res.data.url);
             toast.dismiss(waitLoader);
         });
     }
@@ -152,10 +157,10 @@ function MenuCart() {
             toast("Please wait.")
             return;
         }
-        if(!isMobile){
-            toast.error("It just works on mobile phones.")
-            return;
-        }
+        // if(!isMobile){
+        //     toast.error("It just works on mobile phones.")
+        //     return;
+        // }
         const payload = {
             "token": menuId,
             "products": cartData.map(prod => ({ "id": prod.id, "quantity": prod.quantity })),
