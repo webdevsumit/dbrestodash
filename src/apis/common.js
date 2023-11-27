@@ -184,3 +184,15 @@ export async function fetchMenuProductDataAPI(payload) {
 export async function fetchMenuCartDataAPI(payload) {
     return APICalller("POST", "menu/fetchMenuCartData/", payload);
 }
+
+export async function getPaymentDetailsAPI(payload={}) {
+    return APICalller("GET", "account/getPaymentDetails/", payload);
+}
+
+export async function setPaymentDetailsAPI(payload) {
+    return APICalller("POST", "account/setPaymentDetails/", payload);
+}
+
+export async function createOrderFromMenuAPI(payload) {
+    return APICalller("POST", "menu/createOrderFromMenu/", payload);
+}
