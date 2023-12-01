@@ -12,7 +12,7 @@ import { isMobile } from 'react-device-detect';
 
 function MenuCart() {
 
-    const { menuId } = useParams();
+    const { menuId, tableNo } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -157,12 +157,13 @@ function MenuCart() {
             toast("Please wait.")
             return;
         }
-        // if(!isMobile){
-        //     toast.error("It just works on mobile phones.")
-        //     return;
-        // }
+        if(!isMobile){
+            toast.error("It just works on mobile phones.")
+            return;
+        }
         const payload = {
             "token": menuId,
+            "tableName": tableNo,
             "products": cartData.map(prod => ({ "id": prod.id, "quantity": prod.quantity })),
             "name": "",
             "phone": "",
@@ -243,3 +244,4 @@ export default MenuCart
 
 // upi://pay?pn=with%20DBResto.com%20&pa=9584004790@ybl&cu=INR&am=1&url=https%3A%2F%2Fdash.dbresto.com%2Fcompletedamount
 // upi://pay?pa=abc@upi&pn=payeeName&tr=1234&tn=Pay%20to%20payeeName&am=1&mam=1&cu=INR&url=https%3A%2F%2Fdash.dbresto.com%2Fcompletedamount
+// https://stackoverflow.com/a/64724053/13310509

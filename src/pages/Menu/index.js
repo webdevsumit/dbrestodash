@@ -11,7 +11,7 @@ import { getItemsInCart } from '../../redux/navbar';
 import { setItemsInCart } from "../../redux/navbar";
 
 function Menu() {
-  const { menuId } = useParams();
+  const { menuId, tableNo } = useParams();
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -101,7 +101,7 @@ function Menu() {
                 placeholder='Search food here'
               />
             </form>
-            <img src='/assets/svgs/foodCart.svg' onClick={() => navigate(`/menu/${menuId}/cart`)} width={35} alt='Cart' />
+            <img src='/assets/svgs/foodCart.svg' onClick={() => navigate(`/menu/${menuId}/${tableNo}/cart`)} width={35} alt='Cart' />
             {itemsInCart > 0 && <div className='cart-badge'>{itemsInCart}</div>}
           </nav>
           <main>

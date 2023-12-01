@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// export const baseUrl = 'http://127.0.0.1:8000/v1/';
-export const baseUrl = 'https://be.dbresto.com/v1/';
+export const baseUrl = 'http://127.0.0.1:8000/v1/';
+// export const baseUrl = 'https://be.dbresto.com/v1/';
 
 
 const APICalller = async (method, url, payload = {}, ContentType = "application/json") => {
@@ -195,4 +195,20 @@ export async function setPaymentDetailsAPI(payload) {
 
 export async function createOrderFromMenuAPI(payload) {
     return APICalller("POST", "menu/createOrderFromMenu/", payload);
+}
+
+export async function getQrCodesAPI(payload={}) {
+    return APICalller("GET", "account/getQrCodes/", payload);
+}
+
+export async function generateQrCodeAPI(payload={}) {
+    return APICalller("GET", "account/generateQrCode/", payload);
+}
+
+export async function saveQrCodeAPI(payload={}) {
+    return APICalller("POST", "account/saveQrCode/", payload);
+}
+
+export async function deleteQrCodeAPI(payload={}) {
+    return APICalller("POST", "account/deleteQrCode/", payload);
 }

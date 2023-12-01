@@ -46,18 +46,18 @@ export const router = createBrowserRouter([
             },
         ]
     },
-    {
-        path: "/:storeId/:qrId",
-        element: <Outlet />,
-        errorElement: <Error404Page />,
-        children: [
-            {
-                path: "/:storeId/:qrId/payment",
-                element: <RazorPayGateway />,
-                loader: RazorPayGatewayLoader,
-            }
-        ]
-    },
+    // {
+    //     path: "/:storeId/:qrId",
+    //     element: <Outlet />,
+    //     errorElement: <Error404Page />,
+    //     children: [
+    //         {
+    //             path: "/:storeId/:qrId/payment",
+    //             element: <RazorPayGateway />,
+    //             loader: RazorPayGatewayLoader,
+    //         }
+    //     ]
+    // },
     {
         path: "/signup",
         element: <Signup />,
@@ -79,12 +79,12 @@ export const router = createBrowserRouter([
         errorElement: <Error404Page />,
     },
     {
-        path: "/menu/:menuId",
+        path: "/menu/:menuId/:tableNo",
         element: <Menu />,
         errorElement: <Error404Page />,
         children: [
             {
-                path: "/menu/:menuId/cart",
+                path: "/menu/:menuId/:tableNo/cart",
                 element: <MenuCart />,
                 errorElement: <Error404Page />,
             }
