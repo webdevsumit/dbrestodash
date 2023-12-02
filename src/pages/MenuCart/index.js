@@ -7,6 +7,7 @@ import { Card, Offcanvas } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { setItemsInCart } from '../../redux/navbar';
 import { isMobile } from 'react-device-detect';
+import InvoiceBox from '../../components/InvoiceBox';
 // import MenuDesc from '../../components/MenuDesc';
 
 
@@ -24,6 +25,7 @@ function MenuCart() {
     const [payOnline, setPayOnline] = useState(false);
     const [upiAddr, setUpiAddr] = useState("");
     const [creatingOrder, setCreatingOrder] = useState(false);
+    const [invoiceUrl, setInvoiceUrl] = useState("");
 
     const [localShow, setLocalShow] = useState(true);
     const onLocaLHide = () => {
@@ -134,7 +136,6 @@ function MenuCart() {
     }
 
     const continueOnLineProcessOnOrder = async (res) => {
-        console.log("document.referrer: ", document.referrer);
         let paymentLink = `upi://pay?pa=${res.data.upi_address}&am=${(totalAmount / 100).toFixed(2)}&mam=1&cu=INR&pn=OrderId-${res.data.orderId}`;
         const waitLoader = toast.loading("Waiting for payment...");
         // Open payment URL
@@ -157,10 +158,10 @@ function MenuCart() {
             toast("Please wait.")
             return;
         }
-        if(!isMobile){
-            toast.error("It just works on mobile phones.")
-            return;
-        }
+        // if(!isMobile){
+        //     toast.error("It just works on mobile phones.")
+        //     return;
+        // }
         const payload = {
             "token": menuId,
             "tableName": tableNo,
@@ -178,7 +179,8 @@ function MenuCart() {
                     toast.dismiss(loader);
                 }
                 if (payOnline) {
-                    continueOnLineProcessOnOrder(res);
+                    // continueOnLineProcessOnOrder(res);
+                    setInvoiceUrl(res.data.url);
                 } else {
                     toast.success("Order created successfully.");
                     window.open(res.data.url);
@@ -198,6 +200,7 @@ function MenuCart() {
                 <Offcanvas.Title>Cart</Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body className='cart-body'>
+                {!!invoiceUrl && <InvoiceBox url={invoiceUrl} />}
                 {/* {!!showDescOf && <MenuDesc onHide={() => setShowDescOf(null)} productId={showDescOf} onClickAdd={onClickAdd} />} */}
                 <div className='Menu-cart-outer'>
                     <div className='Menu-cart-main'>
@@ -234,7 +237,7 @@ function MenuCart() {
             </Offcanvas.Body>
             <footer className='Menu-cart-main-nav d-flex p-auto shadow-sm justify-content-between p-2 align-items-center'>
                 <div className='fw-bold'>₹{(totalAmount / 100).toFixed(2)}</div>
-                <span className='btn btn-success' onClick={onCreateOrder}>{payOnline ? "Pay Now" : "Order Now"}</span>
+                <span className='btn btn-success' onClick={onCreateOrder}>{payOnline ? "Order Now" : "Order Now"}</span>
             </footer>
         </Offcanvas>
     )
