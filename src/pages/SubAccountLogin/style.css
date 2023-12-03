@@ -1,0 +1,53 @@
+.signup-main{
+    background-color: var(--main-bg-of-bg);
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-card{
+    background-color: var(--main-bg)!important;
+    /* min-height: 80vh; */
+    min-width: 70%;
+    max-width: 1200px;
+}
+
+.signup-card-inner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-logo{
+    width: 150px;
+}
+
+.signup-head{
+    color: var(--primary);
+    font-weight: bolder;
+}
+
+.signup-left{
+    width: 50%;
+    height: 100%;
+}
+
+.signup-right{
+    width: 50%;
+    height: 100%;
+}
+
+.signup-poster{
+    width: 100%;
+}
+
+@media only screen and (max-width: 700px) {
+    .signup-right{
+        display: none;
+    }
+    .signup-left{
+        width: 100%;
+    }
+}

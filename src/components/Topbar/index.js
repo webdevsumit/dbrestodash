@@ -9,13 +9,13 @@ function Topbar() {
 
     return (
         <>
-            <CreateOrder show={createOrder} onHide={()=>setCreateOrder(false)} />
+            <CreateOrder show={createOrder} onHide={() => setCreateOrder(false)} />
             <div className='Topbar-main'>
-                <Card className='shadow p-2 border-none Topbar-main-btn' onClick={()=>setCreateOrder(true)} >
+                <Card className='shadow p-2 border-none Topbar-main-btn' onClick={() => setCreateOrder(true)} >
                     Create Order
                 </Card>
                 <Card className='shadow p-2 border-none topbar-profile' >
-                    SD
+                    {localStorage.getItem("username")?.length === 12 ? localStorage.getItem("username")?.substring(2, 4) : localStorage.getItem("username")?.toUpperCase()?.substring(0, 2)}
                 </Card>
             </div>
         </>

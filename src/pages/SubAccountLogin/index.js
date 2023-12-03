@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import './style.css';
 import { Card } from 'react-bootstrap';
 import toast from 'react-hot-toast';
-import { loginApi } from '../../apis/common';
+import { loginSubAccountApi } from '../../apis/common';
 import { Link, useNavigate } from 'react-router-dom';
 
-function Login() {
+function SubAccountLogin() {
 
     const navigate = useNavigate();
     const [data, setData] = useState({
@@ -18,7 +18,7 @@ function Login() {
             toast.error("All fields are required.");
             return;
         }
-        await loginApi({ ...data }).then(res => {
+        await loginSubAccountApi({ ...data }).then(res => {
             if (res.data.status === "success") {
                 localStorage.setItem("token", res.data.token)
                 navigate("/");
@@ -35,15 +35,15 @@ function Login() {
                     <div className='signup-left'>
                         <img className='signup-logo' src='/assets/logos/logo-light.svg' alt='logo' />
                         <hr />
-                        <h3 className='signup-head mx-2 mt-4'>Login</h3>
+                        <h3 className='signup-head mx-2 mt-4'>SubAccountLogin</h3>
                         <form className='mx-4 mt-4' onSubmit={e => { e.preventDefault(); onSubmitForm(); }}>
                             <div className="form-group my-2">
-                                <label htmlFor="email">Email address</label>
+                                <label htmlFor="email">Mobile Number (12 digits)</label>
                                 <input
-                                    type="email"
+                                    type="number"
                                     className="form-control"
-                                    id="email"
-                                    placeholder="Enter email"
+                                    id="nubmer"
+                                    placeholder="Enter nubmer"
                                     value={data.email}
                                     onChange={e => setData(prev => ({ ...prev, "email": e.target.value }))}
                                 />
@@ -59,9 +59,8 @@ function Login() {
                                     onChange={e => setData(prev => ({ ...prev, "password": e.target.value }))}
                                 />
                             </div>
-                            <label className="form-check-label cursor-pointer"><small>Subaccount User? <Link to="/login/subaccount" >Login here</Link>.</small></label><br/>
+                            <label className="form-check-label cursor-pointer"><small>Account Admin? <Link to="/login" >Login here</Link>.</small></label><br/>
                             <label className="form-check-label cursor-pointer"><small>Do not have an account? <Link to="/signup" >Register here</Link>.</small></label><br/>
-                            <label className="form-check-label cursor-pointer"><small>Forgot Password? <Link to="/forgotpassword" >Click here</Link>.</small></label><br/>
                             <button type="submit" className="btn btn-primary mt-1">Login</button>
                         </form>
                     </div>
@@ -74,4 +73,4 @@ function Login() {
     )
 }
 
-export default Login
+export default SubAccountLogin

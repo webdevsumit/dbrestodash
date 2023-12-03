@@ -15,6 +15,7 @@ export const mainLoader = async () => {
         if (res.data.status === "success") {
             authenticated = true;
             data = res.data.data;
+            localStorage.setItem("username", res.data.data.user.username);
         }
     }).catch(err => toast.error(err.message));
 

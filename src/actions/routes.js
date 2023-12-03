@@ -2,8 +2,8 @@ import {
     createBrowserRouter, Outlet,
 } from "react-router-dom";
 
-import { loader as RazorPayGatewayLoader } from "../components/paymentPages/IndiaPayment/RazorPayGateway";
-import RazorPayGateway from "../components/paymentPages/IndiaPayment/RazorPayGateway";
+// import { loader as RazorPayGatewayLoader } from "../components/paymentPages/IndiaPayment/RazorPayGateway";
+// import RazorPayGateway from "../components/paymentPages/IndiaPayment/RazorPayGateway";
 import Error404Page from './../components/Error404Page'
 import Dashboard from "../pages/Dashboard";
 import Main, { mainLoader } from "../pages/Main";
@@ -16,6 +16,7 @@ import Login from "../pages/Login";
 import ForgotPassword from "../pages/ForgotPassword";
 import Menu from "../pages/Menu";
 import MenuCart from "../pages/MenuCart";
+import SubAccountLogin from "../pages/SubAccountLogin";
 
 export const router = createBrowserRouter([
     {
@@ -70,8 +71,20 @@ export const router = createBrowserRouter([
     },
     {
         path: "/login",
-        element: <Login />,
+        element: <Outlet />,
         errorElement: <Error404Page />,
+        children: [
+            {
+                path: "/login",
+                element: <Login />,
+                errorElement: <Error404Page />,
+            },
+            {
+                path: "/login/subaccount",
+                element: <SubAccountLogin />,
+                errorElement: <Error404Page />,
+            }
+        ]
     },
     {
         path: "/forgotpassword",

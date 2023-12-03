@@ -23,19 +23,26 @@ function Dashboard() {
     await dashboardDataAPI({}).then(res => {
       if (res.data.status === "success") {
         setDashData(res.data.data);
+      }else{
+        toast.error(res.data.message);
       }
     }).catch(err => toast.error(err.message));
   }
 
-  const fetchOrdersData = async () => {
-    const loader = toast.loading("fetching orders data.");
+  const fetchOrdersData = async (firstTime) => {
+    let loader;
+    if(!firstTime){
+      loader = toast.loading("fetching orders data.");
+    }
     await orderSalesDataAPI({ "data_type": orderDataType }).then(res => {
       if (res.data.status === "success") {
         setOrdersCategories(res.data.data.map(dt => moment((orderDataType == 1 ? dt.month : dt.day), (orderDataType == 1 ? "YYYY-MM" : "YYYY-MM-DD")).format()));
         setOrdersData(res.data.data.map(dt => (dt.total_sales / 100).toFixed(2)));
+      }else{
+        toast.error(res.data.message);
       }
     }).catch(err => toast.error(err.message));
-    toast.dismiss(loader);
+    if(loader) toast.dismiss(loader);
   }
 
   useEffect(() => {
@@ -55,14 +62,16 @@ function Dashboard() {
       if (res.data.status === "success") {
         setProductsCategories(res.data.data.map(dt => dt.product_name));
         setProductsData(res.data.data.map(dt => dt.total_sales));
+      }else{
+        toast.error(res.data.message);
       }
     }).catch(err => toast.error(err.message));
     toast.dismiss(loader);
   }
 
   useEffect(() => {
-    fetchDashData();
-    fetchProductsData();
+    fetchDashData(true);
+    fetchProductsData(true);
   }, [])
 
   return (

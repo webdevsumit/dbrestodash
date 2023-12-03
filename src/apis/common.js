@@ -46,6 +46,10 @@ export async function loginApi(payloads) {
     return APICalller("POST", "auth/login/", payloads);
 }
 
+export async function loginSubAccountApi(payloads) {
+    return APICalller("POST", "auth/loginSubAccount/", payloads);
+}
+
 export async function sendOtpApi(payloads) {
     return APICalller("POST", "auth/sendOtp/", payloads);
 }
