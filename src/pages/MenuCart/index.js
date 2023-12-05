@@ -31,7 +31,7 @@ function MenuCart() {
     const onLocaLHide = () => {
         setLocalShow(false);
         setTimeout(() => {
-            navigate(-1);
+            navigate(`/menu/${menuId}/${tableNo}/`);
         }, 400);
     }
 
@@ -40,7 +40,7 @@ function MenuCart() {
             toast.error("Please check URL.");
             return;
         }
-        await fetchMenuCartDataAPI({ "token": menuId, ids }).then(res => {
+        await fetchMenuCartDataAPI({ "token": menuId, ids, tableNo }).then(res => {
             if (res.data.status === "success") {
                 setPayOnline(res.data.payOnline);
                 setProducts(res.data.data);

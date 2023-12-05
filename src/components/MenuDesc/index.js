@@ -8,7 +8,7 @@ import ImageGallery from "./../ImageGallery";
 
 function MenuDesc({ onHide, productId, onClickAdd }) {
 
-    const { menuId } = useParams();
+    const { menuId, tableNo } = useParams();
     const [localShow, setLocalShow] = useState(true);
     const onLocaLHide = () => {
         setLocalShow(false);
@@ -20,7 +20,7 @@ function MenuDesc({ onHide, productId, onClickAdd }) {
     const [data, setData] = useState(null);
 
     const fetchProductData = async () => {
-        await fetchMenuProductDataAPI({ "id": productId, "token": menuId }).then(res => {
+        await fetchMenuProductDataAPI({ "id": productId, "token": menuId, tableNo }).then(res => {
             if (res.data.status === "success") {
                 setData(res.data.data);
             } else {

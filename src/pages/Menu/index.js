@@ -30,7 +30,7 @@ function Menu() {
       toast.error("Please check URL.");
       return;
     }
-    await fetchMenuDataAPI({ "token": menuId }).then(res => {
+    await fetchMenuDataAPI({ "token": menuId, "tableNo": tableNo }).then(res => {
       if (res.data.status === "success") {
         setProducts(res.data.products);
         setCategories(res.data.categories);
