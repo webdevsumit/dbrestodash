@@ -17,6 +17,8 @@ import ForgotPassword from "../pages/ForgotPassword";
 import Menu from "../pages/Menu";
 import MenuCart from "../pages/MenuCart";
 import SubAccountLogin from "../pages/SubAccountLogin";
+import Subscription, { subscriptionLoader } from "../pages/Subscription";
+import Plans from "../pages/Plans";
 
 export const router = createBrowserRouter([
     {
@@ -44,6 +46,15 @@ export const router = createBrowserRouter([
             {
                 path: "/orders",
                 element: <Orders />,
+            },
+            {
+                path: "/plans",
+                element: <Plans />,
+            },
+            {
+                path: "/subscription",
+                element: <Subscription />,
+                loader: subscriptionLoader
             },
         ]
     },

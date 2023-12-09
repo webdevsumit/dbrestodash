@@ -216,3 +216,19 @@ export async function saveQrCodeAPI(payload={}) {
 export async function deleteQrCodeAPI(payload={}) {
     return APICalller("POST", "account/deleteQrCode/", payload);
 }
+
+export async function getPlanIdsAPI(payload) {
+    return APICalller("GET", "auth/getPlanIds/", payload);
+}
+
+export async function subscribePlanAPI(payload) {
+    return APICalller("POST", "auth/subscribePlan/", payload);
+}
+
+export async function getSubscriptionDetailsAPI(payload) {
+    return APICalller("GET", "auth/getSubscriptionDetails/", payload);
+}
+
+export async function cancelSubscribePlanAtMonthEndAPI(payload) {
+    return APICalller("POST", "auth/cancelSubscribePlanAtMonthEnd/", payload);
+}

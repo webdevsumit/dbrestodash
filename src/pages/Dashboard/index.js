@@ -56,7 +56,7 @@ function Dashboard() {
       payload["start_date"] = productStartDate;
     }
     if (!!productStartDate) {
-      payload["end_date"] = productEndDate;
+      payload["end_date"] = moment(productEndDate, "YYYY-MM-DD").add(1, "day").format("YYYY-MM-DD");
     }
     await numberOfProductsSoldAPI(payload).then(res => {
       if (res.data.status === "success") {
@@ -89,11 +89,10 @@ function Dashboard() {
             options={{
               chart: { id: "order-line-graph" }, xaxis: { categories: ordersCategories, type: 'datetime' },
               title: {
-                text: 'Sales',
+                text: 'Sales (in ₹)',
                 align: 'left'
               },
-            }
-            }
+            }}
             series={[{ name: "Orders", data: ordersData }]}
             type="line"
             height={"300px"}
@@ -119,7 +118,7 @@ function Dashboard() {
           <div>
             <div className='d-flex w-100 align-items-end '>
               <div className="form-group mx-2">
-                <label className="">From</label>
+                {/* <label className="">From</label> */}
                 <input
                   type='date'
                   style={{ width: '180px' }}
@@ -129,8 +128,9 @@ function Dashboard() {
                   onChange={e => setProductStartDate(e.target.value)}
                 />
               </div>
+              <p className='p-0 m-2'>-</p>
               <div className="form-group mx-2">
-                <label className="">To</label>
+                {/* <label className="">To</label> */}
                 <input
                   type='date'
                   style={{ width: '180px' }}
@@ -145,8 +145,12 @@ function Dashboard() {
               </div>
             </div>
           </div>
+          <hr/>
           <Chart
-            options={{ chart: { id: "products-bar-graph" }, xaxis: { categories: productCategories } }}
+            options={{ chart: { id: "products-bar-graph" }, xaxis: { categories: productCategories }, title: {
+              text: 'Number of orders created per product.',
+              align: 'left'
+            }, }}
             series={[{ name: "Orders", data: productsData }]}
             type="bar"
             width="100%"

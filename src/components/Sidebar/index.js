@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './style.css';
 import { Card } from 'react-bootstrap';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { signOutdApi } from '../../apis/common';
 import { useSelector } from 'react-redux';
 import { getAuthData } from '../../redux/navbar';
@@ -10,6 +10,8 @@ function Sidebar() {
 
     const navigate = useNavigate();
     const authData = useSelector(getAuthData);
+    const [daysLeft, setDaysLeft] = useState(0);
+    const [planName,] = useState("");
 
     const logout = async () => {
         await signOutdApi().then(res => {
@@ -19,6 +21,14 @@ function Sidebar() {
             }
         })
     }
+
+    useEffect(() => {
+        let plan = localStorage.getItem("plan");
+        if (!!plan) {
+            plan = JSON.parse(plan)
+            // setDaysLeft()
+        }
+    }, [])
 
     return (
         <Card className='sidebar-main shadow-lg p-3 m-3' >
@@ -83,6 +93,12 @@ function Sidebar() {
                 </NavLink>
             </div>
             <div className='sidebar-footer'>
+                <div className='card shadow border-success bg-success d-flex justify-content-center align-items-center p-2'>
+                    <h6 className='text-white m-0'>Free Trial</h6>
+                    <h3 className='text-white m-0'>{daysLeft} days</h3>
+                    <h6 className='text-white m-0'>left</h6>
+                </div>
+                <Link to={`/subscription`} className='btn btn-primary mt-1'>Plan Details</Link>
                 <hr />
                 <div onClick={logout} className='logout-button'>
                     <img className='sidebar-link-icon' src='/assets/svgs/logout.svg' alt='logout' />
