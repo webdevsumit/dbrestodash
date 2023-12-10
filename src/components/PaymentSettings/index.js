@@ -18,7 +18,7 @@ function PaymentSettings() {
     const [typingDisabled, setTypingDisabled] = useState(true);
 
     const onSubmitForm = async () => {
-        const loader = toast.loading("Saving...");
+        const loader = toast.loading("Saving...", {duration: 20000});
         await setPaymentDetailsAPI({ ...data }).then(res => {
             if (res.data.status === "success") {
                 toast.success("Saved successully.")

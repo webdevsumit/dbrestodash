@@ -137,7 +137,7 @@ function MenuCart() {
 
     const continueOnLineProcessOnOrder = async (res) => {
         let paymentLink = `upi://pay?pa=${res.data.upi_address}&am=${(totalAmount / 100).toFixed(2)}&mam=1&cu=INR&pn=OrderId-${res.data.orderId}`;
-        const waitLoader = toast.loading("Waiting for payment...");
+        const waitLoader = toast.loading("Waiting for payment...", {duration: 20000});
         // Open payment URL
         try {
             window.open(paymentLink);
@@ -170,7 +170,7 @@ function MenuCart() {
             "phone": "",
         }
         setCreatingOrder(true);
-        const loader = toast.loading("Creating Order...")
+        const loader = toast.loading("Creating Order...", {duration: 20000})
         await createOrderFromMenuAPI(payload).then(res => {
             if (res.data.status === "success") {
                 resetCart();

@@ -11,9 +11,8 @@ function Qrcodes() {
   const [profileHex, setProfileHex] = useState("");
 
   const fetchQrCodes = async () => {
-    const loader = toast.loading("Fetching Data...");
+    const loader = toast.loading("Fetching Data...", {duration: 20000});
     await getQrCodesAPI().then(res => {
-      console.log("asfdasdf")
       if (res.data.status === "success") {
         setData(res.data.data);
         setProfileHex(res.data.profileHex);
@@ -29,7 +28,7 @@ function Qrcodes() {
   }, []);
 
   const genQR = async () => {
-    const loader = toast.loading("Adding...");
+    const loader = toast.loading("Adding...", {duration: 20000});
     await generateQrCodeAPI().then(res => {
       if (res.data.status === "success") {
         setData(prev=>[{...res.data.data}, ...prev]);

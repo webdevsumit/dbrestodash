@@ -19,7 +19,7 @@ function Qrcode({ data, setData, profileHex }) {
             return;
         }
         setIsSaving(true);
-        const loader = toast.loading("Adding...");
+        const loader = toast.loading("Adding...", {duration: 20000});
         await saveQrCodeAPI({ "id": data.id, "name": name }).then(res => {
             if (res.data.status === "success") {
                 setData(prev => prev.map(table => ((table.id == data.id) ? ({ ...data, "tableName": name }) : table)));
@@ -39,7 +39,7 @@ function Qrcode({ data, setData, profileHex }) {
             return;
         }
         setIsSaving(true);
-        const loader = toast.loading("Deleting...");
+        const loader = toast.loading("Deleting...", {duration: 20000});
         await deleteQrCodeAPI({ "id": data.id }).then(res => {
             if (res.data.status === "success") {
                 setData(prev => prev.filter(table => table.id != data.id));

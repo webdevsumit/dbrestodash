@@ -17,7 +17,7 @@ function DescModal({ show, onHide, product }) {
 
     const saveDesc = async () => {
         if (!text) return;
-        const loaderId = toast.loading("Saving...")
+        const loaderId = toast.loading("Saving...", {duration: 20000})
         await saveDescByProductIdAPI({ id: product.id, text }).then(res => {
             if (res.data.status === "success") {
                 toast.success("Saved Description");
@@ -28,7 +28,7 @@ function DescModal({ show, onHide, product }) {
     }
 
     const getDesc = async () => {
-        const loaderId = toast.loading("Saving...")
+        const loaderId = toast.loading("Saving...", {duration: 20000})
         await getDescByProductIdAPI({ id: product.id }).then(res => {
             if (res.data.status === "success") {
                 setText(res.data.text);

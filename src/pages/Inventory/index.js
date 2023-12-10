@@ -25,7 +25,7 @@ function Inventory() {
 
   const onUpdateData = (newData, index, id = null) => {
     setData(prev => prev.map((prod, ind) => {
-      if ((ind === index && !id) || (ind === index && id === prod.id)) return newData;
+      if (ind === index) return ({...newData});
       else return prod;
     }));
   }
@@ -83,7 +83,18 @@ function Inventory() {
         <hr className='m-0' />
         <div className='w-100 d-flex subaccount'>
           {data.map((prod, index) =>
-            <ProductCard key={!!prod.id ? `${prod.id}${index}` : index} index={index} newToAdd={!prod.id} arrLen={data.length} product={prod} onDeleteCard={onDeleteCard} onUpdateData={onUpdateData} categoryOptions={categories} setProductToAddImages={setProductToAddImages} setProductToAddDesc={setProductToAddDesc} />
+            <ProductCard
+              key={!!prod.id ? `${prod.id}${index}` : index}
+              index={index}
+              newToAdd={!prod.id}
+              arrLen={data.length}
+              product={prod}
+              onDeleteCard={onDeleteCard}
+              onUpdateData={onUpdateData}
+              categoryOptions={categories}
+              setProductToAddImages={setProductToAddImages}
+              setProductToAddDesc={setProductToAddDesc}
+            />
           )}
         </div>
       </Card>

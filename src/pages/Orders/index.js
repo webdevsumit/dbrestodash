@@ -47,7 +47,7 @@ function Orders() {
     }
     let loader;
     if (!!data) {
-      loader = toast.loading("Refreshing...");
+      loader = toast.loading("Refreshing...", {duration: 20000});
     }
     await filterOrdersAPI(payload).then(res => {
       if (res.data.status === "success") {
@@ -76,7 +76,7 @@ function Orders() {
   }, [filters, refreshCounter, page]);
 
   const onCancelOrder = async () => {
-    const loader = toast.loading("Saving...");
+    const loader = toast.loading("Saving...", {duration: 20000});
     await cancelOrderAPI({ id: cancelId }).then(res => {
       if (res.data.status === "success") {
         setData(prev => prev.map(order => {
@@ -90,7 +90,7 @@ function Orders() {
   }
 
   const onUndoOrder = async () => {
-    const loader = toast.loading("Saving...");
+    const loader = toast.loading("Saving...", {duration: 20000});
     await undoOrderAPI({ id: undoId }).then(res => {
       if (res.data.status === "success") {
         setData(prev => prev.map(order => {
@@ -104,7 +104,7 @@ function Orders() {
   }
 
   const onCompleteOrder = async (id) => {
-    const loader = toast.loading("Saving...");
+    const loader = toast.loading("Saving...", {duration: 20000});
     await completeOrderAPI({ id }).then(res => {
       if (res.data.status === "success") {
         setData(prev => prev.map(order => {

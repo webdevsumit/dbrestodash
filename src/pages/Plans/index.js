@@ -32,7 +32,7 @@ function Plans() {
             toast.error("Something is missing.");
             return;
         }
-        const loader = toast.loading("Creating, Please not not refresh...");
+        const loader = toast.loading("Creating, Please not not refresh...", {duration: 20000});
         await subscribePlanAPI({ plan_id, plan_name }).then(res => {
             if (res.data.status === "success") {
                 window.open(res.data.link, '_blank').focus()

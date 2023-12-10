@@ -30,7 +30,7 @@ function Subscription() {
             toast.error("Provide atleast 25 characters in the reason.");
             return;
         }
-        const loader = toast.loading("Canceling the plan...")
+        const loader = toast.loading("Canceling the plan...", {duration: 20000})
         await cancelSubscribePlanAtMonthEndAPI({ "reason": cancelReason }).then(res => {
             if (res.data.status === "success") {
                 setData(res.data.data);

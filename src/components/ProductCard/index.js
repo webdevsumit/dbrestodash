@@ -22,7 +22,7 @@ function ProductCard({ index, product, newToAdd, arrLen, onUpdateData, onDeleteC
     }
 
     const onClickDisableEnable = async (is_diabled = true) => {
-        const savingToast = toast.loading("Saving...");
+        const savingToast = toast.loading("Saving...", {duration: 20000});
         await changeProductStatusByIdAPI({ "id": data.id, "is_diabled": is_diabled }).then(res => {
             if (res.data.status === "success") {
                 setData(res.data.data);
@@ -41,7 +41,7 @@ function ProductCard({ index, product, newToAdd, arrLen, onUpdateData, onDeleteC
             "name": data.name,
             "price_in_paisa": data.price_in_paisa
         }
-        const savingToast = toast.loading("Saving...");
+        const savingToast = toast.loading("Saving...", {duration: 20000});
         await addNewProductAPI(payload).then(res => {
             if (res.data.status === "success") {
                 setData(res.data.data);
@@ -62,7 +62,7 @@ function ProductCard({ index, product, newToAdd, arrLen, onUpdateData, onDeleteC
             "name": data.name,
             "price_in_paisa": data.price_in_paisa
         }
-        const savingToast = toast.loading("Saving...");
+        const savingToast = toast.loading("Saving...", {duration: 20000});
         await changeProductByIdAPI(payload).then(res => {
             if (res.data.status === "success") {
                 setData(res.data.data);

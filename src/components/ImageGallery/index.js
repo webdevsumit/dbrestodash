@@ -52,7 +52,7 @@ function ImageGallery({ productId, productImages = null }) {
         formdata.append("id", productId);
         formdata.append("image", image);
 
-        const toastId = toast.loading("Saving Image...")
+        const toastId = toast.loading("Saving Image...", {duration: 20000})
         await addImageByProductIdAPI(formdata).then(res => {
             if (res.data.status === "success") {
                 setImages(prevData => [...prevData, res.data.image]);
@@ -81,7 +81,7 @@ function ImageGallery({ productId, productImages = null }) {
         formdata.append("imageId", imageId);
         formdata.append("image", image);
 
-        const toastId = toast.loading("Saving Image...")
+        const toastId = toast.loading("Saving Image...", {duration: 20000})
         await replaceImageByProductIdAndImageIdAPI(formdata).then(res => {
             if (res.data.status === "success") {
                 setImages(prevData => prevData.map(tImage => {

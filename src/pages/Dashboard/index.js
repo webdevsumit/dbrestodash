@@ -32,7 +32,7 @@ function Dashboard() {
   const fetchOrdersData = async (firstTime) => {
     let loader;
     if(!firstTime){
-      loader = toast.loading("fetching orders data.");
+      loader = toast.loading("fetching orders data.", {duration: 20000});
     }
     await orderSalesDataAPI({ "data_type": orderDataType }).then(res => {
       if (res.data.status === "success") {
@@ -50,7 +50,7 @@ function Dashboard() {
   }, [orderDataType])
 
   const fetchProductsData = async () => {
-    const loader = toast.loading("fetching products data.");
+    const loader = toast.loading("fetching products data.", {duration: 20000});
     const payload = {}
     if (!!productStartDate) {
       payload["start_date"] = productStartDate;

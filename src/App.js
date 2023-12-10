@@ -8,7 +8,7 @@ import smartlookClient from 'smartlook-client';
 function App() {
 
 	useEffect(() => {
-		smartlookClient.init('274c0819d2e0ed0caaf2b06d93cbf2f3591f397e')
+		smartlookClient.init('274c0819d2e0ed0caaf2b06d93cbf2f3591f397e');
 	}, [])
 
 	return (
