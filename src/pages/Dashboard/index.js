@@ -99,15 +99,15 @@ function Dashboard() {
           />
         </Card>
         <Card className='shadow p-4 ms-3 me-4 my-2 border-none border-15 w-25'>
-          <div class="badge p-2 m-1 rounded bg-success">
+          <div className="badge p-2 m-1 rounded bg-success">
             <h6 className='m-0 text-start'>Total Sales</h6>
             <h1>{(dashData?.total_sales/100).toFixed(2) || "00"}</h1>
           </div>
-          <div class="badge p-2 m-1 rounded bg-primary">
+          <div className="badge p-2 m-1 rounded bg-primary">
             <h6 className='m-0 text-start'>Total Products Sold</h6>
             <h1>{dashData?.total_products_sold || "0"}</h1>
           </div>
-          <div class="badge p-2 m-1 rounded bg-secondary">
+          <div className="badge p-2 m-1 rounded bg-secondary">
             <h6 className='m-0 text-start'>Total Orders</h6>
             <h1>{dashData?.total_orders || "0"}</h1>
           </div>
