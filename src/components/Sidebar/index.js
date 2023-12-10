@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { } from 'react';
 import './style.css';
 import { Card } from 'react-bootstrap';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
@@ -20,24 +20,21 @@ function Sidebar() {
         })
     }
 
-    useEffect(() => {
-        let plan = localStorage.getItem("plan");
-        if (!!plan) {
-            plan = JSON.parse(plan)
-            // setDaysLeft()
-        }
-    }, [])
-
     return (
         <Card className='sidebar-main shadow-lg p-3 m-3' >
             <div className='sidebar-logo-div' >
-                {!!authData.business_logo ?
-                    <Card.Img className='sidebar-logo' variant="top" src={authData.business_logo} />
+                {!!authData?.data?.business_logo ?
+                    <Card.Img className='sidebar-logo' variant="top" src={authData?.data?.business_logo} />
                     :
-                    <div className='sidebar-logo-name-wrapper'>
+                    <div className='sidebar-logo-name-wrapper'
+                        style={{
+                            fontFamily: "'Brush Script MT', cursive", fontWeight: 'bold'
+                        }}
+                    >
                         <h3>
-                            {authData?.business_name?.split(" ")[0]?.slice(0, 1)?.toUpperCase()}
-                            {authData?.business_name?.split(" ")[1]?.slice(0, 1)?.toUpperCase()}
+                            <img width={40} src='/assets/svgs/food.svg' /> <br />
+                            {authData?.data?.business_name?.split(" ")[0]?.slice(0, 1)?.toUpperCase()}
+                            {authData?.data?.business_name?.split(" ")[1]?.slice(0, 1)?.toUpperCase()}
                         </h3>
                     </div>
                 }

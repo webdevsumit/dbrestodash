@@ -152,6 +152,11 @@ function Orders() {
           <h6 className='my-0 mx-1 actions-width text-end'>Status & Actions</h6>
         </div>
       </Card>
+      {
+        data.length === 0 && <Card className='shadow-lg p-4 ms-4 border-none border-15 mt-2'>
+          {filters.completed === "0" ? "No New Order" : filters.completed === "0" ? "No Completed Order." : "There is no order."}
+        </Card>
+      }
       {data.map((order) =>
         <Card className='shadow-lg p-4 ms-4 border-none border-15 mt-2'>
           <div className='d-flex justify-content-between'>

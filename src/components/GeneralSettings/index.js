@@ -3,12 +3,13 @@ import { Card } from 'react-bootstrap';
 import { changeLogoAPI, saveAccountDataApi } from '../../apis/common';
 import toast from 'react-hot-toast';
 import "./style.css";
-import { useDispatch } from 'react-redux';
-import { setAuthData } from '../../redux/navbar';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAuthData, setAuthData } from '../../redux/navbar';
 
 function GeneralSettings({ accountData }) {
 
     const dispatch = useDispatch();
+    const authData = useSelector(getAuthData);
 
     const setDefaultData = () => {
         return {
@@ -47,7 +48,11 @@ function GeneralSettings({ accountData }) {
             await changeLogoAPI(form).then(res=>{
                 if(res.data.status === "success"){
                     toast.success("Logo changed successfylly.");
-                    dispatch(setAuthData(res.data.data));
+                    const newdataToSet = {
+                        ...authData,
+                        "data": res.data.data
+                    }
+                    dispatch(setAuthData(newdataToSet));
                 }
             })
         }
