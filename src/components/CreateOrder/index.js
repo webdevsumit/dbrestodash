@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import "./style.css";
-import { createOrderAPI, filterProductsAPI } from '../../apis/common';
+import { createOrderAPI, filterProductsAPI, getQrCodesAPI } from '../../apis/common';
 import toast from 'react-hot-toast';
 import Select from 'react-select';
 import { Card } from 'react-bootstrap';
 
-function CreateOrder({ show, onHide }) {
+function CreateOrder({ show, onHide, tableName, qr_id=0 }) {
 
     const [data, setData] = useState([]);
     const [products, setProducts] = useState([]);
@@ -18,24 +18,28 @@ function CreateOrder({ show, onHide }) {
     const [creatingOrder, setCreatingOrder] = useState(false);
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
+    const [tables, setTables] = useState([]);
+    const [selectedTable, setSelectedTable] = useState(tableName)
 
     const onSave = async (e) => {
         e.preventDefault();
-        if(creatingOrder){
+        if (creatingOrder) {
             return;
         }
         const payload = {
             "products": data.map(prod => ({ "id": prod.id, "quantity": prod.quantity })),
             "name": name,
             "phone": phone,
+            "tableName": selectedTable,
+            "qr_id": qr_id
         }
         setCreatingOrder(true);
-        await createOrderAPI(payload).then(res=>{
-            if(res.data.status === "success"){
+        await createOrderAPI(payload).then(res => {
+            if (res.data.status === "success") {
                 toast.success("Order created successfully.");
                 onReset();
-            } 
-        }).catch(err=>toast.error(err.message));
+            }
+        }).catch(err => toast.error(err.message));
         setCreatingOrder(false);
 
     }
@@ -59,7 +63,7 @@ function CreateOrder({ show, onHide }) {
         const prod = data.filter(pro => pro.id === id)[0]
         setTotalInPaisa(prev => prev + prod.price_in_paisa)
         setData(prev => [...prev.map(pro => {
-            if(pro.id === id) return ({ ...prod, "quantity": prod.quantity + 1 });
+            if (pro.id === id) return ({ ...prod, "quantity": prod.quantity + 1 });
             else return pro;
         })]);
     }
@@ -71,7 +75,7 @@ function CreateOrder({ show, onHide }) {
             setData(prev => prev.filter(pro => pro.id !== id));
         } else {
             setData(prev => prev.map(pro => {
-                if(pro.id === id) return ({ ...prod, "quantity": prod.quantity - 1 });
+                if (pro.id === id) return ({ ...prod, "quantity": prod.quantity - 1 });
                 else return pro;
             }));
         }
@@ -112,12 +116,37 @@ function CreateOrder({ show, onHide }) {
         setIsLoadingData(false);
     }
 
+    const fetchQrCodes = async () => {
+        await getQrCodesAPI().then(res => {
+            if (res.data.status === "success") {
+                let dataToSet = res.data.data.filter(qr => !qr.is_diabled).map(qr => qr.tableName);
+                setTables(dataToSet);
+                if (tableName === "Dashboard"){
+                    if(dataToSet.length === 0){
+                        toast("Tables are not added yet");
+                    }else{
+                        setSelectedTable(dataToSet[0]);
+                    }
+                }
+            } else {
+                toast.error(res.data.message);
+            }
+        }).catch(err => toast.error(err.message));
+    }
+
 
     useEffect(() => {
         if (!isLoadingData && show) {
             fetchProduct();
+            fetchQrCodes();
         }
-    }, [search, show])
+    }, [show])
+
+    useEffect(()=>{
+        if(!!tableName){
+            setSelectedTable(tableName);
+        }
+    }, [tableName])
 
 
     return (
@@ -126,14 +155,13 @@ function CreateOrder({ show, onHide }) {
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
-            backdrop="static"
             keyboard={false}
             onHide={onHide}
         >
             <Modal.Header closeButton id='image_modal_header'>
                 <Modal.Title id="contained-modal-title-vcenter" className='d-flex align-items-center'>
                     <h4 className='m-0'>Create Order</h4>
-                    <div className="form-group my-0 mx-2">
+                    <div className="form-group my-0 mx-1">
                         <input
                             style={{ width: '210px' }}
                             className="form-control"
@@ -142,7 +170,7 @@ function CreateOrder({ show, onHide }) {
                             onChange={e => setName(e.target.value)}
                         />
                     </div>
-                    <div className="form-group my-0 mx-2">
+                    <div className="form-group my-0 mx-1">
                         <input
                             type='number'
                             style={{ width: '210px' }}
@@ -150,6 +178,15 @@ function CreateOrder({ show, onHide }) {
                             placeholder="Contact No. (optional)"
                             value={phone}
                             onChange={e => setPhone(e.target.value)}
+                        />
+                    </div>
+                    <div className="form-group my-0 mx-1">
+                        <Select
+                            options={tables.map(tb => ({ "label": tb, "value": tb }))}
+                            value={{ "label": selectedTable, "value": selectedTable }}
+                            onChange={val => setSelectedTable(val.value)}
+                            placeholder="Table"
+                            className="form-control p-0 minwidthforthetableselect"
                         />
                     </div>
                 </Modal.Title>

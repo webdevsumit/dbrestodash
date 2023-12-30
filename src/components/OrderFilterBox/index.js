@@ -32,10 +32,11 @@ function OrderFilterBox({ onclose, filters, setFilters }) {
             <Offcanvas.Body className=''>
                 <div className="form-group mb-2">
                     <label className="" htmlFor="filtercompleted">Status</label>
-                    <select className="form-control" value={filter.completed} onChange={val => setFilter(prev => ({ ...prev, "completed": val.target.value }))} id="filtercompleted">
+                    <select className="form-control" value={filter.order_status} onChange={val => setFilter(prev => ({ ...prev, "order_status": val.target.value }))} id="filtercompleted">
                         <option value="">All</option>
-                        <option value="0">New</option>
-                        <option value="1">Complted</option>
+                        <option value="1">New</option>
+                        <option value="2">Complted</option>
+                        <option value="3">Canceled</option>
                     </select>
                 </div>
                 <div className='d-flex w-100 justify-content-between'>

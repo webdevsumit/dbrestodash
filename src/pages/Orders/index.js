@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import './style.css';
 import { Card } from 'react-bootstrap';
 import OrderFilterBox from '../../components/OrderFilterBox';
-import { baseUrl, cancelOrderAPI, completeOrderAPI, filterOrdersAPI, undoOrderAPI } from '../../apis/common';
+import { filterOrdersAPI } from '../../apis/common';
 import toast from 'react-hot-toast';
 import moment from 'moment/moment';
-import SureModal from '../../components/SureModal';
+import OrderCard from '../../components/OrderCard';
 
 function Orders() {
 
@@ -18,14 +18,11 @@ function Orders() {
   const [refreshCounter, setRefreshCounter] = useState(0);
   const [refreshTimer, setRefreshTimer] = useState(refreshTime);
   const [filters, setFilters] = useState({
-    "completed": "0",
+    "order_status": "",
     "startDate": null,
     "endDate": null,
     "search": ""
   })
-
-  const [cancelId, setCancelId] = useState(null);
-  const [undoId, setUndoId] = useState(null);
 
   const onSearch = () => {
     setFilters(prev => ({ ...prev, "search": searchText }));
@@ -33,8 +30,8 @@ function Orders() {
 
   const fetchOrders = async () => {
     const payload = { page };
-    if (filters.completed === "1" || filters.completed === "0") {
-      payload["completed"] = filters.completed;
+    if (filters.order_status) {
+      payload["order_status"] = filters.order_status;
     }
     if (!!filters.startDate) {
       payload["startDate"] = moment(filters.startDate);
@@ -75,51 +72,8 @@ function Orders() {
     fetchOrders();
   }, [filters, refreshCounter, page]);
 
-  const onCancelOrder = async () => {
-    const loader = toast.loading("Saving...", {duration: 20000});
-    await cancelOrderAPI({ id: cancelId }).then(res => {
-      if (res.data.status === "success") {
-        setData(prev => prev.map(order => {
-          if (order.id === cancelId) return ({ ...order, "is_canceled": true });
-          return order;
-        }));
-        setCancelId(null);
-      }
-    }).catch(err => toast.error(err.error));
-    toast.dismiss(loader);
-  }
-
-  const onUndoOrder = async () => {
-    const loader = toast.loading("Saving...", {duration: 20000});
-    await undoOrderAPI({ id: undoId }).then(res => {
-      if (res.data.status === "success") {
-        setData(prev => prev.map(order => {
-          if (order.id === undoId) return ({ ...order, "completed": false, "is_canceled": false });
-          return order;
-        }))
-        setUndoId(null);
-      }
-    }).catch(err => toast.error(err.error));
-    toast.dismiss(loader);
-  }
-
-  const onCompleteOrder = async (id) => {
-    const loader = toast.loading("Saving...", {duration: 20000});
-    await completeOrderAPI({ id }).then(res => {
-      if (res.data.status === "success") {
-        setData(prev => prev.map(order => {
-          if (order.id === id) return ({ ...order, "completed": true });
-          return order;
-        }))
-      }
-    }).catch(err => toast.error(err.error));
-    toast.dismiss(loader);
-  }
-
   return (
     <>
-      {!!cancelId && <SureModal show={!!cancelId} onHide={() => setCancelId(null)} onYes={onCancelOrder} />}
-      {!!undoId && <SureModal show={!!undoId} onHide={() => setUndoId(null)} onYes={onUndoOrder} />}
       {showFilter && <OrderFilterBox onclose={() => setShowFilter(false)} filters={filters} setFilters={setFilters} />}
       <Card className='shadow-sm p-4 ms-4 border-none border-15 order-header'>
         <div className='d-flex justify-content-between'>
@@ -154,58 +108,15 @@ function Orders() {
       </Card>
       {
         data.length === 0 && <Card className='shadow-lg p-4 ms-4 border-none border-15 mt-2'>
-          {filters.completed === "0" ? "No New Order" : filters.completed === "0" ? "No Completed Order." : "There is no order."}
+          {
+            filters.order_status === "1" ? "No New Order" : 
+              filters.order_status === "2" ? "No Completed Order." : 
+                filters.order_status === "3" ? "No Canceled Order." : 
+                  "There is no order."
+          }
         </Card>
       }
-      {data.map((order) =>
-        <Card className='shadow-lg p-4 ms-4 border-none border-15 mt-2'>
-          <div className='d-flex justify-content-between'>
-            <p className='my-0 mx-1 order-id-width'>{order.id}</p>
-            <p className='my-0 mx-1 order-id-width'>{moment(order.created_at).format("DD/MM/YYYY")}</p>
-            <p className='my-0 mx-1 order-id-width'>{moment(order.created_at).format("hh:mm a")}</p>
-            <p className='my-0 mx-1 table-no-width'>{order.qr_name}</p>
-            <p className='my-0 mx-1 customer-name-width'>{order.customer_name ? order.customer_name : 'Unknown'}</p>
-            <div className='d-flex actions-width justify-content-end'>
-              <span className={`badge d-flex align-items-center text-center bg-${order.completed ? 'success' : order.is_canceled ? 'danger' : 'primary'} btn-sm my-0 mx-1`}>{order.completed ? 'Completed' : order.is_canceled ? 'Canceled' : 'New'}</span>
-              <span>|</span>
-              <a href={`${baseUrl}inventory/order/${order.safetyToken}/`} target='blank' className='btn btn-primary btn-sm my-0 mx-1'>View</a>
-              {!order.completed && !order.is_canceled ? <>
-                <button className='btn btn-success btn-sm my-0 mx-1' onClick={() => onCompleteOrder(order.id)}>Complete</button>
-                <button className='btn btn-danger btn-sm my-0 mx-1' onClick={() => setCancelId(order.id)}>Cancel</button>
-              </> : <>
-                <button className='btn btn-danger btn-sm my-0 mx-1' onClick={() => setUndoId(order.id)}>Undo</button>
-              </>}
-            </div>
-          </div>
-          <hr className='my-2' />
-          <div className='d-flex justify-content-between'>
-            <h6 className='my-0 mx-1 order-id-width'></h6>
-            <div className='w-100'>
-              <div className='d-flex justify-content-between w-100'>
-                <h6 className='my-0 mx-1 table-no-width'>Food Item(s)</h6>
-                <h6 className='my-0 mx-1 quantity-width'>Quantity</h6>
-                <h6 className='my-0 mx-1 customer-name-width text-end'>Price</h6>
-              </div>
-              <hr className='my-2' />
-
-              {order.products.map(prod =>
-                <div className='d-flex justify-content-between w-100'>
-                  <h6 className='my-0 mx-1 table-no-width fw-normal'>{prod.name}</h6>
-                  <h6 className='my-0 mx-1 quantity-width text-end fw-normal'>{prod.quantity}</h6>
-                  <h6 className='my-0 mx-1 customer-name-width text-end fw-normal'>₹{(prod.price_in_paisa / 100).toFixed(2)}</h6>
-                </div>
-              )}
-
-              <hr className='my-2' />
-              <div className='d-flex justify-content-between w-100'>
-                <h6 className='my-0 mx-1 table-no-width'></h6>
-                <h6 className='my-0 mx-1 quantity-width text-end'>Total: </h6>
-                <h6 className='my-0 mx-1 customer-name-width text-end'>₹{(order.total_price_in_paisa / 100).toFixed(2)}</h6>
-              </div>
-            </div>
-          </div>
-        </Card>
-      )}
+      {data.map((order) => <OrderCard key={order.id} order={order} setData={setData} /> )}
       <Card className='shadow-lg p-4 mt-2 ms-4 border-none border-15'>
         <div className='d-flex justify-content-end'>
           <button className='btn btn-primary my-0 mx-1 prev-next-btn-size' disabled={page <= 1} onClick={() => setPage(prev => prev > 1 ? prev - 1 : prev)}>Prevous</button>

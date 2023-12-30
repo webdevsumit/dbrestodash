@@ -2,10 +2,13 @@ import React, { useState } from 'react'
 import './style.css';
 import { Button, Card, Modal } from 'react-bootstrap';
 import CreateOrder from '../CreateOrder';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCreatingOrder, setCreatingOrder } from '../../redux/navbar';
 
 function Topbar() {
 
-    const [createOrder, setCreateOrder] = useState(false);
+    const creatingOrder = useSelector(getCreatingOrder);
+    const dispatch = useDispatch();
     const [showPhoneNumber, setShowPhoneNumber] = useState(false);
 
     return (
@@ -23,9 +26,9 @@ function Topbar() {
                     </Button>
                 </Modal.Footer>
             </Modal>
-            <CreateOrder show={createOrder} onHide={() => setCreateOrder(false)} />
+            <CreateOrder show={!!creatingOrder} onHide={() => dispatch(setCreatingOrder(null))} tableName={creatingOrder?.tableName} qr_id={creatingOrder?.qr_id} />
             <div className='Topbar-main'>
-                <Card className='shadow p-2 border-none Topbar-main-btn' onClick={() => setCreateOrder(true)} >
+                <Card className='shadow p-2 border-none Topbar-main-btn' onClick={() => dispatch(setCreatingOrder({tableName: "Dashboard", qr_id: 0}))} >
                     Create Order
                 </Card>
                 <Card className='shadow-lg p-2 border-none topbar-profile cursor-pointer' onClick={() => setShowPhoneNumber(true)} >

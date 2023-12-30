@@ -27,6 +27,7 @@ function SubAccountCard({ index, subAccount, newToAdd, arrLen, onUpdateData, onD
     }
 
     const onClickDisableEnable = async () => {
+        const loader = toast.loading("Changing");
         await changeSubAccountStatusAPI({ ...data, userId: subAccount.user?.id }).then(res => {
             if (res.data.status === "success") {
                 setData(prev => ({ ...prev, "is_diabled": res.data.is_diabled }));
@@ -36,12 +37,14 @@ function SubAccountCard({ index, subAccount, newToAdd, arrLen, onUpdateData, onD
                 toast.error(res.data.message);
             }
         }).catch(err => toast.error(err.message));
+        toast.dismiss(loader);
     }
 
     const changeNameEmail = async () => {
+        const loader = toast.loading("Saving...");
         await saveSubAccountDataApi({ ...data, userId: subAccount.user?.id }).then(res => {
             if (res.data.status === "success") {
-                setData(prev => ({ ...prev, id: res.data.id }));
+                setData(prev => ({ ...prev, id: res.data.data.id }));
                 onUpdateData({ ...res.data.data }, index, !newAccout ? res.data.data.id : null);
                 setNewAccount(false)
                 toast.success("Saved Successfully.")
@@ -49,9 +52,11 @@ function SubAccountCard({ index, subAccount, newToAdd, arrLen, onUpdateData, onD
                 toast.error(res.data.message);
             }
         }).catch(err => toast.error(err.message));
+        toast.dismiss(loader);
     }
 
     const changePass = async () => {
+        const loader = toast.loading("Saving...");
         await changeSubAccountPassApi({ ...data, userId: subAccount.user?.id }).then(res => {
             if (res.data.status === "success") {
                 setData(prev => ({ ...prev, password: "" }));
@@ -61,6 +66,7 @@ function SubAccountCard({ index, subAccount, newToAdd, arrLen, onUpdateData, onD
                 toast.error(res.data.message);
             }
         }).catch(err => toast.error(err.message));
+        toast.dismiss(loader);
     }
 
     const onSubmitForm = async () => {

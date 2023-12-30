@@ -5,3 +5,8 @@
     max-height: 401px;
     overflow-y: scroll;
 }
+
+.minwidthforthetableselect{
+    min-width: 150px;
+    max-width: 150px;
+}

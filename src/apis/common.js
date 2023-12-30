@@ -213,8 +213,8 @@ export async function saveQrCodeAPI(payload={}) {
     return APICalller("POST", "account/saveQrCode/", payload);
 }
 
-export async function deleteQrCodeAPI(payload={}) {
-    return APICalller("POST", "account/deleteQrCode/", payload);
+export async function moveToTrashAndRestoreQrCodeAPI(payload={}) {
+    return APICalller("POST", "account/moveToTrashAndRestoreQrCode/", payload);
 }
 
 export async function getPlanIdsAPI(payload) {
@@ -231,4 +231,8 @@ export async function getSubscriptionDetailsAPI(payload) {
 
 export async function cancelSubscribePlanAtMonthEndAPI(payload) {
     return APICalller("POST", "auth/cancelSubscribePlanAtMonthEnd/", payload);
+}
+
+export async function fetchOrdersOnTableAPI(payload) {
+    return APICalller("POST", "inventory/fetchOrdersOnTable/", payload);
 }

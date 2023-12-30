@@ -1,0 +1,10 @@
+
+
+.invoiceIframe::-webkit-scrollbar {
+    display: none!important;
+}
+
+.invoiceIframe {
+    -ms-overflow-style: none!important;
+    scrollbar-width: none!important;
+}

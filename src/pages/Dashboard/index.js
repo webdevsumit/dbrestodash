@@ -10,7 +10,7 @@ function Dashboard() {
 
   const [ordersCategories, setOrdersCategories] = useState([]);
   const [ordersData, setOrdersData] = useState([]);
-  const [orderDataType, setOrderDataType] = useState(1);
+  const [orderDataType, setOrderDataType] = useState(2);
 
   const [productCategories, setProductsCategories] = useState([]);
   const [productsData, setProductsData] = useState([]);
@@ -101,15 +101,15 @@ function Dashboard() {
         <Card className='shadow p-4 ms-3 me-4 my-2 border-none border-15 w-25'>
           <div className="badge p-2 m-1 rounded bg-success">
             <h6 className='m-0 text-start'>Total Sales</h6>
-            <h1>{(dashData?.total_sales/100).toFixed(2) || "00"}</h1>
+            <h3>{(dashData?.total_sales/100).toFixed(2) || "00"}</h3>
           </div>
           <div className="badge p-2 m-1 rounded bg-primary">
             <h6 className='m-0 text-start'>Total Products Sold</h6>
-            <h1>{dashData?.total_products_sold || "0"}</h1>
+            <h3>{dashData?.total_products_sold || "0"}</h3>
           </div>
           <div className="badge p-2 m-1 rounded bg-secondary">
             <h6 className='m-0 text-start'>Total Orders</h6>
-            <h1>{dashData?.total_orders || "0"}</h1>
+            <h3>{dashData?.total_orders || "0"}</h3>
           </div>
         </Card>
       </div>

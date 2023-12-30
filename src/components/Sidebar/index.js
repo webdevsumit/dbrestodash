@@ -66,7 +66,7 @@ function Sidebar() {
                     }
                 >
                     <img alt='LinkIcon' className='sidebar-link-icon' src='/assets/svgs/inventory.svg' />
-                    Inventory
+                    Menu Inventory
                 </NavLink>
                 <NavLink
                     to="/qrcodes"
@@ -75,7 +75,7 @@ function Sidebar() {
                     }
                 >
                     <img alt='LinkIcon' className='sidebar-link-icon' src='/assets/svgs/qr.svg' />
-                    QR Codes
+                    Tables & QR
                 </NavLink>
                 <NavLink
                     to="/orders"
