@@ -5,11 +5,38 @@ import { Form } from 'react-bootstrap';
 import { getDescByProductIdAPI, saveDescByProductIdAPI } from '../../apis/common';
 import toast from 'react-hot-toast';
 
-function InvoiceBox({ url }) {
+function InvoiceBox({ url, setInvoiceUrl }) {
+
+    const [show, setShow] = useState(true);
+
+    useEffect(() => {
+        if (url) {
+            let urlLst = [url];
+            let olderBillsFromLS = localStorage.getItem("olderBills");
+            if (!!olderBillsFromLS) {
+                olderBillsFromLS = JSON.parse(olderBillsFromLS);
+                if (!!olderBillsFromLS && olderBillsFromLS.length > 0) {
+                    localStorage.setItem("olderBills", JSON.stringify([...olderBillsFromLS, ...urlLst]));
+                }else{
+                    localStorage.setItem("olderBills", JSON.stringify(urlLst));
+                }
+            }else{
+                localStorage.setItem("olderBills", JSON.stringify(urlLst));
+            }
+        }
+    }, []);
+
+    const onHide = () => {
+        setShow(false);
+        setTimeout(()=>{
+            setInvoiceUrl(null);
+        }, 400);
+    }
+
     return (
         <Modal
-            show={true}
-            // onHide={() => { }}
+            show={show}
+            onHide={onHide}
             // size="md"
             aria-labelledby="contained-modal-title-vcenter"
             centered

@@ -19,6 +19,7 @@ import MenuCart from "../pages/MenuCart";
 import SubAccountLogin from "../pages/SubAccountLogin";
 import Subscription, { subscriptionLoader } from "../pages/Subscription";
 import Plans from "../pages/Plans";
+import UserBills from "../pages/UserBills";
 
 export const router = createBrowserRouter([
     {
@@ -113,5 +114,10 @@ export const router = createBrowserRouter([
                 errorElement: <Error404Page />,
             }
         ]
+    },
+    {
+        path: "/menu/bills",
+        element: <UserBills />,
+        errorElement: <Error404Page />,
     },
 ]);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './style.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { createOrderFromMenuAPI, fetchMenuCartDataAPI } from '../../apis/common';
 import toast from 'react-hot-toast';
 import { Card, Offcanvas } from 'react-bootstrap';
@@ -26,6 +26,7 @@ function MenuCart() {
     const [upiAddr, setUpiAddr] = useState("");
     const [creatingOrder, setCreatingOrder] = useState(false);
     const [invoiceUrl, setInvoiceUrl] = useState("");
+    const [olderBills, setOlderBills] = useState([]);
 
     const [localShow, setLocalShow] = useState(true);
     const onLocaLHide = () => {
@@ -70,6 +71,13 @@ function MenuCart() {
 
     useEffect(() => {
         fetchAndSet();
+        let olderBillsFromLS = localStorage.getItem("olderBills");
+        if(!!olderBillsFromLS){
+            olderBillsFromLS = JSON.parse(olderBillsFromLS);
+            if(!!olderBillsFromLS && olderBillsFromLS.length>0){
+                setOlderBills(olderBillsFromLS);
+            }
+        }
     }, []);
 
     useEffect(() => {
@@ -137,7 +145,7 @@ function MenuCart() {
 
     const continueOnLineProcessOnOrder = async (res) => {
         let paymentLink = `upi://pay?pa=${res.data.upi_address}&am=${(totalAmount / 100).toFixed(2)}&mam=1&cu=INR&pn=OrderId-${res.data.orderId}`;
-        const waitLoader = toast.loading("Waiting for payment...", {duration: 20000});
+        const waitLoader = toast.loading("Waiting for payment...", { duration: 20000 });
         // Open payment URL
         try {
             window.open(paymentLink);
@@ -170,20 +178,17 @@ function MenuCart() {
             "phone": "",
         }
         setCreatingOrder(true);
-        const loader = toast.loading("Creating Order...", {duration: 20000})
+        const loader = toast.loading("Creating Order...", { duration: 20000 })
         await createOrderFromMenuAPI(payload).then(res => {
             if (res.data.status === "success") {
                 resetCart();
                 setUpiAddr(res.data.upi_address);
+                setInvoiceUrl(res.data.url);
                 if (!!loader) {
                     toast.dismiss(loader);
                 }
                 if (payOnline) {
                     // continueOnLineProcessOnOrder(res);
-                    setInvoiceUrl(res.data.url);
-                } else {
-                    toast.success("Order created successfully.");
-                    window.open(res.data.url);
                 }
             }
         }).catch(err => toast.error(err.message));
@@ -200,7 +205,7 @@ function MenuCart() {
                 <Offcanvas.Title>Cart</Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body className='cart-body'>
-                {!!invoiceUrl && <InvoiceBox url={invoiceUrl} />}
+                {!!invoiceUrl && <InvoiceBox url={invoiceUrl} setInvoiceUrl={setInvoiceUrl} />}
                 {/* {!!showDescOf && <MenuDesc onHide={() => setShowDescOf(null)} productId={showDescOf} onClickAdd={onClickAdd} />} */}
                 <div className='Menu-cart-outer'>
                     <div className='Menu-cart-main'>
@@ -227,6 +232,12 @@ function MenuCart() {
                                     <>
                                         <p className='w-100 text-center mt-4 mb-0'>There is no item in the cart.</p>
                                     </>
+                                }
+                                {
+                                    !!olderBills.length &&
+                                    <p className='w-100 text-center h6 mt-4 mb-0'>
+                                        <Link to="/menu/bills">Check Older Orders</Link>
+                                    </p>
                                 }
                                 {/* <Link className='w-100 text-center mt-0' to="/menu/ASFD">Go Back</Link> */}
                                 <div className='Menu-cart-extra-div'></div>
