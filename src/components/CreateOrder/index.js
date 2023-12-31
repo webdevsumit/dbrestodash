@@ -6,9 +6,12 @@ import { createOrderAPI, filterProductsAPI, getQrCodesAPI } from '../../apis/com
 import toast from 'react-hot-toast';
 import Select from 'react-select';
 import { Card } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { getAuthData } from '../../redux/navbar';
 
 function CreateOrder({ show, onHide, tableName, qr_id=0 }) {
 
+    const authData = useSelector(getAuthData);
     const [data, setData] = useState([]);
     const [products, setProducts] = useState([]);
     const [search, setSearch] = useState("");
@@ -19,7 +22,7 @@ function CreateOrder({ show, onHide, tableName, qr_id=0 }) {
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [tables, setTables] = useState([]);
-    const [selectedTable, setSelectedTable] = useState(tableName)
+    const [selectedTable, setSelectedTable] = useState(null);
 
     const onSave = async (e) => {
         e.preventDefault();
@@ -30,8 +33,9 @@ function CreateOrder({ show, onHide, tableName, qr_id=0 }) {
             "products": data.map(prod => ({ "id": prod.id, "quantity": prod.quantity })),
             "name": name,
             "phone": phone,
-            "tableName": selectedTable,
-            "qr_id": qr_id
+            "tableName": selectedTable.label,
+            "qr_id": selectedTable.value,
+            "created_by": authData.data.name
         }
         setCreatingOrder(true);
         await createOrderAPI(payload).then(res => {
@@ -119,7 +123,7 @@ function CreateOrder({ show, onHide, tableName, qr_id=0 }) {
     const fetchQrCodes = async () => {
         await getQrCodesAPI().then(res => {
             if (res.data.status === "success") {
-                let dataToSet = res.data.data.filter(qr => !qr.is_diabled).map(qr => qr.tableName);
+                let dataToSet = res.data.data.filter(qr => !qr.is_diabled).map(qr => ({"label": qr.tableName, "value": qr.id}));
                 setTables(dataToSet);
                 if (tableName === "Dashboard"){
                     if(dataToSet.length === 0){
@@ -144,7 +148,7 @@ function CreateOrder({ show, onHide, tableName, qr_id=0 }) {
 
     useEffect(()=>{
         if(!!tableName){
-            setSelectedTable(tableName);
+            setSelectedTable({"label": tableName, "value": qr_id});
         }
     }, [tableName])
 
@@ -182,9 +186,9 @@ function CreateOrder({ show, onHide, tableName, qr_id=0 }) {
                     </div>
                     <div className="form-group my-0 mx-1">
                         <Select
-                            options={tables.map(tb => ({ "label": tb, "value": tb }))}
-                            value={{ "label": selectedTable, "value": selectedTable }}
-                            onChange={val => setSelectedTable(val.value)}
+                            options={tables}
+                            value={selectedTable}
+                            onChange={val => setSelectedTable(val)}
                             placeholder="Table"
                             className="form-control p-0 minwidthforthetableselect"
                         />

@@ -11,6 +11,39 @@ function Sidebar() {
     const navigate = useNavigate();
     const authData = useSelector(getAuthData);
 
+    const lisksList = [
+        {
+            "text": "Dashboard",
+            "img": "/assets/svgs/dashboard.svg",
+            "link": "/",
+            "perm": "access_dashboard"
+        },
+        {
+            "text": "Tables & QR",
+            "img": "/assets/svgs/qr.svg",
+            "link": "/qrcodes",
+            "perm": "access_qrcodes"
+        },
+        {
+            "text": "Orders",
+            "img": "/assets/svgs/orders.svg",
+            "link": "/orders",
+            "perm": "access_orders"
+        },
+        {
+            "text": "Menu Inventory",
+            "img": "/assets/svgs/inventory.svg",
+            "link": "/inventory",
+            "perm": "access_inventory"
+        },
+        {
+            "text": "Settings",
+            "img": "/assets/svgs/settings.svg",
+            "link": "/settings",
+            "perm": "access_settings"
+        },
+    ]
+
     const logout = async () => {
         await signOutdApi().then(res => {
             if (res.data.status === "success") {
@@ -41,51 +74,21 @@ function Sidebar() {
             </div>
             <hr />
             <div className='px-2 py-2'>
-                <NavLink
-                    to="/"
-                    className={({ isActive, isPending }) =>
-                        isPending ? "navlink navlink-pending" : isActive ? "navlink navlink-active" : "navlink"
-                    }
-                >
-                    <img alt='LinkIcon' className='sidebar-link-icon' src='/assets/svgs/dashboard.svg' />
-                    Dashboard
-                </NavLink>
-                <NavLink
-                    to="/settings"
-                    className={({ isActive, isPending }) =>
-                        isPending ? "navlink navlink-pending" : isActive ? "navlink navlink-active" : "navlink"
-                    }
-                >
-                    <img alt='LinkIcon' className='sidebar-link-icon' src='/assets/svgs/settings.svg' />
-                    Settings
-                </NavLink>
-                <NavLink
-                    to="/inventory"
-                    className={({ isActive, isPending }) =>
-                        isPending ? "navlink navlink-pending" : isActive ? "navlink navlink-active" : "navlink"
-                    }
-                >
-                    <img alt='LinkIcon' className='sidebar-link-icon' src='/assets/svgs/inventory.svg' />
-                    Menu Inventory
-                </NavLink>
-                <NavLink
-                    to="/qrcodes"
-                    className={({ isActive, isPending }) =>
-                        isPending ? "navlink navlink-pending" : isActive ? "navlink navlink-active" : "navlink"
-                    }
-                >
-                    <img alt='LinkIcon' className='sidebar-link-icon' src='/assets/svgs/qr.svg' />
-                    Tables & QR
-                </NavLink>
-                <NavLink
-                    to="/orders"
-                    className={({ isActive, isPending }) =>
-                        isPending ? "navlink navlink-pending" : isActive ? "navlink navlink-active" : "navlink"
-                    }
-                >
-                    <img alt='LinkIcon' className='sidebar-link-icon' src='/assets/svgs/orders.svg' />
-                    Orders
-                </NavLink>
+                {!!authData?.permissions && lisksList.map(link => {
+                    if (authData.permissions[link.perm])
+                        return (
+                            <NavLink
+                                to={link.link}
+                                className={({ isActive, isPending }) =>
+                                    isPending ? "navlink navlink-pending" : isActive ? "navlink navlink-active" : "navlink"
+                                }
+                            >
+                                <img alt='LinkIcon' className='sidebar-link-icon' src={link.img} />
+                                {link.text}
+                            </NavLink>
+                        )
+                    return null;
+                })}
             </div>
             <div className='sidebar-footer'>
                 <div className={`card shadow border-${authData.daysLeft <= 0 ? "danger" : (authData.daysLeft < 6 ? "warning" : "success")} bg-${authData.daysLeft <= 0 ? "danger" : (authData.daysLeft < 6 ? "warning" : "success")} d-flex justify-content-center align-items-center p-2`}>

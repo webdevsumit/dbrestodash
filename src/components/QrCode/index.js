@@ -4,12 +4,13 @@ import "./style.css"
 import toast from 'react-hot-toast';
 import { moveToTrashAndRestoreQrCodeAPI, saveQrCodeAPI } from '../../apis/common';
 import { Modal, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import { setCreatingOrder } from '../../redux/navbar';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAuthData, setCreatingOrder } from '../../redux/navbar';
 
 function Qrcode({ data, setData, profileHex, setShowTableStatus }) {
 
     const dispatch = useDispatch();
+    const authData = useSelector(getAuthData);
     const [editing, setEditing] = useState(false);
     const [name, setName] = useState(data.tableName);
     const [isSaving, setIsSaving] = useState(false);
@@ -102,13 +103,15 @@ function Qrcode({ data, setData, profileHex, setShowTableStatus }) {
                     </> : <>
                         <div className='me-3'>
                             <OverlayTrigger overlay={<Tooltip>Create an order for the table</Tooltip>}>
-                                <img width={30} className='my-1 cursor-pointer' onClick={() => dispatch(setCreatingOrder({tableName: data.tableName, qr_id: data.id}))} src='/assets/svgs/createOrder.svg' alt='create order' />
+                                <img width={30} className='my-1 cursor-pointer' onClick={() => dispatch(setCreatingOrder({ tableName: data.tableName, qr_id: data.id }))} src='/assets/svgs/createOrder.svg' alt='create order' />
                             </OverlayTrigger>
                             <br />
-                            <OverlayTrigger overlay={<Tooltip>Check Table Status</Tooltip>}>
-                                <img width={30} className='my-1 cursor-pointer' onClick={() => setShowTableStatus(data)} src='/assets/svgs/bluelist.svg' alt='delete' />
-                            </OverlayTrigger>
-                            <br />
+                            {!!authData?.permissions?.access_orders &&<>
+                                <OverlayTrigger overlay={<Tooltip>Check Table Orders</Tooltip>}>
+                                    <img width={30} className='my-1 cursor-pointer' onClick={() => setShowTableStatus(data)} src='/assets/svgs/bluelist.svg' alt='delete' />
+                                </OverlayTrigger>
+                                <br />
+                            </>}
 
                         </div>
 
