@@ -27,10 +27,10 @@ export const mainLoader = async () => {
                 planName = res.data.plan.plan_name.toUpperCase();
                 daysLeft = moment.unix(res.data.plan.subscription_details.current_end).diff(moment(), 'days') + 1;
             } else if (moment(res.data.plan.started_at).add(Number(res.data.plan.days), "days") >= moment()) {
-                hasSomeIssue = true;
+                hasSomeIssue = false;
                 daysLeft = moment(res.data.plan.started_at).add(Number(res.data.plan.days), "days").diff(moment(), 'days') + 1
             } else if (moment(res.data.plan.started_at).add(Number(res.data.plan.days), "days") < moment()) {
-                hasSomeIssue = false;
+                hasSomeIssue = true;
                 daysLeft = moment(res.data.plan.started_at).add(Number(res.data.plan.days), "days").diff(moment(), 'days');
             } else {
                 hasSomeIssue = true;
