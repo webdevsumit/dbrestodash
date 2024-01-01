@@ -78,6 +78,7 @@ function Sidebar() {
                     if (authData.permissions[link.perm])
                         return (
                             <NavLink
+                                key={link.link}
                                 to={link.link}
                                 className={({ isActive, isPending }) =>
                                     isPending ? "navlink navlink-pending" : isActive ? "navlink navlink-active" : "navlink"
