@@ -25,4 +25,18 @@
 }
 
 
-@media only screen and (max-width: 600px) {}
+@media only screen and (max-width: 600px) {
+    .main-sidebar-div{
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        transform: translateX(-100%);
+        transition: all ease 0.4s;
+    }
+    .main-sidebar-div.slider{
+        transform: translateX(0%);
+    }
+}

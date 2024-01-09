@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./style.css"
 import Sidebar from '../../components/Sidebar';
 import Topbar from '../../components/Topbar';
@@ -59,7 +59,9 @@ function Main() {
     const { data, hasSomeIssue, planName, daysLeft } = useLoaderData();
 
     const navigate = useNavigate();
-    const location = useLocation()
+    const location = useLocation();
+
+    const [showNav, setShowNav] = useState(false);
 
     useEffect(() => {
         if (hasSomeIssue && window.location.pathname.search('plan') === -1 && hasSomeIssue && window.location.pathname.search('subscription') === -1) {
@@ -87,12 +89,12 @@ function Main() {
                 <ProgressBar animated now={100} label="loading..." style={{ position: 'absolute', top: 0, width: '100vw' }} />
             )}
             <div className='main-main'>
-                <div className='main-sidebar-div' >
-                    <Sidebar />
+                <div className={`main-sidebar-div ${showNav ? "slider" : ""}`} >
+                    <Sidebar setShowNav={setShowNav} />
                 </div>
                 <div className='main-container-div' >
                     <div className='main-topbar-div'>
-                        <Topbar />
+                        <Topbar setShowNav={setShowNav} />
                     </div>
                     <div>
                         <Outlet />

@@ -6,7 +6,7 @@ import { signOutdApi } from '../../apis/common';
 import { useSelector } from 'react-redux';
 import { getAuthData } from '../../redux/navbar';
 
-function Sidebar() {
+function Sidebar({ setShowNav }) {
 
     const navigate = useNavigate();
     const authData = useSelector(getAuthData);
@@ -73,6 +73,7 @@ function Sidebar() {
                 }
             </div>
             <hr />
+            <div className='hide-sidebar-btn' onClick={()=>setShowNav(false)}>{"<<"}</div>
             <div className='px-2 py-2'>
                 {!!authData?.permissions && lisksList.map(link => {
                     if (authData.permissions[link.perm])

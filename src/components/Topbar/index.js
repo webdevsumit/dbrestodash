@@ -5,7 +5,7 @@ import CreateOrder from '../CreateOrder';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCreatingOrder, setCreatingOrder } from '../../redux/navbar';
 
-function Topbar() {
+function Topbar({ setShowNav }) {
 
     const creatingOrder = useSelector(getCreatingOrder);
     const dispatch = useDispatch();
@@ -28,7 +28,10 @@ function Topbar() {
             </Modal>
             <CreateOrder show={!!creatingOrder} onHide={() => dispatch(setCreatingOrder(null))} tableName={creatingOrder?.tableName} qr_id={creatingOrder?.qr_id} />
             <div className='Topbar-main'>
-                <Card className='shadow p-2 border-none Topbar-main-btn' onClick={() => dispatch(setCreatingOrder({tableName: "Dashboard", qr_id: 0}))} >
+                <div className='topbarMobileBtn p-0' onClick={() => setShowNav(prev => !prev)}>
+                    <img width={40} src='/assets/svgs/hamberger.svg' alt='menu' />
+                </div>
+                <Card className='shadow p-2 border-none Topbar-main-btn' onClick={() => dispatch(setCreatingOrder({ tableName: "Dashboard", qr_id: 0 }))} >
                     Create Order
                 </Card>
                 <Card className='shadow-lg p-2 border-none topbar-profile cursor-pointer' onClick={() => setShowPhoneNumber(true)} >

@@ -34,3 +34,38 @@
     align-items: center;
     z-index: 99;
 }
+
+.topbarMobileBtn{
+    display: none!important;
+}
+
+@media only screen and (max-width: 600px) {
+    .Topbar-main-btn{
+        cursor: pointer;
+        font-weight: 500;
+        transition: all ease 0.3s;
+        position: fixed!important;
+        z-index: 99;
+        top: 5px;
+        right: 50px;
+        padding: 2px!important;
+    }
+    .topbar-profile{
+        top: 5px;
+        right: 5px;
+    }
+    .topbarMobileBtn{
+        display: block!important;
+        position: fixed;
+        left: 10px;
+        top: 5px;
+        background-color: #708090!important;
+    }
+    .Topbar-main{
+        position: fixed;
+        top: 0;
+        right: 0px;
+        background-color: #708090;
+        z-index: 998;
+    }
+}
