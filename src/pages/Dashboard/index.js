@@ -5,6 +5,7 @@ import { Card } from 'react-bootstrap';
 import { orderSalesDataAPI, numberOfProductsSoldAPI, dashboardDataAPI } from '../../apis/common';
 import toast from 'react-hot-toast';
 import moment from 'moment';
+import { isMobile } from 'react-device-detect';
 
 function Dashboard() {
 
@@ -23,7 +24,7 @@ function Dashboard() {
     await dashboardDataAPI({}).then(res => {
       if (res.data.status === "success") {
         setDashData(res.data.data);
-      }else{
+      } else {
         toast.error(res.data.message);
       }
     }).catch(err => toast.error(err.message));
@@ -31,18 +32,18 @@ function Dashboard() {
 
   const fetchOrdersData = async (firstTime) => {
     let loader;
-    if(!firstTime){
-      loader = toast.loading("fetching orders data.", {duration: 20000});
+    if (!firstTime) {
+      loader = toast.loading("fetching orders data.", { duration: 20000 });
     }
     await orderSalesDataAPI({ "data_type": orderDataType }).then(res => {
       if (res.data.status === "success") {
         setOrdersCategories(res.data.data.map(dt => moment((orderDataType == 1 ? dt.month : dt.day), (orderDataType == 1 ? "YYYY-MM" : "YYYY-MM-DD")).format()));
         setOrdersData(res.data.data.map(dt => (dt.total_sales / 100).toFixed(2)));
-      }else{
+      } else {
         toast.error(res.data.message);
       }
     }).catch(err => toast.error(err.message));
-    if(loader) toast.dismiss(loader);
+    if (loader) toast.dismiss(loader);
   }
 
   useEffect(() => {
@@ -50,7 +51,7 @@ function Dashboard() {
   }, [orderDataType])
 
   const fetchProductsData = async () => {
-    const loader = toast.loading("fetching products data.", {duration: 20000});
+    const loader = toast.loading("fetching products data.", { duration: 20000 });
     const payload = {}
     if (!!productStartDate) {
       payload["start_date"] = productStartDate;
@@ -62,7 +63,7 @@ function Dashboard() {
       if (res.data.status === "success") {
         setProductsCategories(res.data.data.map(dt => dt.product_name));
         setProductsData(res.data.data.map(dt => dt.total_sales));
-      }else{
+      } else {
         toast.error(res.data.message);
       }
     }).catch(err => toast.error(err.message));
@@ -76,9 +77,9 @@ function Dashboard() {
 
   return (
     <div className='dashboard-main'>
-      <div className='d-flex w-100'>
-        <Card className='shadow p-4 ms-4 me-3 my-2 border-none border-15 w-75'>
-          <div className="form-group mb-2 w-25">
+      {isMobile &&
+        <Card className='shadow p-1 my-2 border-none border-15' style={{ width: '95%', marginLeft: "2.5%", marginRight: "2.5%" }}>
+          <div className="form-group mb-2 w-50">
             <select className="form-control" value={orderDataType} onChange={e => setOrderDataType(e.target.value)} id="filterDropDownGraphType">
               <option value={1}>Yearly</option>
               <option value={2}>Monthly</option>
@@ -98,10 +99,35 @@ function Dashboard() {
             height={"300px"}
           />
         </Card>
-        <Card className='shadow p-4 ms-3 me-4 my-2 border-none border-15 w-25'>
+      }
+      <div className='d-flex w-100'>
+        {!isMobile &&
+          <Card className='shadow p-4 ms-4 me-3 my-2 border-none border-15 w-75'>
+            <div className="form-group mb-2 w-25">
+              <select className="form-control" value={orderDataType} onChange={e => setOrderDataType(e.target.value)} id="filterDropDownGraphType">
+                <option value={1}>Yearly</option>
+                <option value={2}>Monthly</option>
+                <option value={3}>Weekly</option>
+              </select>
+            </div>
+            <Chart
+              options={{
+                chart: { id: "order-line-graph" }, xaxis: { categories: ordersCategories, type: 'datetime' },
+                title: {
+                  text: 'Sales (in ₹)',
+                  align: 'left'
+                },
+              }}
+              series={[{ name: "Orders", data: ordersData }]}
+              type="line"
+              height={"300px"}
+            />
+          </Card>
+        }
+        <Card className={`shadow p-4 ${isMobile?'mx-1':'ms-3 me-4'} my-2 border-none border-15 w-${isMobile ? "100" : '25'}`}>
           <div className="badge p-2 m-1 rounded bg-success">
             <h6 className='m-0 text-start'>Total Sales</h6>
-            <h3>{(dashData?.total_sales/100).toFixed(2) || "00"}</h3>
+            <h3>{(dashData?.total_sales / 100).toFixed(2) || "00"}</h3>
           </div>
           <div className="badge p-2 m-1 rounded bg-primary">
             <h6 className='m-0 text-start'>Total Products Sold</h6>
@@ -114,9 +140,9 @@ function Dashboard() {
         </Card>
       </div>
       <div className='d-flex w-100'>
-        <Card className='shadow w-100 p-4 mx-4 my-3 border-none border-15'>
+        <Card className={`shadow w-100 p-4 ${isMobile?'mx-1 mt-2 mb-3':'mx-4 my-3'} border-none border-15`}>
           <div>
-            <div className='d-flex w-100 align-items-end '>
+            <div className={`d-flex w-100 align-items-${isMobile ? "start flex-column" : "end"}`}>
               <div className="form-group mx-2">
                 {/* <label className="">From</label> */}
                 <input
@@ -128,7 +154,7 @@ function Dashboard() {
                   onChange={e => setProductStartDate(e.target.value)}
                 />
               </div>
-              <p className='p-0 m-2'>-</p>
+              {!isMobile ? <p className='p-0 m-2'>-</p> : <div className='w-100 my-1'></div>}
               <div className="form-group mx-2">
                 {/* <label className="">To</label> */}
                 <input
@@ -140,17 +166,19 @@ function Dashboard() {
                   onChange={e => setProductEndDate(e.target.value)}
                 />
               </div>
-              <div>
+              <div className={isMobile ? "mx-2 mt-2" : ""}>
                 <button onClick={fetchProductsData} className='btn btn-md btn-success'>Apply</button>
               </div>
             </div>
           </div>
-          <hr/>
+          <hr />
           <Chart
-            options={{ chart: { id: "products-bar-graph" }, xaxis: { categories: productCategories }, title: {
-              text: 'Number of orders created per product.',
-              align: 'left'
-            }, }}
+            options={{
+              chart: { id: "products-bar-graph" }, xaxis: { categories: productCategories }, title: {
+                text: isMobile ? 'Orders per product.' : 'Number of orders created per product.',
+                align: 'left'
+              },
+            }}
             series={[{ name: "Orders", data: productsData }]}
             type="bar"
             width="100%"

@@ -1,0 +1,14 @@
+
+@media only screen and (max-width: 950px) {
+
+    .mobileOrderModal::-webkit-scrollbar {
+        width: 2px !important;
+        height: 2px!important;
+    }
+
+    .mobileOrderModal {
+        -ms-overflow-style: none !important;
+        scrollbar-width: none !important;
+    }
+
+}

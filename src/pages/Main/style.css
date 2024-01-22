@@ -39,4 +39,7 @@
     .main-sidebar-div.slider{
         transform: translateX(0%);
     }
+    .main-container-div {
+        padding: 4px;
+    }
 }

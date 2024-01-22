@@ -5,6 +5,7 @@ import SureModal from '../SureModal';
 import toast from 'react-hot-toast';
 import "./style.css"
 import { baseUrl, cancelOrderAPI, completeOrderAPI, undoOrderAPI } from '../../apis/common';
+import { isMobile } from 'react-device-detect';
 
 function OrderCard({ order, setData }) {
 
@@ -74,12 +75,12 @@ function OrderCard({ order, setData }) {
                     onHide={onCloseBill}
                     size='sm'
                 >
-                    <Modal.Body className='invoiceIframe'  style={{ minHeight:"80vh", maxHeight: '80vh', "overflowY": 'scroll', padding: 0 }}>
-                        <iframe className='invoiceIframe' width="100%" style={{minHeight: "80vh"}} src={`${baseUrl}inventory/order/${order.safetyToken}/`} ></iframe>
+                    <Modal.Body className='invoiceIframe' style={{ minHeight: "80vh", maxHeight: '80vh', "overflowY": 'scroll', padding: 0 }}>
+                        <iframe className='invoiceIframe' width="100%" style={{ minHeight: "80vh" }} src={`${baseUrl}inventory/order/${order.safetyToken}/`} ></iframe>
                     </Modal.Body>
                 </Modal>
             }
-            <Card className='shadow-lg p-4 ms-4 border-none border-15 mt-2'>
+            <Card className={isMobile ? 'shadow-lg p-4 mx-2 border-none border-15 mt-2' : 'shadow-lg p-4 ms-4 border-none border-15 mt-2'} style={{ width: isMobile ? "fit-content" : "auto" }}>
                 <div className='d-flex justify-content-between'>
                     <p className='my-0 mx-1 order-id-width'>{order.id}</p>
                     <p className='my-0 mx-1 order-id-width'>{moment(order.created_at).format("DD/MM/YYYY")}</p>

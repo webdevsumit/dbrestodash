@@ -5,6 +5,7 @@ import Qrcode from "../../components/QrCode";
 import { generateQrCodeAPI, getQrCodesAPI } from "../../apis/common";
 import toast from "react-hot-toast";
 import TableStatus from "../../components/TableStatus";
+import { isMobile } from "react-device-detect";
 
 function Qrcodes() {
 
@@ -46,25 +47,29 @@ function Qrcodes() {
   return (
     <>
       {!!showTableStatus && <TableStatus table={showTableStatus} setShowTableStatus={setShowTableStatus} />}
-      <Card className="settings-card shadow-lg p-4 ms-4 border-none border-15">
+      <Card className={isMobile ? "settings-card shadow-lg p-4 ms-0 border-none border-15" : "settings-card shadow-lg p-4 ms-4 border-none border-15"}>
         <div className="d-flex">
-          <h3 className="h3">{showTrash ? "Trash" : "Tables and QR Codes"}</h3>
-          {!showTrash &&
-            <button className="btn btn-primary ms-4" onClick={genQR}>Add New</button>
+          {isMobile ?
+            <h3 className="h6">{showTrash ? "Trash" : "Tables"}</h3>
+            :
+            <h3 className="h3">{showTrash ? "Trash" : "Tables and QR Codes"}</h3>
           }
-          <button className="btn btn-secondary ms-2" onClick={() => setShowTrash(!showTrash)}>{showTrash ? "Go Back" : "Trash"}</button>
+          {!showTrash &&
+            <button className={isMobile ? "btn btn-sm btn-primary ms-4" : "btn btn-primary ms-4"} onClick={genQR}>Add New</button>
+          }
+          <button className={isMobile ? "btn btn-sm btn-secondary ms-2" : "btn btn-secondary ms-2"} onClick={() => setShowTrash(!showTrash)}>{showTrash ? "Go Back" : "Trash"}</button>
         </div>
         <hr />
 
         {showTrash ?
-          <div className="w-100 d-flex subaccount">
+          <div className={`w-100 d-flex subaccount ${isMobile ? 'justify-content-center align-content-center' : ''}`}>
             {data.filter(qr => qr.is_diabled).map(qr =>
               <Qrcode key={qr.id} data={qr} setData={setData} profileHex={profileHex} />
             )}
             {data.filter(qr => qr.is_diabled).length === 0 && <p>Empty</p>}
           </div>
           :
-          <div className="w-100 d-flex subaccount">
+          <div className={`w-100 d-flex subaccount ${isMobile ? 'justify-content-center align-content-center' : ''}`}>
             {data.filter(qr => !qr.is_diabled).map(qr =>
               <Qrcode key={qr.id} data={qr} setData={setData} profileHex={profileHex} setShowTableStatus={setShowTableStatus} />
             )}

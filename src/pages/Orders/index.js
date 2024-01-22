@@ -6,6 +6,7 @@ import { filterOrdersAPI } from '../../apis/common';
 import toast from 'react-hot-toast';
 import moment from 'moment/moment';
 import OrderCard from '../../components/OrderCard';
+import { isMobile } from 'react-device-detect';
 
 function Orders() {
 
@@ -44,7 +45,7 @@ function Orders() {
     }
     let loader;
     if (!!data) {
-      loader = toast.loading("Refreshing...", {duration: 20000});
+      loader = toast.loading("Refreshing...", { duration: 20000 });
     }
     await filterOrdersAPI(payload).then(res => {
       if (res.data.status === "success") {
@@ -73,9 +74,9 @@ function Orders() {
   }, [filters, refreshCounter, page]);
 
   return (
-    <>
+    <div style={isMobile ? ({ maxWidth: "100%", overflowX: 'scroll' }) : {}}>
       {showFilter && <OrderFilterBox onclose={() => setShowFilter(false)} filters={filters} setFilters={setFilters} />}
-      <Card className='shadow-sm p-4 ms-4 border-none border-15 order-header'>
+      <Card className={isMobile ? 'shadow-sm p-4 mx-2 border-none border-15 order-header' : 'shadow-sm p-4 ms-4 border-none border-15 order-header'} style={isMobile ? ({ width: 'max-content' }) : {}} >
         <div className='d-flex justify-content-between'>
           <h3 className='h3 m-0 p-0'>Orders</h3>
           <div className='d-flex'>
@@ -109,21 +110,21 @@ function Orders() {
       {
         data.length === 0 && <Card className='shadow-lg p-4 ms-4 border-none border-15 mt-2'>
           {
-            filters.order_status === "1" ? "No New Order" : 
-              filters.order_status === "2" ? "No Completed Order." : 
-                filters.order_status === "3" ? "No Canceled Order." : 
+            filters.order_status === "1" ? "No New Order" :
+              filters.order_status === "2" ? "No Completed Order." :
+                filters.order_status === "3" ? "No Canceled Order." :
                   "There is no order."
           }
         </Card>
       }
-      {data.map((order) => <OrderCard key={order.id} order={order} setData={setData} /> )}
-      <Card className='shadow-lg p-4 mt-2 ms-4 border-none border-15'>
+      {data.map((order) => <OrderCard key={order.id} order={order} setData={setData} />)}
+      <Card className={isMobile ? 'shadow-lg p-4 mt-2 mx-2 border-none border-15' : 'shadow-lg p-4 mt-2 ms-4 border-none border-15'}>
         <div className='d-flex justify-content-end'>
           <button className='btn btn-primary my-0 mx-1 prev-next-btn-size' disabled={page <= 1} onClick={() => setPage(prev => prev > 1 ? prev - 1 : prev)}>Prevous</button>
           <button className='btn btn-primary my-0 mx-1 prev-next-btn-size' disabled={page >= TotalPages} onClick={() => setPage(prev => prev < TotalPages ? prev + 1 : prev)}>Next</button>
         </div>
       </Card>
-    </>
+    </div>
   )
 }
 

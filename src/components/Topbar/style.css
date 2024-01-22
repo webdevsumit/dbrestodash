@@ -46,13 +46,15 @@
         transition: all ease 0.3s;
         position: fixed!important;
         z-index: 99;
-        top: 5px;
-        right: 50px;
+        top: 8px;
+        right: 45px;
         padding: 2px!important;
     }
     .topbar-profile{
-        top: 5px;
-        right: 5px;
+        top: 9px;
+        right: 8px;
+        width: 30px!important;
+        height: 30px!important;
     }
     .topbarMobileBtn{
         display: block!important;

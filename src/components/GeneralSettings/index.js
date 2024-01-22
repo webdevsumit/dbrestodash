@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import "./style.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { getAuthData, setAuthData } from '../../redux/navbar';
+import { isMobile } from 'react-device-detect';
 
 function GeneralSettings({ accountData }) {
 
@@ -38,15 +39,15 @@ function GeneralSettings({ accountData }) {
 
     const onUploadLogo = async (e) => {
         let file = e.target.files[0];
-        if(!!file){
+        if (!!file) {
             if (file.size / 1024 > 500) {
                 toast.error("Image Size should be less than 500 KB.");
                 return;
             }
             const form = new FormData();
             form.append("logo", file);
-            await changeLogoAPI(form).then(res=>{
-                if(res.data.status === "success"){
+            await changeLogoAPI(form).then(res => {
+                if (res.data.status === "success") {
                     toast.success("Logo changed successfylly.");
                     const newdataToSet = {
                         ...authData,
@@ -59,9 +60,9 @@ function GeneralSettings({ accountData }) {
     }
 
     return (
-        <Card className='settings-card shadow-lg p-4 ms-4 border-none border-15'>
+        <Card className={`settings-card shadow-lg p-4 ${isMobile ? '' : 'ms-4'} border-none border-15`}>
             <h3 className='h3'>General Settings</h3>
-            <hr className='m-0'/>
+            <hr className='m-0' />
             <div>
                 <form className='mx-4 mt-4' onSubmit={e => { e.preventDefault(); onSubmitForm(); }}>
                     <div className="form-group my-2">

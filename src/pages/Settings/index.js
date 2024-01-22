@@ -6,6 +6,7 @@ import { getAccountDataApi } from '../../apis/common';
 import toast from 'react-hot-toast';
 import Loader from '../../components/Loader';
 import PaymentSettings from '../../components/PaymentSettings';
+import { isMobile } from 'react-device-detect';
 
 function Settings() {
 
@@ -29,9 +30,9 @@ function Settings() {
   return (
     <div className=''>
       <GeneralSettings accountData={data} />
-      <div className='p-3'></div>
+      <div className={isMobile?'p-1':'p-3'}></div>
       <PaymentSettings />
-      <div className='p-3'></div>
+      <div className={isMobile?'p-1':'p-3'}></div>
       <SubAccountSettings subAccountsData={data.sub_accounts} />
     </div>
   )

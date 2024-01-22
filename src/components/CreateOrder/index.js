@@ -8,8 +8,9 @@ import Select from 'react-select';
 import { Card } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { getAuthData } from '../../redux/navbar';
+import { isMobile } from 'react-device-detect';
 
-function CreateOrder({ show, onHide, tableName, qr_id=0 }) {
+function CreateOrder({ show, onHide, tableName, qr_id = 0 }) {
 
     const authData = useSelector(getAuthData);
     const [data, setData] = useState([]);
@@ -123,12 +124,12 @@ function CreateOrder({ show, onHide, tableName, qr_id=0 }) {
     const fetchQrCodes = async () => {
         await getQrCodesAPI().then(res => {
             if (res.data.status === "success") {
-                let dataToSet = res.data.data.filter(qr => !qr.is_diabled).map(qr => ({"label": qr.tableName, "value": qr.id}));
+                let dataToSet = res.data.data.filter(qr => !qr.is_diabled).map(qr => ({ "label": qr.tableName, "value": qr.id }));
                 setTables(dataToSet);
-                if (tableName === "Dashboard"){
-                    if(dataToSet.length === 0){
+                if (tableName === "Dashboard") {
+                    if (dataToSet.length === 0) {
                         toast("Tables are not added yet");
-                    }else{
+                    } else {
                         setSelectedTable(dataToSet[0]);
                     }
                 }
@@ -146,9 +147,9 @@ function CreateOrder({ show, onHide, tableName, qr_id=0 }) {
         }
     }, [show])
 
-    useEffect(()=>{
-        if(!!tableName){
-            setSelectedTable({"label": tableName, "value": qr_id});
+    useEffect(() => {
+        if (!!tableName) {
+            setSelectedTable({ "label": tableName, "value": qr_id });
         }
     }, [tableName])
 
@@ -162,28 +163,31 @@ function CreateOrder({ show, onHide, tableName, qr_id=0 }) {
             keyboard={false}
             onHide={onHide}
         >
-            <Modal.Header closeButton id='image_modal_header'>
-                <Modal.Title id="contained-modal-title-vcenter" className='d-flex align-items-center'>
-                    <h4 className='m-0'>Create Order</h4>
-                    <div className="form-group my-0 mx-1">
-                        <input
-                            style={{ width: '210px' }}
-                            className="form-control"
-                            placeholder="Customer name (optional)"
-                            value={name}
-                            onChange={e => setName(e.target.value)}
-                        />
-                    </div>
-                    <div className="form-group my-0 mx-1">
-                        <input
-                            type='number'
-                            style={{ width: '210px' }}
-                            className="form-control"
-                            placeholder="Contact No. (optional)"
-                            value={phone}
-                            onChange={e => setPhone(e.target.value)}
-                        />
-                    </div>
+            <Modal.Header closeButton={!isMobile} id='image_modal_header'>
+                <Modal.Title id="contained-modal-title-vcenter" className={isMobile ? "mobileViewCreateOrder" : 'd-flex align-items-center'}>
+                    <h4 className={isMobile ? "h6" : 'm-0'}>Create Order</h4>
+                    {!isMobile && <>
+                        <div className="form-group my-0 mx-1">
+                            <input
+                                style={{ width: isMobile ? "170px" : '210px' }}
+                                className="form-control"
+                                placeholder="Customer name (optional)"
+                                value={name}
+                                onChange={e => setName(e.target.value)}
+                            />
+                        </div>
+                        <div className="form-group my-0 mx-1">
+                            <input
+                                type='number'
+                                style={{ width: isMobile ? "170px" : '210px' }}
+                                className="form-control"
+                                placeholder="Contact No. (optional)"
+                                value={phone}
+                                onChange={e => setPhone(e.target.value)}
+                            />
+                        </div>
+                    </>}
+
                     <div className="form-group my-0 mx-1">
                         <Select
                             options={tables}
@@ -205,7 +209,7 @@ function CreateOrder({ show, onHide, tableName, qr_id=0 }) {
                             <img className='cursor-pointer' onClick={() => onDecreaseQuantity(pro.id)} width="22px" src='/assets/svgs/minusred.svg' alt='minus' />
                             <p className='m-auto text-end fw-bold text-center' style={{ minWidth: '35px' }}>{pro.quantity}</p>
                             <img className='cursor-pointer' onClick={() => onIncreaseQuantity(pro.id)} width="22px" src='/assets/svgs/plusgreen.svg' alt='plus' />
-                            <p className='m-auto text-end' style={{ minWidth: '100px' }}>₹{(pro.price_in_paisa / 100).toFixed(2)}</p>
+                            <p className={isMobile ? "m-auto text-end ms-2" : 'm-auto text-end'} style={{ minWidth: isMobile ? "auto" : '100px' }}>₹{(pro.price_in_paisa / 100).toFixed(2)}</p>
                             <p className='my-auto mx-1'>|</p>
                             <img onClick={() => onRemoveProduct(pro.id, pro.price_in_paisa)} className='cursor-pointer' src='/assets/svgs/deleteRed.svg' width="26px" alt='delete' />
                         </div>

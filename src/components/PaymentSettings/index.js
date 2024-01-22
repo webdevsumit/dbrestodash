@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Card } from 'react-bootstrap';
 import { getPaymentDetailsAPI, setPaymentDetailsAPI } from '../../apis/common';
 import toast from 'react-hot-toast';
+import { isMobile } from 'react-device-detect';
 
 function PaymentSettings() {
 
@@ -12,13 +13,13 @@ function PaymentSettings() {
         "upi_address": "",
     }
 
-    const [initData, setInitData] = useState({...dataTemplate})
-    const [data, setData] = useState({...dataTemplate})
+    const [initData, setInitData] = useState({ ...dataTemplate })
+    const [data, setData] = useState({ ...dataTemplate })
 
     const [typingDisabled, setTypingDisabled] = useState(true);
 
     const onSubmitForm = async () => {
-        const loader = toast.loading("Saving...", {duration: 20000});
+        const loader = toast.loading("Saving...", { duration: 20000 });
         await setPaymentDetailsAPI({ ...data }).then(res => {
             if (res.data.status === "success") {
                 toast.success("Saved successully.")
@@ -51,7 +52,7 @@ function PaymentSettings() {
     }, [])
 
     return (
-        <Card className='settings-card shadow-lg p-4 ms-4 border-none border-15'>
+        <Card className={`settings-card shadow-lg p-4 ${isMobile ? '' : 'ms-4'} border-none border-15`}>
             <h3 className='h3 text-decoration-underline'>Payment Settings</h3>
             <div>
                 <form className='mx-4 mt-4' onSubmit={e => { e.preventDefault(); onSubmitForm(); }}>

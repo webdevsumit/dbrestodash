@@ -3,6 +3,8 @@ import { Card, Modal } from 'react-bootstrap'
 import toast from 'react-hot-toast';
 import { fetchOrdersOnTableAPI } from '../../apis/common';
 import OrderCard from '../OrderCard';
+import "./style.css";
+import { isMobile } from 'react-device-detect';
 
 function TableStatus({ table, setShowTableStatus }) {
 
@@ -45,13 +47,13 @@ function TableStatus({ table, setShowTableStatus }) {
                     {table.tableName}
                 </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
-                <div style={{ minHeight: '50vh', maxHeight: '50vh', "overflowY": 'scroll' }}>
+            <Modal.Body className={isMobile ? 'p-0' : ""}>
+                <div className='mobileOrderModal' style={{ minHeight: '50vh', maxHeight: '50vh', "overflowY": 'scroll' }}>
                     {data === null ? <p>Loading...</p> : <>
                         {data.length === 0 ?
                             <p>Table is empty.</p>
                             :
-                            <Card className='shadow-sm p-2 ms-4 border-none border-15 order-header'>
+                            <Card className={isMobile ? 'shadow-sm p-2 mx-1 border-none border-15 order-header' : 'shadow-sm p-2 ms-4 border-none border-15 order-header'} style={{ width: isMobile ? "max-content" : "auto" }}>
                                 <div className='d-flex justify-content-between'>
                                     <h6 className='my-0 mx-1 order-id-width'>Order Id</h6>
                                     <h6 className='my-0 mx-1 order-id-width'>Order Date</h6>

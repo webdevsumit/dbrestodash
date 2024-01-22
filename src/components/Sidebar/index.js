@@ -5,6 +5,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { signOutdApi } from '../../apis/common';
 import { useSelector } from 'react-redux';
 import { getAuthData } from '../../redux/navbar';
+import { isMobile } from 'react-device-detect';
 
 function Sidebar({ setShowNav }) {
 
@@ -28,13 +29,15 @@ function Sidebar({ setShowNav }) {
             "text": "Orders",
             "img": "/assets/svgs/orders.svg",
             "link": "/orders",
-            "perm": "access_orders"
+            "perm": "access_orders",
+            "isDisabled": isMobile
         },
         {
             "text": "Menu Inventory",
             "img": "/assets/svgs/inventory.svg",
             "link": "/inventory",
-            "perm": "access_inventory"
+            "perm": "access_inventory",
+            "isDisabled": isMobile
         },
         {
             "text": "Settings",
@@ -75,7 +78,7 @@ function Sidebar({ setShowNav }) {
             <hr />
             <div className='hide-sidebar-btn' onClick={()=>setShowNav(false)}>{"<<"}</div>
             <div className='px-2 py-2'>
-                {!!authData?.permissions && lisksList.map(link => {
+                {!!authData?.permissions && lisksList.filter(link=>!link.isDisabled).map(link => {
                     if (authData.permissions[link.perm])
                         return (
                             <NavLink
