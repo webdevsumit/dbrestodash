@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { Card, Offcanvas } from 'react-bootstrap';
+import { Offcanvas } from 'react-bootstrap';
 import toast from 'react-hot-toast';
-import { addNewCategoryAPI, deleteCategoryByIdAPI } from '../../apis/common';
 import moment from 'moment';
 
 function OrderFilterBox({ onclose, filters, setFilters }) {
@@ -22,6 +21,7 @@ function OrderFilterBox({ onclose, filters, setFilters }) {
             return;
         }
         setFilters(filter);
+        onCloseCanvas();
     }
 
     return (
