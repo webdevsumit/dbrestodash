@@ -155,10 +155,10 @@ const cardsData = [
         type: 'basic',
         title: 'Starter',
         description: 'Lorem ipsum',
-        price: 239,
-        deleted: 360,
+        price: 299,
+        deleted: 350,
         mostPopular: false,
-        data: ['4 QR Codes', '1 Sub Accounts', '24/7 Chat Support']
+        data: ['15 QR Codes', '1 Sub Accounts', 'Inventory Management', '24/7 Chat Support']
     },
     {
         id: 2,
@@ -169,7 +169,7 @@ const cardsData = [
         price: 499,
         deleted: 700,
         mostPopular: true,
-        data: ['10 QR Codes', '5 Sub Accounts', '24/7 Chat Support']
+        data: ['25 QR Codes', '4 Sub Accounts', 'Inventory Management', '24/7 Chat Support']
     },
     {
         id: 3,
@@ -177,9 +177,9 @@ const cardsData = [
         type: 'pro',
         title: 'Premium',
         description: 'Lorem ipsum',
-        price: 739,
+        price: 699,
         deleted: 999,
         mostPopular: false,
-        data: ['18 QR Codes', '8 Sub Accounts', '24/7 Chat Support']
+        data: ['50 QR Codes', '8 Sub Accounts', 'Inventory Management', '24/7 Chat Support']
     }
 ];
