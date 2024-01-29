@@ -27,6 +27,8 @@ function MenuCart() {
     const [creatingOrder, setCreatingOrder] = useState(false);
     const [invoiceUrl, setInvoiceUrl] = useState("");
     const [olderBills, setOlderBills] = useState([]);
+    const [showNameDiv, setShowNameDiv] = useState(false);
+    const [namePhone, setNamePhone] = useState({"name":"", "phone": ""});
 
     const [localShow, setLocalShow] = useState(true);
     const onLocaLHide = () => {
@@ -34,6 +36,25 @@ function MenuCart() {
         setTimeout(() => {
             navigate(`/menu/${menuId}/${tableNo}/`);
         }, 400);
+    }
+
+    const onClickSaveName = () => {
+        let customerNamePhone = localStorage.getItem("customerNamePhone");
+        if(!!customerNamePhone && !!JSON.parse(customerNamePhone)){
+            customerNamePhone = JSON.parse(customerNamePhone);
+        }else{
+            customerNamePhone = {...namePhone};
+        }
+
+        if(!!namePhone.name){
+            customerNamePhone["name"] = namePhone.name;
+        }
+        if(!!namePhone.phone){
+            customerNamePhone["phone"] = namePhone.phone;
+        }
+        localStorage.setItem("customerNamePhone", JSON.stringify(customerNamePhone));
+        setShowNameDiv(false);
+        toast.success("Saved")
     }
 
     const fetchData = async (ids) => {
@@ -49,7 +70,7 @@ function MenuCart() {
                 let totalAmt = 0;
                 res.data.data.forEach((prod) => {
                     let product = cartData.filter(prodId => prodId.id == prod.id)[0];
-                    totalAmt += (prod.price_in_paisa * (!!product ? product.quantity : 0));
+                    totalAmt += ((prod.apply_discount ? prod.price_in_paisa_discounted : prod.price_in_paisa) * (!!product ? product.quantity : 0));
                 });
                 setTotalAmount(totalAmt);
                 setBaseImageUrl(res.data.baseUrl);
@@ -72,13 +93,21 @@ function MenuCart() {
     useEffect(() => {
         fetchAndSet();
         let olderBillsFromLS = localStorage.getItem("olderBills");
-        if(!!olderBillsFromLS){
+        if (!!olderBillsFromLS) {
             olderBillsFromLS = JSON.parse(olderBillsFromLS);
-            if(!!olderBillsFromLS && olderBillsFromLS.length>0){
+            if (!!olderBillsFromLS && olderBillsFromLS.length > 0) {
                 setOlderBills(olderBillsFromLS);
             }
         }
     }, []);
+
+    useEffect(()=>{
+        let customerNamePhone = localStorage.getItem("customerNamePhone");
+        if(!!customerNamePhone && !!JSON.parse(customerNamePhone)){
+            customerNamePhone = JSON.parse(customerNamePhone);
+            setNamePhone(customerNamePhone);
+        }
+    }, [showNameDiv])
 
     useEffect(() => {
         if (!!cartData) {
@@ -174,8 +203,8 @@ function MenuCart() {
             "token": menuId,
             "tableName": tableNo,
             "products": cartData.map(prod => ({ "id": prod.id, "quantity": prod.quantity })),
-            "name": "",
-            "phone": "",
+            "name": namePhone.name,
+            "phone": namePhone.phone,
         }
         setCreatingOrder(true);
         const loader = toast.loading("Creating Order...", { duration: 20000 })
@@ -202,11 +231,32 @@ function MenuCart() {
 
         <Offcanvas show={localShow} placement='bottom' className="cart-canvas" onHide={onLocaLHide}>
             <Offcanvas.Header closeButton>
-                <Offcanvas.Title>Cart</Offcanvas.Title>
+                <Offcanvas.Title>Cart <img onClick={() => setShowNameDiv(prev => !prev)} width={24} className='cursor-pointer ms-2' src='/assets/svgs/account.svg' alt='account' /></Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body className='cart-body'>
                 {!!invoiceUrl && <InvoiceBox url={invoiceUrl} setInvoiceUrl={setInvoiceUrl} />}
                 {/* {!!showDescOf && <MenuDesc onHide={() => setShowDescOf(null)} productId={showDescOf} onClickAdd={onClickAdd} />} */}
+                {showNameDiv &&
+                    <div className='d-flex' style={{flexWrap: 'wrap', justifyContent: 'center'}}>
+                        <div className="form-group mx-3 my-1 w-100">
+                            <input
+                                className="form-control "
+                                placeholder="Name (optional)"
+                                value={namePhone.name}
+                                onChange={e => setNamePhone(prev => ({ ...prev, "name": e.target.value }))}
+                            />
+                        </div>
+                        <div className="form-group mx-3 my-1 w-100">
+                            <input
+                                className="form-control "
+                                placeholder="Phone no. (optional)"
+                                value={namePhone.phone}
+                                onChange={e => setNamePhone(prev => ({ ...prev, "phone": e.target.value }))}
+                            />
+                        </div>
+                        <button className='btn btn-sm btn-success w-100 mx-3 mt-2' onClick={onClickSaveName}>Save</button>
+                    </div>
+                }
                 <div className='Menu-cart-outer'>
                     <div className='Menu-cart-main'>
                         <main>
@@ -216,7 +266,7 @@ function MenuCart() {
                                         <div className='h-100 bg-curtom-for-food bg-curtom-for-food1'>
                                             <h6>{prod.name}</h6>
                                             <div className='w-100 bg-curtom-for-food d-flex w-100 button-badge-box-cart'>
-                                                <span className='btn btn-sm btn-success m-1 mx-0 p-0 w-100'>₹{(prod.price_in_paisa / 100).toFixed(2)}</span>
+                                                <span className='btn btn-sm btn-success m-1 mx-0 p-0 w-100'>₹{((prod.apply_discount ? prod.price_in_paisa_discounted : prod.price_in_paisa) / 100).toFixed(2)}</span>
                                             </div>
                                         </div>
                                         <div className='w-100 bg-curtom-for-food d-flex w-100 button-badge-box'>
@@ -236,7 +286,7 @@ function MenuCart() {
                                 {
                                     !!olderBills.length &&
                                     <p className='w-100 text-center h6 mt-4 mb-0'>
-                                        <Link to="/menu/bills">Check Older Orders</Link>
+                                        <Link to="/menu/bills">OLDER ORDERS</Link>
                                     </p>
                                 }
                                 {/* <Link className='w-100 text-center mt-0' to="/menu/ASFD">Go Back</Link> */}

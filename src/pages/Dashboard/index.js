@@ -126,7 +126,7 @@ function Dashboard() {
         }
         <Card className={`shadow p-4 ${isMobile?'mx-1':'ms-3 me-4'} my-2 border-none border-15 w-${isMobile ? "100" : '25'}`}>
           <div className="badge p-2 m-1 rounded bg-success">
-            <h6 className='m-0 text-start'>Total Sales</h6>
+            <h6 className='m-0 text-start'>Total Sales (₹)</h6>
             <h3>{(dashData?.total_sales / 100).toFixed(2) || "00"}</h3>
           </div>
           <div className="badge p-2 m-1 rounded bg-primary">

@@ -66,7 +66,7 @@ function CreateOrder({ show, onHide, tableName, qr_id = 0 }) {
 
     const onIncreaseQuantity = (id) => {
         const prod = data.filter(pro => pro.id === id)[0]
-        setTotalInPaisa(prev => prev + prod.price_in_paisa)
+        setTotalInPaisa(prev => prev + (prod.apply_discount?prod.price_in_paisa_discounted:prod.price_in_paisa))
         setData(prev => [...prev.map(pro => {
             if (pro.id === id) return ({ ...prod, "quantity": prod.quantity + 1 });
             else return pro;
@@ -75,7 +75,7 @@ function CreateOrder({ show, onHide, tableName, qr_id = 0 }) {
 
     const onDecreaseQuantity = (id) => {
         const prod = data.filter(pro => pro.id === id)[0]
-        setTotalInPaisa(prev => prev - prod.price_in_paisa)
+        setTotalInPaisa(prev => prev - (prod.apply_discount?prod.price_in_paisa_discounted:prod.price_in_paisa))
         if (prod.quantity === 1) {
             setData(prev => prev.filter(pro => pro.id !== id));
         } else {
@@ -95,7 +95,7 @@ function CreateOrder({ show, onHide, tableName, qr_id = 0 }) {
             setData(prev => [...prev.filter(pro => pro.id !== val.value), { ...val, "quantity": 1 }]);
         }
         setSelectedOption(null);
-        setTotalInPaisa(prev => prev + val.price_in_paisa)
+        setTotalInPaisa(prev => prev + (val.apply_discount?val.price_in_paisa_discounted:val.price_in_paisa))
     }
 
     const fetchProduct = async (page = 1) => {
@@ -209,9 +209,9 @@ function CreateOrder({ show, onHide, tableName, qr_id = 0 }) {
                             <img className='cursor-pointer' onClick={() => onDecreaseQuantity(pro.id)} width="22px" src='/assets/svgs/minusred.svg' alt='minus' />
                             <p className='m-auto text-end fw-bold text-center' style={{ minWidth: '35px' }}>{pro.quantity}</p>
                             <img className='cursor-pointer' onClick={() => onIncreaseQuantity(pro.id)} width="22px" src='/assets/svgs/plusgreen.svg' alt='plus' />
-                            <p className={isMobile ? "m-auto text-end ms-2" : 'm-auto text-end'} style={{ minWidth: isMobile ? "auto" : '100px' }}>₹{(pro.price_in_paisa / 100).toFixed(2)}</p>
+                            <p className={isMobile ? "m-auto text-end ms-2" : 'm-auto text-end'} style={{ minWidth: isMobile ? "auto" : '100px' }}>₹{((pro.apply_discount?pro.price_in_paisa_discounted:pro.price_in_paisa) / 100).toFixed(2)}</p>
                             <p className='my-auto mx-1'>|</p>
-                            <img onClick={() => onRemoveProduct(pro.id, pro.price_in_paisa)} className='cursor-pointer' src='/assets/svgs/deleteRed.svg' width="26px" alt='delete' />
+                            <img onClick={() => onRemoveProduct(pro.id, (pro.apply_discount?pro.price_in_paisa_discounted:pro.price_in_paisa))} className='cursor-pointer' src='/assets/svgs/deleteRed.svg' width="26px" alt='delete' />
                         </div>
                     </Card>
                 )}
@@ -223,7 +223,7 @@ function CreateOrder({ show, onHide, tableName, qr_id = 0 }) {
                             value={selectedOption}
                             onChange={onSelectProduct}
                             onInputChange={val => setSearch(val)}
-                            options={products.map(pro => ({ ...pro, "label": `${pro.name} | ₹${(pro.price_in_paisa / 100).toFixed(2)}`, "value": pro.id }))}
+                            options={products.map(pro => ({ ...pro, "label": `${pro.name} | ₹${((pro.apply_discount?pro.price_in_paisa_discounted:pro.price_in_paisa) / 100).toFixed(2)}`, "value": pro.id }))}
                             menuPlacement="top"
                             placeholder="Type or select from here"
                         />

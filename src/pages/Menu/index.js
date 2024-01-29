@@ -67,9 +67,9 @@ function Menu() {
       let cartData = JSON.parse(cart);
       if (!!cartData[menuId]) {
         if (!!cartData[menuId].filter(prodId => prodId.id === id).length) {
-          toast.success("Product is already added.")
+          toast.success("Product is already added.", { id: 'food-already-added' })
         } else {
-          toast.success("Added.")
+          toast.success("Added.", { id: 'food-added' })
         }
         cartData[menuId] = [...cartData[menuId].filter(prodId => prodId.id != id), { id, "quantity": 1 }];
       } else {
@@ -106,21 +106,25 @@ function Menu() {
           </nav>
           <main>
             <div className='d-flex category-section'>
-              <span className={`m-2 btn btn${selectedCategory === "" ? "" : "-outline"}-primary`} onClick={() => setSelectedCategory("")} >All</span>
+              <span className={`m-2 mx-1 btn btn${selectedCategory === "" ? "" : "-outline"}-primary`} onClick={() => setSelectedCategory("")} >All</span>
+              {!!products.filter(prod=>!!prod.apply_discount).length && <span className={`m-2 mx-1 btn btn${selectedCategory === "Offer" ? "" : "-outline"}-primary d-flex`} onClick={() => setSelectedCategory("Offer")} ><img width={20} src='/assets/svgs/redOffer.svg' alt='offer' /> Off</span>}
               {categories.map((cat, index) =>
                 <span key={index} className={`my-2 mx-1 btn btn${selectedCategory === cat.category ? "" : "-outline"}-primary`} onClick={() => setSelectedCategory(cat.category)} >{cat.category}</span>
               )}
             </div>
             <hr className='m-0' />
             <div className='d-flex food-card-box'>
-              {products.filter(prod => (!selectedCategory || prod.category == selectedCategory) &&
+              {products.filter(prod => (!selectedCategory || prod.category == selectedCategory || (selectedCategory === "Offer" && prod.apply_discount)) && 
                 (search.trim() === "" || prod.name.toLowerCase().includes(search.toLowerCase()))).map((prod, index) =>
                   <Card key={index} className='shadow border-none d-flex justify-content-end food-card m-2' style={{ backgroundImage: !!prod.image ? `url(${baseImageUrl.substring(0, baseImageUrl.length - 1)}${prod.image})` : "url('/assets/svgs/food.svg')", backgroundSize: !!prod.image ? 'cover' : "contain" }}>
+                    {prod.apply_discount && <div style={{ position: 'absolute', top: 0, display:'flex', alignContent: 'center', alignItems: 'center' }}>
+                      <img width={20} src='/assets/svgs/redOffer.svg' alt='offer' /><span><del style={{fontSize: 10}}>₹{(prod.price_in_paisa/100).toFixed(2)}</del></span>
+                    </div>}
                     <div className='h-100 bg-curtom-for-food bg-curtom-for-food1' onClick={() => setShowDescOf(prod.id)}>
                       <h6>{prod.name}</h6>
                     </div>
                     <div className='w-100 bg-curtom-for-food d-flex w-100 button-badge-box'>
-                      <span className='btn btn-sm btn-primary m-1 p-0 button-badge' onClick={() => setShowDescOf(prod.id)}>₹{(prod.price_in_paisa / 100).toFixed(2)}</span>
+                      <span className='btn btn-sm btn-primary m-1 p-0 button-badge' onClick={() => setShowDescOf(prod.id)}>₹{((prod.apply_discount ? prod.price_in_paisa_discounted : prod.price_in_paisa) / 100).toFixed(2)}</span>
                       <span className='btn btn-sm btn-success m-1 p-0 button-badge' onClick={() => onClickAdd(prod.id)}>+Add</span>
                     </div>
                   </Card>

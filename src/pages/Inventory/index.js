@@ -15,6 +15,8 @@ function Inventory() {
     "name": "",
     "category": "",
     "price_in_paisa": "",
+    "discount_percentage": "",
+    "apply_discount": false
   }
 
   const [data, setData] = useState(null);

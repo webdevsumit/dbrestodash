@@ -112,7 +112,7 @@ function OrderCard({ order, setData }) {
                         <hr className='my-2' />
 
                         {order.products.map(prod =>
-                            <div className='d-flex justify-content-between w-100'>
+                            <div key={prod.id} className='d-flex justify-content-between w-100'>
                                 <h6 className='my-0 mx-1 table-no-width fw-normal'>{prod.name}</h6>
                                 <h6 className='my-0 mx-1 quantity-width text-end fw-normal'>{prod.quantity}</h6>
                                 <h6 className='my-0 mx-1 customer-name-width text-end fw-normal'>₹{(prod.price_in_paisa / 100).toFixed(2)}</h6>
