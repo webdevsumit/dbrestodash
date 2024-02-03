@@ -96,12 +96,14 @@ function Sidebar({ setShowNav }) {
                 })}
             </div>
             <div className='sidebar-footer'>
-                <div className={`card shadow border-${authData.daysLeft <= 0 ? "danger" : (authData.daysLeft < 6 ? "warning" : "success")} bg-${authData.daysLeft <= 0 ? "danger" : (authData.daysLeft < 6 ? "warning" : "success")} d-flex justify-content-center align-items-center p-2`}>
+                {/* <div className={`card shadow border-${authData.daysLeft <= 0 ? "danger" : (authData.daysLeft < 6 ? "warning" : "success")} bg-${authData.daysLeft <= 0 ? "danger" : (authData.daysLeft < 6 ? "warning" : "success")} d-flex justify-content-center align-items-center p-2`}>
                     <h6 className='text-white m-0'>{authData.planName}</h6>
                     <h3 className='text-white m-0'>{authData.daysLeft < 0 ? "Expired" : `${authData.daysLeft} days`}</h3>
                     {authData.daysLeft >= 0 && <h6 className='text-white m-0'>left</h6>}
-                </div>
-                <Link to={`/subscription`} className='btn btn-primary mt-1'>Plan Details</Link>
+                </div> */}
+                <Link to={`/subscription`} className={`btn text-white ${authData.daysLeft <= 0 ? "danger" : (authData.daysLeft < 6 ? "warning" : "success")} bg-${authData.daysLeft <= 0 ? "danger" : (authData.daysLeft < 6 ? "warning" : "success")} mt-1`}>
+                    Plan Details ({authData.daysLeft < 0 ? "Expired" : `${authData.daysLeft} days`}{authData.daysLeft >= 0 && <span></span>})
+                </Link>
                 <hr />
                 <div onClick={logout} className='logout-button'>
                     <img className='sidebar-link-icon' src='/assets/svgs/logout.svg' alt='logout' />
