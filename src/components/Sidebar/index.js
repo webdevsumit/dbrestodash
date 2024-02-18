@@ -45,6 +45,12 @@ function Sidebar({ setShowNav }) {
             "link": "/settings",
             "perm": "access_settings"
         },
+        {
+            "text": "More Apps",
+            "img": "/assets/svgs/moreApps.svg",
+            "link": "/moreapps",
+            "perm": "access_dashboard"
+        },
     ]
 
     const logout = async () => {

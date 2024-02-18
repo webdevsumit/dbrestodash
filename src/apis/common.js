@@ -236,3 +236,19 @@ export async function cancelSubscribePlanAtMonthEndAPI(payload) {
 export async function fetchOrdersOnTableAPI(payload) {
     return APICalller("POST", "inventory/fetchOrdersOnTable/", payload);
 }
+
+export async function getRawMaterialsAPI(payload) {
+    return APICalller("POST", "inventory/get-raw-materials/", payload);
+}
+
+export async function addRawMaterialAPI(payload) {
+    return APICalller("POST", "inventory/add-raw-material/", payload);
+}
+
+export async function addNewUnitAPI(payload) {
+    return APICalller("POST", "inventory/add-new-unit/", payload);
+}
+
+export async function deleteUnitByIdAPI(payload) {
+    return APICalller("POST", "inventory/delete-unit-by-id/", payload);
+}

@@ -20,6 +20,8 @@ import SubAccountLogin from "../pages/SubAccountLogin";
 import Subscription, { subscriptionLoader } from "../pages/Subscription";
 import Plans from "../pages/Plans";
 import UserBills from "../pages/UserBills";
+import MoreApps from "../pages/MoreApps";
+import RawMaterial from "../pages/RawMaterial";
 
 export const router = createBrowserRouter([
     {
@@ -56,6 +58,14 @@ export const router = createBrowserRouter([
                 path: "/subscription",
                 element: <Subscription />,
                 loader: subscriptionLoader
+            },
+            {
+                path: "/moreapps",
+                element: <MoreApps />
+            },
+            {
+                path: "/rawmaterial",
+                element: <RawMaterial />
             },
         ]
     },
