@@ -22,7 +22,7 @@ export const mainLoader = async () => {
 
             if (!!res.data.plan.subscription_details && (res.data.plan.subscription_details.status === 'created' || res.data.plan.subscription_details.status === 'pending')) {
                 hasLink = res.data.plan.subscription_details.short_url;
-            } else if ((!!res.data.plan.subscription_details && (res.data.plan.subscription_details.status === 'completed' || res.data.plan.subscription_details.status === 'cancelled') && moment.unix(res.data.plan.subscription_details.current_end) >= moment())) {
+            } else if ((!!res.data.plan.subscription_details && (res.data.plan.subscription_details.status === 'completed' || res.data.plan.subscription_details.status === 'active') && moment.unix(res.data.plan.subscription_details.current_end) >= moment())) {
                 hasSomeIssue = false;
                 planName = res.data.plan.plan_name.toUpperCase();
                 daysLeft = moment.unix(res.data.plan.subscription_details.current_end).diff(moment(), 'days') + 1;

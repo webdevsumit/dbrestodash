@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Offcanvas } from 'react-bootstrap';
+import toast from 'react-hot-toast';
 
-function ShowEditProdBox({ onclose, editProd, setEditProd, categories, onAddOrUpdate }) {
+function ShowEditProdBox({ onclose, editProd, setEditProd, categories, onAddOrUpdate, rawmaterials }) {
 
     const [showBox, setShowBox] = useState(true);
     const onCloseCanvas = () => {
@@ -12,6 +13,24 @@ function ShowEditProdBox({ onclose, editProd, setEditProd, categories, onAddOrUp
     }
 
     const onClickSave = () => {
+        for(let i=0; i<editProd.rawMaterials?.length; i++){
+            if(!editProd.rawMaterials[i].ref?.id || !editProd.rawMaterials[i].quantity ){
+                toast.error("Please provide values in empty fields.");
+                return;
+            }
+        }
+        if(!editProd.category){
+            toast.error("Please select category.");
+            return;
+        }
+        if(!editProd.name){
+            toast.error("Please provide name.");
+            return;
+        }
+        if(!editProd.price_in_paisa){
+            toast.error("Please provide price.");
+            return;
+        }
         onAddOrUpdate(onCloseCanvas);
     }
 
@@ -33,7 +52,7 @@ function ShowEditProdBox({ onclose, editProd, setEditProd, categories, onAddOrUp
                     </div>
                     <div className=' mb-2'>
                         <label>Category {!categories.length && <>(First, Add Units.)</>}</label>
-                        <select className="form-control" value={editProd.category} onChange={(e) => setEditProd(prev => ({ ...prev, "category": e.target.value }))} id={"category" + setEditProd.id}>
+                        <select className="form-control" value={editProd.category} onChange={(e) => setEditProd(prev => ({ ...prev, "category": e.target.value }))}>
                             <option value="">Select Category</option>
                             {categories.map(cat =>
                                 <option key={cat.id} value={cat.category}>{cat.category}</option>
@@ -66,15 +85,42 @@ function ShowEditProdBox({ onclose, editProd, setEditProd, categories, onAddOrUp
                         <label>Apply Discount</label>
                         <input
                             className="form-check-input shadow-none"
-                            style={{marginTop: '6px'}}
+                            style={{ marginTop: '6px' }}
                             type="checkbox"
                             role="switch"
                             checked={editProd.apply_discount}
                             onChange={e => setEditProd(prev => ({ ...prev, "apply_discount": e.target.checked }))}
                         />
                     </div>
-                    <hr/>
+                    <hr />
                     <h6>Raw Materials Used</h6>
+                    {editProd.rawMaterials?.map((mat, ind) =>
+                        <div key={ind} className='row mb-2'>
+                            <div className='col-7'>
+                                <label>Raw Material {!rawmaterials.length && <>(First, Add Raw Material.)</>}</label>
+                                <select className="form-control" value={mat.ref?.id} onChange={(e) => setEditProd(prev => ({ ...prev, "rawMaterials": prev.rawMaterials.map((rm, index) => ind === index ? ({ ...rm, "ref": { "id": e.target.value } }) : rm) }))}>
+                                    <option value="">--Select--</option>
+                                    {rawmaterials.map(rawMat =>
+                                        <option key={rawMat.id} value={rawMat.id}>{rawMat.name} ({rawMat.unit})</option>
+                                    )}
+                                </select>
+                            </div>
+                            <div className='col-4'>
+                                <label>Quantity</label>
+                                <input
+                                    type="number"
+                                    className="form-control "
+                                    placeholder="5"
+                                    value={mat.quantity}
+                                    onChange={(e) => setEditProd(prev => ({ ...prev, "rawMaterials": prev.rawMaterials.map((rm, index) => ind === index ? ({ ...rm, "quantity": e.target.value }) : rm) }))}
+                                />
+                            </div>
+                            <div className='col-1 d-flex justify-content-center align-items-center'>
+                                <span className='cursor-pointer pt-4' onClick={() => setEditProd(prev => ({ ...prev, "rawMaterials": prev.rawMaterials.filter((rm, index) => ind !== index) }))} >&#10060;</span>
+                            </div>
+                        </div>
+                    )}
+                    <button className='btn btn-primary btn-sm me-1 my-1' onClick={() => setEditProd(prev => ({ ...prev, "rawMaterials": prev.rawMaterials ? [...prev.rawMaterials, { "ref": { "id": "" }, "quantity": "" }] : [{ "id": "", "quantity": "" }] }))} >Add</button>
                 </form>
             </Offcanvas.Body>
             <hr className='m-0' />

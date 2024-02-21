@@ -4,6 +4,7 @@ import { addRawMaterialAPI, getRawMaterialsAPI } from '../../apis/common'
 import toast from 'react-hot-toast';
 import ShowUnitsBox from '../../components/ShowUnitsBox';
 import ShowEditMatBox from '../../components/ShowEditMatBox';
+import ShowQuantityDetailedBox from '../../components/ShowQuantityDetailedBox';
 
 function RawMaterial() {
 
@@ -18,6 +19,7 @@ function RawMaterial() {
     const [showUnitsBox, setShowUnitsBox] = useState(false);
     const [editMat, setEditMat] = useState(null);
     const [isSaving, setIsSaving] = useState(false);
+    const [quantityDetailsBox, setQuantityDetailsBox] = useState(null);
 
     const fetchData = async () => {
         await getRawMaterialsAPI().then(res => {
@@ -67,10 +69,15 @@ function RawMaterial() {
         setIsSaving(false);
     }
 
+    const onAddQuantity = () => {
+
+    }
+
     return (
         <>
             {showUnitsBox && <ShowUnitsBox onclose={() => setShowUnitsBox(false)} units={unitOptions} setUnits={setUnitOptions} />}
             {!!editMat && <ShowEditMatBox onclose={() => setEditMat(null)} editMat={editMat} setEditMat={setEditMat} unitOptions={unitOptions} onAddOrUpdate={onAddOrUpdate} />}
+            {!!quantityDetailsBox && <ShowQuantityDetailedBox onclose={() => setQuantityDetailsBox(null)} quantityDetails={quantityDetailsBox} onAddQuantity={onAddQuantity} />}
             <Card className='settings-card shadow-lg p-4 ms-4 border-none border-15'>
                 <div className='d-flex'>
                     <h3 className='h3'>Raw Material Management</h3>
@@ -87,7 +94,7 @@ function RawMaterial() {
                             <th scope="col">Name</th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Unit</th>
-                            <th scope="col">Action</th>
+                            <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -96,7 +103,10 @@ function RawMaterial() {
                                 <td>{material.name}</td>
                                 <td>{material.quantity}</td>
                                 <td>{material.unit}</td>
-                                <td className='link-primary text-decoration-underline cursor-pointer' onClick={() => setEditMat(material)} >Edit</td>
+                                <td style={{width: "200px"}}>
+                                    <span className='link-primary text-decoration-underline cursor-pointer' onClick={() => setEditMat(material)} >Edit</span>
+                                    <span className='link-primary text-decoration-underline cursor-pointer ms-3' onClick={() => setQuantityDetailsBox(material)} >Quantity</span>
+                                </td>
                             </tr>
                         )}
                     </tbody>

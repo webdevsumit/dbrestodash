@@ -21,8 +21,8 @@ function ShowEditMatBox({ onclose, editMat, setEditMat, unitOptions, onAddOrUpda
                 <Offcanvas.Title>{!!editMat.id ? "Edit" : "Add"} Raw Material</Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
-                <form className='mx-4 my-1' onSubmit={e => { e.preventDefault(); }}>
-                    <div className="form-group">
+                <form className='' onSubmit={e => { e.preventDefault(); }}>
+                    <div className="form-group my-1">
                         <label>Name</label>
                         <input
                             className="form-control "
@@ -31,24 +31,27 @@ function ShowEditMatBox({ onclose, editMat, setEditMat, unitOptions, onAddOrUpda
                             onChange={e => setEditMat(prev => ({ ...prev, "name": e.target.value }))}
                         />
                     </div>
-                    <div className=''>
-                        <label>Quantity</label>
-                        <input
-                            type="number"
-                            className="form-control "
-                            placeholder="50"
-                            value={editMat.quantity}
-                            onChange={e => setEditMat(prev => ({ ...prev, "quantity": e.target.value }))}
-                        />
-                    </div>
-                    <div className=''>
-                        <label>Unit {!unitOptions.length && <>(First, Add Units.)</>}</label>
-                        <select className="form-control" value={editMat.unit} onChange={(e) => setEditMat(prev => ({ ...prev, "unit": e.target.value }))} id={"unit" + setEditMat.id}>
-                            <option value="">Select Unit</option>
-                            {unitOptions.map(uni =>
-                                <option key={uni.id} value={uni.unit}>{uni.unit}</option>
-                            )}
-                        </select>
+                    <div className='row my-1'>
+                        <div className='col-6'>
+                            <label>Quantity</label>
+                            <input
+                                type="number"
+                                className="form-control "
+                                placeholder="50"
+                                disabled={!!editMat.id}
+                                value={editMat.quantity}
+                                onChange={e => setEditMat(prev => ({ ...prev, "quantity": e.target.value }))}
+                            />
+                        </div>
+                        <div className='col-6'>
+                            <label>Unit {!unitOptions.length && <>(First, Add Units.)</>}</label>
+                            <select className="form-control" value={editMat.unit} onChange={(e) => setEditMat(prev => ({ ...prev, "unit": e.target.value }))} id={"unit" + setEditMat.id}>
+                                <option value="">Select Unit</option>
+                                {unitOptions.map(uni =>
+                                    <option key={uni.id} value={uni.unit}>{uni.unit}</option>
+                                )}
+                            </select>
+                        </div>
                     </div>
                 </form>
             </Offcanvas.Body>

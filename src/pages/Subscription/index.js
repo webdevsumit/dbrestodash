@@ -24,16 +24,17 @@ function Subscription() {
     const [data, setData] = useState(subscriptionData);
     const [showCancelBox, setShowCancelBox] = useState(false);
     const [cancelReason, setCancelReason] = useState("");
+    const [refreshBox, setRefreshBox] = useState(false);
 
     const cancelPlan = async () => {
         if (cancelReason.length < 25) {
             toast.error("Provide atleast 25 characters in the reason.");
             return;
         }
-        const loader = toast.loading("Canceling the plan...", {duration: 20000})
+        const loader = toast.loading("Canceling the plan...", { duration: 20000 })
         await cancelSubscribePlanAtMonthEndAPI({ "reason": cancelReason }).then(res => {
             if (res.data.status === "success") {
-                setData(res.data.data);
+                window.location.reload();
             } else {
                 toast.error(res.data.message);
             }
@@ -44,6 +45,14 @@ function Subscription() {
 
     return (
         <>
+            <Modal show={refreshBox}>
+                <Modal.Header>
+                    <Modal.Title>Refresh the page.</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>Please refresh the page after subscription.</p>
+                </Modal.Body>
+            </Modal>
             <Modal show={showCancelBox} onHide={() => setShowCancelBox(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Provide reason</Modal.Title>
@@ -60,7 +69,7 @@ function Subscription() {
                                 rows={3}
                                 value={cancelReason}
                                 onChange={e => {
-                                    if(e.target.value.length<=1000)
+                                    if (e.target.value.length <= 1000)
                                         setCancelReason(e.target.value)
                                 }}
                             />
@@ -134,12 +143,12 @@ function Subscription() {
                         <tr>
                             <td>Payment Status</td>
                             <td>:</td>
-                            <td>{data.status}</td>
+                            <td style={{ fontWeight: 'bold' }}>{data.status}</td>
                         </tr>
                         <tr>
                             <td>Pay</td>
                             <td>:</td>
-                            <td><a target='blank' href={data.short_url}>{data.short_url}</a></td>
+                            <td onClick={() => setRefreshBox(true)}><a target='blank' href={data.short_url}>{data.short_url}</a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -148,7 +157,6 @@ function Subscription() {
                     <button className='btn btn-secondary ' onClick={() => setShowCancelBox(true)}>Cancel Plan</button>
                 </div>
                 <small className='mt-3 mb-0'><i>Any kind of refund is not applicable on Canceling, Upgrading or Downgrading the plan.</i></small>
-                <small className='mt-0'><i>Plan can only be cancelled if the payment status is not completed.</i></small>
                 <small className='mt-0'><i>For any query please contact, +91 7999004229.</i></small>
             </Card>
         </>

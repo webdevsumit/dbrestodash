@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import "./style.css"
 import { getPlanIdsAPI, subscribePlanAPI } from '../../apis/common';
 import toast from 'react-hot-toast';
+import { Modal } from 'react-bootstrap';
 
 function Plans() {
 
     const [planIds, setPlanIds] = useState(["1", "2", "3"]);
     const [currentPlanId, setCurrentPlanId] = useState("");
+    const [refreshBox, setRefreshBox] = useState(false);
 
     const fetchIds = async () => {
         await getPlanIdsAPI().then(res => {
@@ -28,14 +30,15 @@ function Plans() {
             toast("This is your current plan.");
             return;
         }
-        if(!plan_id || !plan_name){
+        if (!plan_id || !plan_name) {
             toast.error("Something is missing.");
             return;
         }
-        const loader = toast.loading("Creating, Please not not refresh...", {duration: 20000});
+        const loader = toast.loading("Creating, Please not not refresh...", { duration: 20000 });
         await subscribePlanAPI({ plan_id, plan_name }).then(res => {
             if (res.data.status === "success") {
-                window.open(res.data.link, '_blank').focus()
+                setRefreshBox(true);
+                window.open(res.data.link, '_blank').focus();
             } else {
                 toast.error(res.data.message)
             }
@@ -44,9 +47,19 @@ function Plans() {
     }
 
     return (
-        <div className='p-4 pt-0 ms-4'>
-            <RenderCards planIds={planIds} handleClick={handleClick} currentPlanId={currentPlanId} />
-        </div>
+        <>
+            <Modal show={refreshBox}>
+                <Modal.Header>
+                    <Modal.Title>Refresh the page.</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>Please refresh the page after subscription.</p>
+                </Modal.Body>
+            </Modal>
+            <div className='p-4 pt-0 ms-4'>
+                <RenderCards planIds={planIds} handleClick={handleClick} currentPlanId={currentPlanId} />
+            </div>
+        </>
     )
 }
 

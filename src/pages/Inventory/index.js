@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './style.css';
 import { Card } from 'react-bootstrap';
 import Loader from '../../components/Loader';
-import { addNewProductAPI, changeProductByIdAPI, changeProductStatusByIdAPI, fetchCategoriesAPI, fetchProductsAPI } from '../../apis/common';
+import { addNewProductAPI, changeProductByIdAPI, changeProductStatusByIdAPI, fetchCategoriesAPI, fetchProductsAPI, getRawMaterialsAPI } from '../../apis/common';
 import toast from 'react-hot-toast';
 import ShowCategoryBox from '../../components/ShowCategoryBox';
 import ImageModel from '../../components/ImageModel';
@@ -16,7 +16,8 @@ function Inventory() {
     "category": "",
     "price_in_paisa": "",
     "discount_percentage": "",
-    "apply_discount": false
+    "apply_discount": false,
+    "rawMaterials": []
   }
 
   const [data, setData] = useState(null);
@@ -26,6 +27,7 @@ function Inventory() {
   const [productToAddDesc, setProductToAddDesc] = useState(null);
   const [editProd, setEditProd] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [rawmaterials, setRawMaterials] = useState([]);
 
   const fetchData = async () => {
     await fetchProductsAPI().then(res => {
@@ -43,10 +45,18 @@ function Inventory() {
     }).catch(err => toast.error(err.message))
   }
 
+  const fetchRawMaterials = async () => {
+    await getRawMaterialsAPI().then(res => {
+      if (res.data.status === "success") {
+        setRawMaterials(res.data.data);
+      } else toast.error(res.data.message)
+    }).catch(err => toast.error(err.message))
+  }
+
   useEffect(() => {
     fetchData();
-    fetchCategories()
-
+    fetchCategories();
+    fetchRawMaterials();
   }, []);
 
   const updateCategoryList = (cat, del = false) => {
@@ -119,7 +129,7 @@ function Inventory() {
       {showCategoryBox && <ShowCategoryBox onclose={() => setShowCategoryBox(false)} categories={categories} updateCategoryList={updateCategoryList} />}
       <ImageModel product={productToAddImages} show={!!productToAddImages} onHide={() => setProductToAddImages(null)} />
       {!!productToAddDesc && <DescModal product={productToAddDesc} show={!!productToAddDesc} onHide={() => setProductToAddDesc(null)} />}
-      {!!editProd && <ShowEditProdBox onclose={() => setEditProd(null)} editProd={editProd} setEditProd={setEditProd} categories={categories} onAddOrUpdate={onAddOrUpdate} />}
+      {!!editProd && <ShowEditProdBox onclose={() => setEditProd(null)} editProd={editProd} setEditProd={setEditProd} categories={categories} onAddOrUpdate={onAddOrUpdate} rawmaterials={rawmaterials} />}
       <Card className='settings-card shadow-lg p-4 ms-4 border-none border-15'>
         <div className='d-flex'>
           <h3 className='h3'>Inventory</h3>
@@ -153,9 +163,9 @@ function Inventory() {
                   </div>
                 </td>
                 <td>
-                  <button type="button" disabled={prod.is_diabled} onClick={() => setEditProd(prod)} className="btn btn-success btn-sm m-1 p-1"><img width={20} src='/assets/svgs/editWhite.svg' /></button>
-                  <button type="button" disabled={prod.is_diabled} onClick={() => setProductToAddImages(prod)} className="btn btn-success btn-sm m-1 p-1"><img width={20} src='/assets/svgs/editImage.svg' /></button>
-                  <button type="button" disabled={prod.is_diabled} onClick={() => setProductToAddDesc(prod)} className="btn btn-success btn-sm m-1 p-1"><img width={20} src='/assets/svgs/editDesc.svg' /></button>
+                  <button type="button" disabled={prod.is_diabled} onClick={() => setEditProd(prod)} className="btn btn-success btn-sm m-1 p-1"><img width={20} src='/assets/svgs/editWhite.svg' alt='edit' /></button>
+                  <button type="button" disabled={prod.is_diabled} onClick={() => setProductToAddImages(prod)} className="btn btn-success btn-sm m-1 p-1"><img width={20} src='/assets/svgs/editImage.svg' alt='edit images' /></button>
+                  <button type="button" disabled={prod.is_diabled} onClick={() => setProductToAddDesc(prod)} className="btn btn-success btn-sm m-1 p-1"><img width={20} src='/assets/svgs/editDesc.svg' alt='Edit Desc' /></button>
                 </td>
               </tr>
             )}
