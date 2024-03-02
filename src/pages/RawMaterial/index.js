@@ -69,15 +69,15 @@ function RawMaterial() {
         setIsSaving(false);
     }
 
-    const onAddQuantity = () => {
-
+    const onUpdateQuantity = (id, data) => {
+        setRawMaterials(prev => prev.map(mat => (mat.id === id ? data : mat)));
     }
 
     return (
         <>
             {showUnitsBox && <ShowUnitsBox onclose={() => setShowUnitsBox(false)} units={unitOptions} setUnits={setUnitOptions} />}
             {!!editMat && <ShowEditMatBox onclose={() => setEditMat(null)} editMat={editMat} setEditMat={setEditMat} unitOptions={unitOptions} onAddOrUpdate={onAddOrUpdate} />}
-            {!!quantityDetailsBox && <ShowQuantityDetailedBox onclose={() => setQuantityDetailsBox(null)} quantityDetails={quantityDetailsBox} onAddQuantity={onAddQuantity} />}
+            {!!quantityDetailsBox && <ShowQuantityDetailedBox onclose={() => setQuantityDetailsBox(null)} quantityDetails={quantityDetailsBox} onUpdateQuantity={onUpdateQuantity} />}
             <Card className='settings-card shadow-lg p-4 ms-4 border-none border-15'>
                 <div className='d-flex'>
                     <h3 className='h3'>Raw Material Management</h3>
@@ -103,9 +103,9 @@ function RawMaterial() {
                                 <td>{material.name}</td>
                                 <td>{material.quantity}</td>
                                 <td>{material.unit}</td>
-                                <td style={{width: "200px"}}>
-                                    <span className='link-primary text-decoration-underline cursor-pointer' onClick={() => setEditMat(material)} >Edit</span>
-                                    <span className='link-primary text-decoration-underline cursor-pointer ms-3' onClick={() => setQuantityDetailsBox(material)} >Quantity</span>
+                                <td style={{ width: "200px" }}>
+                                    <span className='link-primary cursor-pointer' onClick={() => setEditMat(material)} >Edit</span>
+                                    <span className='link-primary cursor-pointer ms-3' onClick={() => setQuantityDetailsBox(material)} >Quantity</span>
                                 </td>
                             </tr>
                         )}

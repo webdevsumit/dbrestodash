@@ -252,3 +252,11 @@ export async function addNewUnitAPI(payload) {
 export async function deleteUnitByIdAPI(payload) {
     return APICalller("POST", "inventory/delete-unit-by-id/", payload);
 }
+
+export async function getRawMaterialDetailsAPI(payload) {
+    return APICalller("POST", "inventory/getRawMaterialDetails/", payload);
+}
+
+export async function addMoreQuantityAPI(payload) {
+    return APICalller("POST", "inventory/addMoreQuantity/", payload);
+}
