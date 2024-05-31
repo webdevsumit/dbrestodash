@@ -6,7 +6,7 @@ import { Modal } from 'react-bootstrap';
 
 function Plans() {
 
-    const [planIds, setPlanIds] = useState(["1", "2", "3"]);
+    const [planIds, setPlanIds] = useState(["3"]);
     const [currentPlanId, setCurrentPlanId] = useState("");
     const [refreshBox, setRefreshBox] = useState(false);
 
@@ -55,9 +55,13 @@ function Plans() {
                 <Modal.Body>
                     <p>Please refresh the page after subscription.</p>
                 </Modal.Body>
+                <Modal.Footer>
+                    <a className='btn btn-primary' href='/'>Refresh</a>
+                </Modal.Footer>
             </Modal>
             <div className='p-4 pt-0 ms-4'>
                 <RenderCards planIds={planIds} handleClick={handleClick} currentPlanId={currentPlanId} />
+                <p className='w-100 text-center'>Contact us for any inquiry, custom plan or for any discount.</p>
             </div>
         </>
     )
@@ -110,7 +114,7 @@ function CardFeatures({ data }) {
 function CardAction({ clickMe, planId, plan_name, currentPlanId }) {
     return (
         <div className="plan-card-action">
-            <button onClick={() => clickMe(planId, plan_name)}>{currentPlanId === planId ? "CURRENT PLAN" : "BUY NOW"}</button>
+            <button onClick={() => clickMe(planId, plan_name)}>{currentPlanId === planId ? "PLAN ACTIVATED" : "BUY NOW"}</button>
         </div>
     );
 };
@@ -162,28 +166,6 @@ function RenderCards({ planIds, handleClick, currentPlanId }) {
 };
 
 const cardsData = [
-    {
-        id: 1,
-        plan_name: "starter",
-        type: 'basic',
-        title: 'Starter',
-        description: 'Lorem ipsum',
-        price: 299,
-        deleted: 350,
-        mostPopular: false,
-        data: ['15 QR Codes', '1 Sub Accounts', 'Inventory Management', '24/7 Chat Support']
-    },
-    {
-        id: 2,
-        plan_name: "popular",
-        type: 'medium',
-        title: 'Popular',
-        description: 'Lorem ipsum',
-        price: 499,
-        deleted: 700,
-        mostPopular: true,
-        data: ['25 QR Codes', '4 Sub Accounts', 'Inventory Management', '24/7 Chat Support']
-    },
     {
         id: 3,
         plan_name: "premium",

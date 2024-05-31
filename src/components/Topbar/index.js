@@ -16,10 +16,10 @@ function Topbar({ setShowNav }) {
         <>
             <Modal show={showPhoneNumber} onHide={() => setShowPhoneNumber(false)}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Call or WhatsApp</Modal.Title>
+                    <Modal.Title className='h5'>Call/WhatsApp to Founder</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <h4>Mobile: +91 7999004229</h4>
+                    <p>Mobile: <a href='tel:917999004229' className='fw-bold'>+91 7999004229</a></p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowPhoneNumber(false)}>
