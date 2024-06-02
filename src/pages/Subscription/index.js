@@ -156,7 +156,7 @@ function Subscription() {
                     <Link to="/plans"><span className='btn btn-primary me-2'>Plans</span></Link>
                     <button className='btn btn-secondary ' onClick={() => setShowCancelBox(true)}>Cancel Plan</button>
                 </div>
-                <small className='mt-3 mb-0'><i>Any kind of refund is not applicable on Canceling, Upgrading or Downgrading the plan.</i></small>
+                <small className='mt-3 mb-0'><i>You can read the T&C related to refund on Canceling, Upgrading or Downgrading the plan on T&C page.</i></small>
                 <small className='mt-0'><i>For any query please contact, +91 7999004229.</i></small>
             </Card>
         </>
